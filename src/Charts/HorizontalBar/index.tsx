@@ -1,5 +1,5 @@
 import { h, Component } from 'preact';
-import { Margin } from '../../types';
+import { Margin, GroupedDataObject } from '../../types';
 import { Axis } from '../../Axis';
 import { scaleLinear, scaleBand, ScaleBand, ScaleLinear, scaleOrdinal, ScaleOrdinal } from 'd3-scale';
 import { max } from 'd3-array';
@@ -7,10 +7,6 @@ import { pluckUnique } from '../../Utils/pluck';
 import { colourArray } from '../../colors';
 
 declare const ResizeObserver: any;
-
-export interface GroupedDataObject {
-    [key: string]: Array<{name: number | string, value: number}>;
-}
 
 interface HorizontalBarProps {
     name: string;
