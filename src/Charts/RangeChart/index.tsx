@@ -77,7 +77,6 @@ export class RangeChart extends Component<RangeChartProps, RangeChartState> {
         this.xScale = scaleTime()
             .range([0, innerWidth])
             .domain([min(props.data, (d) => d.timestamp), max(props.data, (d) => d.timestamp)]);
-
         const yScale = scaleLinear()
             .range([innerHeight, 0])
             .domain([min(props.data, (d) => +d[props.y]), max(props.data, (d) => +d[props.y])]);
@@ -127,6 +126,7 @@ export class RangeChart extends Component<RangeChartProps, RangeChartState> {
         const height = cr.height;
         const innerWidth = width - this.props.margin.left - this.props.margin.right;
         const innerHeight = height - this.props.margin.top - this.props.margin.bottom;
+        this.xScale.range([0, innerWidth]);
         this.brushSetup = brushX()
             .extent([
                 [0, 0],
@@ -141,7 +141,6 @@ export class RangeChart extends Component<RangeChartProps, RangeChartState> {
             });
         const brushSelection = select(this.brush);
         brushSelection.call(this.brushSetup);
-        this.xScale.range([0, innerWidth]);
         const brushMove = (this.state.extent === null || this.state.extent === undefined) ?
             null :
             [this.xScale(this.state.extent[0]), this.xScale(this.state.extent[1])];
