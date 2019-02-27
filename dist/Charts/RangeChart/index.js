@@ -70,9 +70,16 @@ export class RangeChart extends Component {
             .on('end', () => {
             const selection = (event.selection || [0, innerWidth]);
             const inverted = [this.xScale.invert(selection[0]), this.xScale.invert(selection[1])];
+            this.setState({ extent: event.selection ? inverted : null });
             this.props.onBrush(inverted);
         });
-        select(this.brush).call(this.brushSetup);
+        const brushSelection = select(this.brush);
+        brushSelection.call(this.brushSetup);
+        this.xScale.range([0, innerWidth]);
+        const brushMove = (this.state.extent === null || this.state.extent === undefined) ?
+            null :
+            [this.xScale(this.state.extent[0]), this.xScale(this.state.extent[1])];
+        brushSelection.call(this.brushSetup.move, brushMove);
         this.setState({ innerWidth, innerHeight, height, width });
     }
 }

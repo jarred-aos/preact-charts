@@ -1,11 +1,5 @@
 import { Component } from 'preact';
-import { Margin } from '../../types';
-export interface GroupedDataObject {
-    [key: string]: Array<{
-        name: number | string;
-        value: number;
-    }>;
-}
+import { Margin, GroupedDataObject } from '../../types';
 interface HorizontalBarProps {
     name: string;
     data: GroupedDataObject;

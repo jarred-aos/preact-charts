@@ -24,6 +24,7 @@ interface RangeChartState {
     innerWidth: number;
     height: number;
     innerHeight: number;
+    extent?: number[];
 }
 export declare class RangeChart extends Component<RangeChartProps, RangeChartState> {
     static defaultProps: RangeChartDefaultProps;
