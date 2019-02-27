@@ -6,7 +6,8 @@
   "scripts": {
     "build": "tsc && gulp copyCSS",
     "prepublish": "tsc && gulp copyCSS",
-    "smart-publish": "cross-env npm run build && git commit -am $npm_package_version && git tag $npm_package_version && git push && git push --tags && npm publish"
+    "smart-publish": "npm run build && git commit -am $npm_package_version && git tag $npm_package_version && git push && git push --tags && npm publish",
+    "release": "cross-env npm run smart-publish"
   },
   "keywords": [
     "charts",
