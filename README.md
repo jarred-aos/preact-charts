@@ -12,7 +12,6 @@ The below documentation will include some TypeScript syntax. If you are new to T
 interface DiffBarProps {
     name: string;
     data: Array<{name: string, value: number}>;
-
     height?: number;
     width?: number;
     margin?: Margin;
