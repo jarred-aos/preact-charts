@@ -12,7 +12,7 @@
     "preact",
     "d3"
   ],
-  "author": "Peter Kroeker",
+  "author": "pmkroeker <dev.pmkro@gmail.com>",
   "license": "MIT",
   "repository": {
     "type": "git",
