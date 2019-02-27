@@ -222,4 +222,4 @@ Chart names should be unique, they are used for things like chart clipPath IDs.
 
 ## Contributing
 Please fork and submit pull requests for anything that could be improved. This is my first real repo, I know there has been some oversight as this was created
-for my work, so some things may be a bit specific to that environment.
+for my work, so some things may be a bit specific to that environment. Documentation requests are also much appreciated.
