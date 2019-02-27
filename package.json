@@ -6,9 +6,7 @@
   "scripts": {
     "build": "tsc && gulp copyCSS",
     "prepublish": "tsc && gulp copyCSS",
-    "smart-publish": "npm run build && git commit -am $npm_package_version && git tag $npm_package_version && git push && git push --tags && npm publish",
-    "testing": "echo $npm_package_version",
-    "cross": "cross-env npm run smart-publish"
+    "smart-publish": "npm run build && git commit -am %npm_package_version% && git tag %npm_package_version% && git push && git push --tags && npm publish"
   },
   "keywords": [
     "charts",
@@ -40,7 +38,6 @@
     "preact": "^8.4.2"
   },
   "devDependencies": {
-    "cross-env": "^5.2.0",
     "gulp": "^4.0.0",
     "gulp-cli": "^2.0.1",
     "preact": "^8.4.2",
