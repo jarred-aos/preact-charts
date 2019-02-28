@@ -1,8 +1,10 @@
+/* Change axis text */
 .axis {
     font-size: 1em;
     cursor: default;
 }
 
+/* Change axis tick marks */
 .axis>.tick>line {
     stroke-width: 1px;
     stroke: black;
@@ -10,19 +12,23 @@
     shape-rendering: crispEdges;
 }
 
+/* Change axis lines */
 .axis>path {
     stroke-width: 2px;
 }
 
+/* Removes top line from charts with gridlines */
 .grid>path {
     stroke: none;
 }
 
+/* Changes chart grid lines */
 .grid>.tick>line {
     stroke-width: 1px;
     stroke-opacity: 0.5;
 }
 
+/* Histogram bar styling */
 .histogramBar {
     fill: steelblue;
     fill-opacity: 1;
@@ -30,20 +36,24 @@
     stroke-width: 1px;
 }
 
+/* Scatter Plot circle */
 .dot {
     fill: #7dc7f4;
     stroke: whitesmoke;
     stroke-width: 1px;
 }
 
+/* Chart labels */
 .label {
     fill: black;
 }
 
+/* Range chart brush handles */
 .brush > rect.handle {
     fill: darkgoldenrod;
 }
 
+/* Default trend chart flag */
 .flag {
     fill: gray;
     stroke-width: 1;
@@ -56,16 +66,19 @@
     fill: lightgray;
 }
 
+/* Flag topper */
 .topper {
     fill: red;
     fill-opacity: 1;
 }
 
+/* Flag topper colour when clicked */
 .topperClicked {
     fill: lawngreen;
     fill-opacity: 1;
 }
 
+/* Required for trend chart tooltip */
 .tooltipOverlay {
     fill: none;
     pointer-events: all;
@@ -73,16 +86,19 @@
     border-style: none;
 }
 
+/* Trend chart tooltip circle */
 .tooltipCircle {
     fill: none;
     stroke-width: 2;
     stroke: gold;
 }
 
+/* Trend chart tooltip text */
 .tooltipText {
     stroke: 1em;
 }
 
+/* Trend chart axis controls */
 .axisControl {
     stroke: goldenrod;
     text-anchor: middle;
