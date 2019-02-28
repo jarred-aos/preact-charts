@@ -12,6 +12,8 @@ The below documentation will include some TypeScript syntax. If you are new to T
 
 ## Current Charts
 ### Difference Chart
+Will display a vertical bar chart with a y-axis that is centered at 0 on the x-axis.
+
 **Props:**
 ```typescript
 interface DiffBarProps {
@@ -23,7 +25,15 @@ interface DiffBarProps {
     ticks?: number;
 }
 ```
-Will display a vertical bar chart with a y-axis that is centered at 0 on the x-axis.
+
+**Usage:**
+```tsx
+import { h, Component } from 'preact';
+import { DifferenceChart } from 'preact-charts';
+const data: Array<{name: string, value: number}> = [...];
+...
+<DifferenceChart name='differenceChart' data={data}/>
+```
 
 ### Grouped Bar Chart
 **Props:**
@@ -47,7 +57,18 @@ interface GroupedDataObject {
 ```
 Prop `legendReference` is an object where the keys are the same as the keys of the input data. The value is what will be displayed on the chart legend.
 
+**Usage:**
+```tsx
+import { h, Component } from 'preact';
+import { GroupedBar, GroupedDataObject } from 'preact-charts';
+const data: GroupedDataObject = {...};
+...
+<GroupedBar name='groupedBar1' data={data} groups={Object.keys(data)} legendReference={chartLegendReference}/>
+```
+
 ### Horizontal Bar Chart
+This chart is the same as the GroupedBar, but is displayed with horizontal bars.
+
 **Props:**
 ```typescript
 interface HorizontalBarProps {
@@ -62,9 +83,18 @@ interface HorizontalBarProps {
     ticks?: number;
 }
 ```
-This chart is the same as the GroupedBar, but is displayed with horizontal bars.
+
+**Usage:**
+```tsx
+import { h, Component } from 'preact';
+import { HorizontalBar, GroupedDataObject } from 'preact-charts';
+const data: GroupedDataObject = {...};
+...
+<HorizontalBar name='hozBar' data={data} groups={Object.keys(data)} legendReference={chartLegendReference}/>
+```
 
 ### Histogram
+
 **Props:**
 ```typescript
 interface HistogramProps {
@@ -78,6 +108,15 @@ interface HistogramProps {
 }
 ```
 `x` should be a key in `data`. Will display a histogram of the data with that key.
+
+**Usage:**
+```tsx
+import { h, Component } from 'preact';
+import { Histogram, DataArray } from 'preact-charts';
+const data: DataArray = [...];
+...
+<Histogram name='histogram' x={Object.keys(data[0])[0]} data={data}/>
+```
 
 ### LineScatter
 **Props:**
@@ -98,6 +137,18 @@ interface LineScatterProps {
 Input data is an array of data arrays. Each inner array will be displayed as a group of dots connected by a line.
 `legendReference` is an array where `legendReference[index] === data[index]`. The index of legendReference relate to the index of the data.
 
+LineScatter has a built in zoom functionality. Allowing user to select a portion of the chart and the axis will scale to that selection.
+Double clicking the chart  will cause the zoom to reset.
+
+**Usage:**
+```tsx
+import { h, Component } from 'preact';
+import { LineScatter, DataArray } from 'preact-charts';
+const data: DataArray[] = [...];
+...
+<LineScatter name='linescatter' data={data} x='dataKey1' y='dataKey2' labels={true} legendReference={legendRef}/>
+```
+
 ### ScatterPlot
 **Props:**
 ```typescript
@@ -114,6 +165,18 @@ interface ScatterPlotProps {
 }
 ```
 The radius of the displayed circles can be changed. `labels` is a boolean determining if axis labels should be presented.
+
+ScatterPlot also has a built in zoom functionality. Allowing user to select a portion of the chart and the axis will scale to that selection.
+Double clicking the chart  will cause the zoom to reset.
+
+**Usage:**
+```tsx
+import { h, Component } from 'preact';
+import { ScatterPlot, DataArray } from 'preact-charts';
+const data: DataArray = [...];
+...
+<ScatterPlot name='scatter' data={data} x='dataKey1' y='dataKey2' labels={true}/>
+```
 
 ### RangeChart
 **Props:**
@@ -132,6 +195,21 @@ interface RangeChartProps {
 ```
 Input data requires a key called `timestamp` which is a parsed date. `onBrush` is called when the chart has been brushed.
 This allows for data filtering based on returned time extents. `onBrush` gets the argument of extent which is an array of length 2, which is `[start, end]`
+
+**Usage:**
+```tsx
+import { h, Component } from 'preact';
+import { RangeChart, TimestampArray } from 'preact-charts';
+const data: TimestampArray = [...];
+...
+<RangeChart name='rangechart' y={yKey} data={data} onBrush={this.handleRangeBrush}/>
+
+this.handleRangeBrush = (extent: Date[]) => {
+    const brushStart = extent[0];
+    const brushEnd = extent[1];
+    // do something with brush extents
+}
+```
 
 ### TrendChart
 **Props:**
@@ -156,6 +234,25 @@ Tooltip being on will display a circle with the related data displayed when hove
 Axis control being `true` will display `plus` and `minus` buttons at the top and bottom of the y-axis. Allowing the users to have control over the y-axis.
 
 TrendChart is also allowed to have `<Flag />` child components, which will be displayed on the chart and can be interacted with.
+
+**Usage:**
+```tsx
+import { h, Component } from 'preact';
+import { TrendChart, Flag, TimestampArray } from 'preact-charts';
+const data: TimestampArray = [...];
+const flags: EventsData[] = [...];
+...
+<TrendChart name='trend1' data={data} y={yKey} x='timestamp' lineColour='cyan' extent={state.rangeExtent}>
+    {
+        // optional flag addition
+        flags.map((flag) => <Flag isClicked={isFlagClicked} {...flag} onClick={this.handleFlagClick}/>)
+    }
+</TrendChart>
+
+this.handleFlagClick = (e: number) => {
+    // e is the flagID number
+}
+```
 
 ## Other Components
 ### Flag
