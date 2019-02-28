@@ -1,14 +1,15 @@
+[![npm](https://img.shields.io/npm/v/preact-charts.svg)](https://www.npmjs.com/package/preact-charts)
 # preact-charts
 ⚛️ preact based charting library. Written with d3-maths, and TypeScript!
+
+Install via `npm` using: `npm install preact-charts`.
 
 The goal of this project is to be as light as possible adding some easy chart support to the preact ecosystem.
 I have tried my best to limit the required dependencies to only the sections of d3 that are needed, while also not attempting to replicate already implemented code.
 
 I hope that this library of components will be as developer friendly as possible, including easy ways for developers to style the charts as they wish.
 
-[![npm](https://img.shields.io/npm/v/preact-charts.svg)](https://www.npmjs.com/package/preact-charts)
-
-The below documentation will include some TypeScript syntax. If you are new to TypeScript or don't use it, optional props are declared with a `?:`
+The below documentation will include some TypeScript syntax. If you are new to TypeScript or don't use it, optional props are declared with a `?:`.
 
 ## Current Charts
 ### Difference Chart
