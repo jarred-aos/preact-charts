@@ -2,14 +2,16 @@ import { Component } from 'preact';
 import { Margin, DataArray } from '../../types';
 interface ScatterPlotProps {
     name: string;
-    height?: number;
-    width?: number;
-    margin?: Margin;
     x: string;
     y: string;
     data: DataArray;
+    height?: number;
+    width?: number;
+    margin?: Margin;
     radius?: number;
     labels?: boolean;
+    dotFill?: string;
+    dotBorder?: string;
 }
 interface ScatterPlotDefaultProps {
     height: number;
@@ -17,6 +19,8 @@ interface ScatterPlotDefaultProps {
     margin: Margin;
     radius: number;
     labels: boolean;
+    dotFill: string;
+    dotBorder: string;
 }
 interface ScatterPlotState {
     width: number;

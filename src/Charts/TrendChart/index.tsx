@@ -5,6 +5,14 @@ import { bisector, extent } from 'd3-array';
 import { Margin, TimestampArray, TimestampData } from '../../types';
 import { Axis } from '../../Axis';
 import { Flag } from './Flag';
+import { style } from 'typestyle';
+
+const overlay = style({
+    fill: 'none',
+    pointerEvents: 'all',
+    borderTop: 'none',
+    borderStyle: 'none',
+});
 
 declare const ResizeObserver: any;
 
@@ -130,7 +138,7 @@ export class TrendChart extends Component<TrendChartProps, TrendChartState> {
                     </clipPath>
                     <Axis height={innerHeight} axisType='x' scale={this.xScale}/>
                     <Axis width={innerWidth} axisType='y' scale={yScale} grid={true}/>
-                    <path class='line' d={lineFunc(props.data)} clip-path={`url(#${props.name}_cp)`}
+                    <path d={lineFunc(props.data)} clip-path={`url(#${props.name}_cp)`}
                         stroke-linecap='round' stroke={props.lineColour} fill='none' stroke-width='2px'/>
                     {
                         children[0] &&
@@ -141,8 +149,8 @@ export class TrendChart extends Component<TrendChartProps, TrendChartState> {
                     {
                         (isMouseOver && tooltipValues[0] !== null) &&
                             <g transform={`translate(${this.xScale(tooltipValues[0])},${yScale(tooltipValues[1])})`}>
-                                <circle class='tooltipCircle' r='6'></circle>
-                                <text class='tooltipText' x={0} y={-15} dy='0.5em' text-anchor={textAnchor}>
+                                <circle fill='none' stroke-width={2} stroke='gold' r='6'></circle>
+                                <text x={0} y={-15} dy='0.5em' text-anchor={textAnchor}>
                                 {
                                     `${tooltipValues[0].toLocaleDateString()} ${tooltipValues[0].toLocaleTimeString()}:
                                         ${tooltipValues[1].toFixed(4)}`
@@ -152,7 +160,7 @@ export class TrendChart extends Component<TrendChartProps, TrendChartState> {
                     }
                     {
                         (props.tooltip && props.data.length > 0) &&
-                            <rect class='tooltipOverlay' width={innerWidth} height={innerHeight}
+                            <rect class={overlay} width={innerWidth} height={innerHeight}
                                 onMouseMove={this.handleMouseMove} onMouseOver={this.handleMouseOver}
                                 onMouseOut={this.handleMouseOut}>
                             </rect>

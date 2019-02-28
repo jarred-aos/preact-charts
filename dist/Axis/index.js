@@ -1,6 +1,32 @@
 import { h, Component } from 'preact';
 import { select } from 'd3-selection';
 import { axisBottom, axisLeft } from 'd3-axis';
+import { style } from 'typestyle';
+export const tickLabel = style({
+    fontSize: '1em',
+    cursor: 'default',
+    $nest: {
+        '&>.tick>line': {
+            strokeWidth: '1px',
+            strokeOpacity: 0.5,
+            shapeRendering: 'crispEdges',
+        },
+        '&>path': {
+            strokeWidth: '2px',
+        },
+    },
+});
+export const gridStyle = style({
+    $nest: {
+        '&>path': {
+            stroke: 'none',
+        },
+        '&>.tick>line': {
+            strokeWidth: '1px',
+            strokeOpacity: 0.5,
+        },
+    },
+});
 export class Axis extends Component {
     constructor() {
         super(...arguments);
@@ -31,9 +57,9 @@ export class Axis extends Component {
         const translate = offsetX ? `translate(${offsetX}, 0)` : `translate(0, ${height})`;
         const shouldOffset = axisType.toLowerCase() === 'x' || offsetX !== undefined;
         return (h("g", null,
-            h("g", { ref: (axis) => this.axis = axis, class: 'axis', transform: shouldOffset ? translate : '' }),
+            h("g", { ref: (axis) => this.axis = axis, class: tickLabel, transform: shouldOffset ? translate : '' }),
             grid &&
-                h("g", { ref: (gridline) => this.grid = gridline, class: 'grid', transform: shouldOffset ? translate : '' })));
+                h("g", { ref: (gridline) => this.grid = gridline, class: gridStyle, transform: shouldOffset ? translate : '' })));
     }
 }
 Axis.defaultProps = {

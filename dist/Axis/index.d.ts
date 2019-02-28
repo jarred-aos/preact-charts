@@ -1,5 +1,7 @@
 import { Component } from 'preact';
 import { AxisScale } from 'd3-axis';
+export declare const tickLabel: string;
+export declare const gridStyle: string;
 interface AxisProps {
     height?: number;
     width?: number;

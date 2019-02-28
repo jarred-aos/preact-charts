@@ -6,6 +6,7 @@ import { area } from 'd3-shape';
 import { min, max } from 'd3-array';
 import { select, event } from 'd3-selection';
 import { brushX } from 'd3-brush';
+import { style } from 'typestyle';
 
 declare const ResizeObserver: any;
 
@@ -19,6 +20,7 @@ interface RangeChartProps {
     lineColour?: string;
     fillColour?: string;
     onBrush?: (extent: Date[]) => void;
+    brushColour?: string;
 }
 
 interface RangeChartDefaultProps {
@@ -28,6 +30,7 @@ interface RangeChartDefaultProps {
     lineColour?: string;
     fillColour?: string;
     onBrush?: (extent: Date[]) => void;
+    brushColour: string;
 
 }
 
@@ -53,15 +56,24 @@ export class RangeChart extends Component<RangeChartProps, RangeChartState> {
         lineColour: 'steelblue',
         fillColour: 'steelblue',
         onBrush: () => {},
+        brushColour: 'darkgoldenrod',
     };
     private brush: SVGGElement;
     private brushSetup: any;
     private xScale: any;
     private chartSVG: HTMLBaseElement;
     private resizeOb: any;
+    private brushClass: any;
 
     constructor (props: RangeChartProps) {
         super(props);
+        this.brushClass = style({
+            $nest: {
+                '&>rect.handle': {
+                    fill: props.brushColour,
+                },
+            },
+        });
         const innerWidth = props.width - props.margin.left - props.margin.right;
         const innerHeight = props.height - props.margin.top - props.margin.bottom;
         this.state = {
@@ -90,9 +102,9 @@ export class RangeChart extends Component<RangeChartProps, RangeChartState> {
                 <g transform={`translate(${props.margin.left}, ${props.margin.top})`}>
                     <Axis height={innerHeight} axisType='x' scale={this.xScale}/>
                     <Axis width={innerWidth} axisType='y' scale={yScale} grid={true} ticks={0}/>
-                    <path class='line' d={areaFunc(props.data)}
+                    <path d={areaFunc(props.data)}
                         stroke-linecap='round' stroke={props.lineColour} fill={props.fillColour} stroke-width='1px'/>
-                    <g ref={(brush) => this.brush = brush} class='brush'></g>
+                    <g ref={(brush) => this.brush = brush} class={this.brushClass}></g>
                 </g>
             </svg>
         );

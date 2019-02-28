@@ -1,7 +1,35 @@
 import { h, Component } from 'preact';
 import { select } from 'd3-selection';
 import { axisBottom, axisLeft, AxisScale } from 'd3-axis';
+import { style } from 'typestyle';
 
+export const tickLabel = style({
+    fontSize: '1em',
+    cursor: 'default',
+    userSelect: 'none',
+    $nest: {
+        '&>.tick>line': {
+            strokeWidth: '1px',
+            strokeOpacity: 0.5,
+            shapeRendering: 'crispEdges',
+        },
+        '&>path': {
+            strokeWidth: '2px',
+        },
+    },
+});
+
+export const gridStyle = style({
+    $nest: {
+        '&>path': {
+            stroke: 'none',
+        },
+        '&>.tick>line': {
+            strokeWidth: '1px',
+            strokeOpacity: 0.5,
+        },
+    },
+});
 interface AxisProps {
     height?: number;
     width?: number;
@@ -11,6 +39,7 @@ interface AxisProps {
     grid?: boolean;
     rotateScaleText?: boolean;
     offsetX?: number;
+
 }
 
 export class Axis extends Component<AxisProps> {
@@ -33,12 +62,12 @@ export class Axis extends Component<AxisProps> {
 
         return (
             <g>
-                <g ref={(axis) => this.axis = axis} class='axis'
+                <g ref={(axis) => this.axis = axis} class={tickLabel}
                     transform={shouldOffset ? translate : ''}>
                 </g>
                 {
                     grid &&
-                    <g ref={(gridline) => this.grid = gridline} class='grid'
+                    <g ref={(gridline) => this.grid = gridline} class={gridStyle}
                         transform={shouldOffset ? translate : ''}>
                     </g>
                 }

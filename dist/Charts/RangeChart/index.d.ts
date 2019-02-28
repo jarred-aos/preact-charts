@@ -10,6 +10,7 @@ interface RangeChartProps {
     lineColour?: string;
     fillColour?: string;
     onBrush?: (extent: Date[]) => void;
+    brushColour?: string;
 }
 interface RangeChartDefaultProps {
     height: number;
@@ -18,6 +19,7 @@ interface RangeChartDefaultProps {
     lineColour?: string;
     fillColour?: string;
     onBrush?: (extent: Date[]) => void;
+    brushColour: string;
 }
 interface RangeChartState {
     width: number;
@@ -33,6 +35,7 @@ export declare class RangeChart extends Component<RangeChartProps, RangeChartSta
     private xScale;
     private chartSVG;
     private resizeOb;
+    private brushClass;
     constructor(props: RangeChartProps);
     render(props: RangeChartProps, { width, height, innerWidth, innerHeight }: RangeChartState): JSX.Element;
     componentDidMount: () => void;

@@ -47,8 +47,8 @@ export class GroupedBar extends Component {
                     this.createBars(xScale, x1, yScale, innerHeight, groups, colourScale),
                 names &&
                     names.map((barName, idx) => h("g", { transform: `translate(0, ${idx * 20})` },
-                        h("rect", { x: innerWidth + margin.right - 18, width: 18, height: 15, stroke: 'black', strokeWidth: '1px', fill: colourScale(barName) }),
-                        h("text", { x: innerWidth + margin.right - 24, y: 9, dy: '0.35em', fill: 'whitesmoke', "text-anchor": 'end' }, legendReference[barName]))))));
+                        h("rect", { x: innerWidth + margin.right - 18, width: 18, height: 15, strokeWidth: '1px', fill: colourScale(barName) }),
+                        h("text", { x: innerWidth + margin.right - 24, y: 9, dy: '0.35em', "text-anchor": 'end' }, legendReference[barName]))))));
     }
     componentDidMount() {
         this.resizeChart();

@@ -2,6 +2,11 @@ import { h, Component } from 'preact';
 import { Axis } from '../../Axis';
 import { scaleLinear } from 'd3-scale';
 import { min, max, histogram } from 'd3-array';
+import { style } from 'typestyle';
+const bar = style({
+    fillOpacity: 1,
+    strokeWidth: '1px',
+});
 export class Histogram extends Component {
     constructor(props) {
         super(props);
@@ -14,7 +19,7 @@ export class Histogram extends Component {
             innerHeight,
         };
     }
-    render({ name, margin, x, data, ticks }, { height, width, innerHeight, innerWidth }) {
+    render({ name, margin, x, data, ticks, barColour, barOutline }, { height, width, innerHeight, innerWidth }) {
         const valuesArray = data.map((d) => d[x]);
         const xMin = min(valuesArray);
         const xMax = max(valuesArray) * 1.01;
@@ -30,7 +35,7 @@ export class Histogram extends Component {
                 h(Axis, { height: innerHeight, axisType: 'x', scale: xScale, ticks: ticks, rotateScaleText: true }),
                 h(Axis, { width: innerWidth, axisType: 'y', scale: yScale, grid: true, ticks: 8 }),
                 barWidth &&
-                    bins.map((bin) => h("rect", { class: 'histogramBar', x: '1', width: barWidth, height: innerHeight - yScale(bin.length), transform: `translate(${xScale(bin.x0)}, ${yScale(bin.length)})` })))));
+                    bins.map((bin) => h("rect", { class: bar, x: '1', width: barWidth, height: innerHeight - yScale(bin.length), transform: `translate(${xScale(bin.x0)}, ${yScale(bin.length)})`, fill: barColour, stroke: barOutline })))));
     }
     componentDidMount() {
         this.resizeChart();
@@ -69,5 +74,7 @@ Histogram.defaultProps = {
         left: 50,
     },
     ticks: 8,
+    barColour: 'steelblue',
+    barOutline: 'black',
 };
 //# sourceMappingURL=index.js.map

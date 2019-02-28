@@ -5,6 +5,7 @@ import { area } from 'd3-shape';
 import { min, max } from 'd3-array';
 import { select, event } from 'd3-selection';
 import { brushX } from 'd3-brush';
+import { style } from 'typestyle';
 export class RangeChart extends Component {
     constructor(props) {
         super(props);
@@ -22,6 +23,13 @@ export class RangeChart extends Component {
             });
             this.resizeOb.observe(this.chartSVG.parentElement);
         };
+        this.brushClass = style({
+            $nest: {
+                '&>rect.handle': {
+                    fill: props.brushColour,
+                },
+            },
+        });
         const innerWidth = props.width - props.margin.left - props.margin.right;
         const innerHeight = props.height - props.margin.top - props.margin.bottom;
         this.state = {
@@ -46,8 +54,8 @@ export class RangeChart extends Component {
             h("g", { transform: `translate(${props.margin.left}, ${props.margin.top})` },
                 h(Axis, { height: innerHeight, axisType: 'x', scale: this.xScale }),
                 h(Axis, { width: innerWidth, axisType: 'y', scale: yScale, grid: true, ticks: 0 }),
-                h("path", { class: 'line', d: areaFunc(props.data), "stroke-linecap": 'round', stroke: props.lineColour, fill: props.fillColour, "stroke-width": '1px' }),
-                h("g", { ref: (brush) => this.brush = brush, class: 'brush' }))));
+                h("path", { d: areaFunc(props.data), "stroke-linecap": 'round', stroke: props.lineColour, fill: props.fillColour, "stroke-width": '1px' }),
+                h("g", { ref: (brush) => this.brush = brush, class: this.brushClass }))));
     }
     componentWillUnmount() {
         this.resizeOb.disconnect();
@@ -94,5 +102,6 @@ RangeChart.defaultProps = {
     lineColour: 'steelblue',
     fillColour: 'steelblue',
     onBrush: () => { },
+    brushColour: 'darkgoldenrod',
 };
 //# sourceMappingURL=index.js.map

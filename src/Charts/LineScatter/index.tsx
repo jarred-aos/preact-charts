@@ -108,12 +108,12 @@ export class LineScatter extends Component<LineScatterProps, LineScatterState> {
                     {
                         props.data.map((dArray, groupIdx) => (
                             <g>
-                                <path class='line' d={lineFunc(dArray)} clip-path={`url(#${props.name}_cp)`}
+                                <path d={lineFunc(dArray)} clip-path={`url(#${props.name}_cp)`}
                                     stroke-linecap='round' stroke={colourArray[groupIdx]} fill='none'
                                     stroke-width='2px'/>
                                 {
                                     dArray.map((point, index) =>
-                                        <circle class='dot' r={props.radius} cx={this.xScale(point[props.x])}
+                                        <circle stroke-width='1px' r={props.radius} cx={this.xScale(point[props.x])}
                                             cy={this.yScale(point[props.y])} key={index} fill={colourArray[groupIdx]}
                                             clip-path={`url(#${props.name}_cp)`}/>)
                                 }
@@ -123,14 +123,13 @@ export class LineScatter extends Component<LineScatterProps, LineScatterState> {
                     }
                     {
                         props.labels &&
-                            <text class='label' x={innerWidth / 2} y={innerHeight + props.margin.bottom - 15}>
+                            <text x={innerWidth / 2} y={innerHeight + props.margin.bottom - 15}>
                                 {props.x.replace(/_/g, ' ')}
                             </text>
                     }
                     {
                         props.labels &&
-                            <text class='label' x={-innerHeight / 2} y={-props.margin.left + 15}
-                                transform='rotate(-90)'>
+                            <text x={-innerHeight / 2} y={-props.margin.left + 15} transform='rotate(-90)'>
                                 {props.y.replace(/_/g, ' ')}
                             </text>
                     }
@@ -138,10 +137,10 @@ export class LineScatter extends Component<LineScatterProps, LineScatterState> {
                         props.legendReference &&
                             props.legendReference.map((title, idx) =>
                                 <g transform={`translate(0, ${idx * 20})`}>
-                                    <rect x={innerWidth + props.margin.right - 18} width={18} height={15} stroke='black'
+                                    <rect x={innerWidth + props.margin.right - 18} width={18} height={15}
                                         strokeWidth='1px' fill={colourArray[idx]}>
                                     </rect>
-                                    <text class='label' x={innerWidth + props.margin.right - 24} y={9} dy='0.35em'
+                                    <text x={innerWidth + props.margin.right - 24} y={9} dy='0.35em'
                                         text-anchor='end'>
                                         {title.replace(/_/g, ' ')}
                                     </text>
