@@ -3,7 +3,6 @@ import { Axis } from '../../Axis';
 import { DataArray, Margin } from '../../types';
 import { scaleLinear } from 'd3-scale';
 import { min, max, histogram } from 'd3-array';
-import * as style from './style.css';
 
 declare const ResizeObserver: any;
 
@@ -81,7 +80,7 @@ export class Histogram extends Component<HistogramProps, HistogramState> {
                     {
                         barWidth &&
                         bins.map((bin) =>
-                            <rect class={style.histogram_bar} x='1' width={barWidth}
+                            <rect class='histogramBar' x='1' width={barWidth}
                                 height={innerHeight - yScale(bin.length)}
                                 transform={`translate(${xScale(bin.x0)}, ${yScale(bin.length)})`}>
                             </rect>,

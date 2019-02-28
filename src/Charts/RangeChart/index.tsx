@@ -2,7 +2,6 @@ import { h, Component } from 'preact';
 import { scaleLinear, scaleTime } from 'd3-scale';
 import { Margin, TimestampArray, TimestampData } from '../../types';
 import { Axis } from '../../Axis';
-import * as style from './style.css';
 import { area } from 'd3-shape';
 import { min, max } from 'd3-array';
 import { select, event } from 'd3-selection';
@@ -93,7 +92,7 @@ export class RangeChart extends Component<RangeChartProps, RangeChartState> {
                     <Axis width={innerWidth} axisType='y' scale={yScale} grid={true} ticks={0}/>
                     <path class='line' d={areaFunc(props.data)}
                         stroke-linecap='round' stroke={props.lineColour} fill={props.fillColour} stroke-width='1px'/>
-                    <g ref={(brush) => this.brush = brush} class={style.brush}></g>
+                    <g ref={(brush) => this.brush = brush} class='brush'></g>
                 </g>
             </svg>
         );

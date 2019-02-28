@@ -7,7 +7,6 @@ import { select, event } from 'd3-selection';
 import { brush } from 'd3-brush';
 import { line, curveNatural } from 'd3-shape';
 import { colourArray } from '../../colors';
-import * as style from './style.css';
 
 declare const ResizeObserver: any;
 
@@ -114,7 +113,7 @@ export class LineScatter extends Component<LineScatterProps, LineScatterState> {
                                     stroke-width='2px'/>
                                 {
                                     dArray.map((point, index) =>
-                                        <circle class={style.dot} r={props.radius} cx={this.xScale(point[props.x])}
+                                        <circle class='dot' r={props.radius} cx={this.xScale(point[props.x])}
                                             cy={this.yScale(point[props.y])} key={index} fill={colourArray[groupIdx]}
                                             clip-path={`url(#${props.name}_cp)`}/>)
                                 }
@@ -124,13 +123,13 @@ export class LineScatter extends Component<LineScatterProps, LineScatterState> {
                     }
                     {
                         props.labels &&
-                            <text class={style.label} x={innerWidth / 2} y={innerHeight + props.margin.bottom - 15}>
+                            <text class='label' x={innerWidth / 2} y={innerHeight + props.margin.bottom - 15}>
                                 {props.x.replace(/_/g, ' ')}
                             </text>
                     }
                     {
                         props.labels &&
-                            <text class={style.label} x={-innerHeight / 2} y={-props.margin.left + 15}
+                            <text class='label' x={-innerHeight / 2} y={-props.margin.left + 15}
                                 transform='rotate(-90)'>
                                 {props.y.replace(/_/g, ' ')}
                             </text>
@@ -142,7 +141,7 @@ export class LineScatter extends Component<LineScatterProps, LineScatterState> {
                                     <rect x={innerWidth + props.margin.right - 18} width={18} height={15} stroke='black'
                                         strokeWidth='1px' fill={colourArray[idx]}>
                                     </rect>
-                                    <text x={innerWidth + props.margin.right - 24} y={9} dy='0.35em' fill='whitesmoke'
+                                    <text class='label' x={innerWidth + props.margin.right - 24} y={9} dy='0.35em'
                                         text-anchor='end'>
                                         {title.replace(/_/g, ' ')}
                                     </text>

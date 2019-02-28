@@ -2,7 +2,6 @@ import { h, Component } from 'preact';
 import { Axis } from '../../Axis';
 import { scaleLinear } from 'd3-scale';
 import { min, max, histogram } from 'd3-array';
-import * as style from './style.css';
 export class Histogram extends Component {
     constructor(props) {
         super(props);
@@ -31,7 +30,7 @@ export class Histogram extends Component {
                 h(Axis, { height: innerHeight, axisType: 'x', scale: xScale, ticks: ticks, rotateScaleText: true }),
                 h(Axis, { width: innerWidth, axisType: 'y', scale: yScale, grid: true, ticks: 8 }),
                 barWidth &&
-                    bins.map((bin) => h("rect", { class: style.histogram_bar, x: '1', width: barWidth, height: innerHeight - yScale(bin.length), transform: `translate(${xScale(bin.x0)}, ${yScale(bin.length)})` })))));
+                    bins.map((bin) => h("rect", { class: 'histogramBar', x: '1', width: barWidth, height: innerHeight - yScale(bin.length), transform: `translate(${xScale(bin.x0)}, ${yScale(bin.length)})` })))));
     }
     componentDidMount() {
         this.resizeChart();

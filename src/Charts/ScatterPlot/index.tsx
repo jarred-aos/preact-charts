@@ -5,7 +5,6 @@ import { scaleLinear } from 'd3-scale';
 import { extent } from 'd3-array';
 import { select, event } from 'd3-selection';
 import { brush } from 'd3-brush';
-import * as style from './style.css';
 
 declare const ResizeObserver: any;
 
@@ -99,19 +98,19 @@ export class ScatterPlot extends Component<ScatterPlotProps, ScatterPlotState> {
                     <Axis width={innerWidth} axisType='y' scale={this.yScale} grid={true}/>
                     {
                         props.data.map((point, index) =>
-                            <circle class={style.dot} r={props.radius} cx={this.xScale(point[props.x])}
+                            <circle class='dot' r={props.radius} cx={this.xScale(point[props.x])}
                                 cy={this.yScale(point[props.y])} key={index} clip-path={`url(#${props.name}_cp)`}/>,
                         )
                     }
                     {
                         props.labels &&
-                            <text class={style.label} x={innerWidth / 2} y={innerHeight + props.margin.bottom - 15}>
+                            <text class='label' x={innerWidth / 2} y={innerHeight + props.margin.bottom - 15}>
                                 {props.x.replace(/_/g, ' ')}
                             </text>
                     }
                     {
                         props.labels &&
-                            <text class={style.label} x={-innerHeight / 2} y={-props.margin.left + 15}
+                            <text class='label' x={-innerHeight / 2} y={-props.margin.left + 15}
                                 transform='rotate(-90)'>
                                 {props.y.replace(/_/g, ' ')}
                             </text>

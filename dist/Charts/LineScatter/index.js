@@ -6,7 +6,6 @@ import { select, event } from 'd3-selection';
 import { brush } from 'd3-brush';
 import { line, curveNatural } from 'd3-shape';
 import { colourArray } from '../../colors';
-import * as style from './style.css';
 export class LineScatter extends Component {
     constructor(props) {
         super(props);
@@ -45,15 +44,15 @@ export class LineScatter extends Component {
                 h(Axis, { width: innerWidth, axisType: 'y', scale: this.yScale, grid: true }),
                 props.data.map((dArray, groupIdx) => (h("g", null,
                     h("path", { class: 'line', d: lineFunc(dArray), "clip-path": `url(#${props.name}_cp)`, "stroke-linecap": 'round', stroke: colourArray[groupIdx], fill: 'none', "stroke-width": '2px' }),
-                    dArray.map((point, index) => h("circle", { class: style.dot, r: props.radius, cx: this.xScale(point[props.x]), cy: this.yScale(point[props.y]), key: index, fill: colourArray[groupIdx], "clip-path": `url(#${props.name}_cp)` }))))),
+                    dArray.map((point, index) => h("circle", { class: 'dot', r: props.radius, cx: this.xScale(point[props.x]), cy: this.yScale(point[props.y]), key: index, fill: colourArray[groupIdx], "clip-path": `url(#${props.name}_cp)` }))))),
                 props.labels &&
-                    h("text", { class: style.label, x: innerWidth / 2, y: innerHeight + props.margin.bottom - 15 }, props.x.replace(/_/g, ' ')),
+                    h("text", { class: 'label', x: innerWidth / 2, y: innerHeight + props.margin.bottom - 15 }, props.x.replace(/_/g, ' ')),
                 props.labels &&
-                    h("text", { class: style.label, x: -innerHeight / 2, y: -props.margin.left + 15, transform: 'rotate(-90)' }, props.y.replace(/_/g, ' ')),
+                    h("text", { class: 'label', x: -innerHeight / 2, y: -props.margin.left + 15, transform: 'rotate(-90)' }, props.y.replace(/_/g, ' ')),
                 props.legendReference &&
                     props.legendReference.map((title, idx) => h("g", { transform: `translate(0, ${idx * 20})` },
                         h("rect", { x: innerWidth + props.margin.right - 18, width: 18, height: 15, stroke: 'black', strokeWidth: '1px', fill: colourArray[idx] }),
-                        h("text", { x: innerWidth + props.margin.right - 24, y: 9, dy: '0.35em', fill: 'whitesmoke', "text-anchor": 'end' }, title.replace(/_/g, ' ')))),
+                        h("text", { class: 'label', x: innerWidth + props.margin.right - 24, y: 9, dy: '0.35em', "text-anchor": 'end' }, title.replace(/_/g, ' ')))),
                 h("g", { ref: (brushRef) => this.brush = brushRef, key: 1 }))));
     }
     componentDidMount() {

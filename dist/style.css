@@ -1,3 +1,49 @@
+.axis {
+    font-size: 1em;
+    cursor: default;
+}
+
+.axis>.tick>line {
+    stroke-width: 1px;
+    stroke: black;
+    stroke-opacity: 0.5;
+    shape-rendering: crispEdges;
+}
+
+.axis>path {
+    stroke-width: 2px;
+}
+
+.grid>path {
+    stroke: none;
+}
+
+.grid>.tick>line {
+    stroke-width: 1px;
+    stroke-opacity: 0.5;
+}
+
+.histogramBar {
+    fill: steelblue;
+    fill-opacity: 1;
+    stroke: black;
+    stroke-width: 1px;
+}
+
+.dot {
+    fill: #7dc7f4;
+    stroke: whitesmoke;
+    stroke-width: 1px;
+}
+
+.label {
+    fill: black;
+}
+
+.brush > rect.handle {
+    fill: darkgoldenrod;
+}
+
 .flag {
     fill: gray;
     stroke-width: 1;
@@ -34,14 +80,14 @@
 }
 
 .tooltipText {
-    stroke: var(--font-color-normal);
+    stroke: 1em;
 }
 
 .axisControl {
     stroke: goldenrod;
     text-anchor: middle;
     user-select: none;
-    font-size: var(--font-size-larger);
+    font-size: 1.1em;
 }
 .axisControlPlus {
     cursor: pointer;

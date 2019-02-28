@@ -1,7 +1,6 @@
 import { h, Component } from 'preact';
 import { scaleLinear, scaleTime } from 'd3-scale';
 import { Axis } from '../../Axis';
-import * as style from './style.css';
 import { area } from 'd3-shape';
 import { min, max } from 'd3-array';
 import { select, event } from 'd3-selection';
@@ -48,7 +47,7 @@ export class RangeChart extends Component {
                 h(Axis, { height: innerHeight, axisType: 'x', scale: this.xScale }),
                 h(Axis, { width: innerWidth, axisType: 'y', scale: yScale, grid: true, ticks: 0 }),
                 h("path", { class: 'line', d: areaFunc(props.data), "stroke-linecap": 'round', stroke: props.lineColour, fill: props.fillColour, "stroke-width": '1px' }),
-                h("g", { ref: (brush) => this.brush = brush, class: style.brush }))));
+                h("g", { ref: (brush) => this.brush = brush, class: 'brush' }))));
     }
     componentWillUnmount() {
         this.resizeOb.disconnect();

@@ -1,7 +1,6 @@
 import { h, Component } from 'preact';
 import { select } from 'd3-selection';
 import { axisBottom, axisLeft, AxisScale } from 'd3-axis';
-import * as style from './style.css';
 
 interface AxisProps {
     height?: number;
@@ -34,12 +33,12 @@ export class Axis extends Component<AxisProps> {
 
         return (
             <g>
-                <g ref={(axis) => this.axis = axis} class={`${style.axis}`}
+                <g ref={(axis) => this.axis = axis} class='axis'
                     transform={shouldOffset ? translate : ''}>
                 </g>
                 {
                     grid &&
-                    <g ref={(gridline) => this.grid = gridline} class={`${style.grid}`}
+                    <g ref={(gridline) => this.grid = gridline} class='grid'
                         transform={shouldOffset ? translate : ''}>
                     </g>
                 }

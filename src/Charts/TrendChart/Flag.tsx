@@ -1,6 +1,5 @@
 import { h, Component } from 'preact';
 import { ScaleTime } from 'd3-scale';
-import * as style from './style.css';
 import { EventsData } from '../../types';
 
 interface FlagProps extends EventsData {
@@ -30,12 +29,12 @@ export class Flag extends Component<FlagProps> {
     }
     public render ({ xScale, height, start, end, chartName, isClicked }: FlagProps) {
         return (
-            <g  class={style.flag} onClick={this.handleFlagClick} clip-path={`url(#${chartName}_cp)`}>
+            <g  class='flag' onClick={this.handleFlagClick} clip-path={`url(#${chartName}_cp)`}>
                 <path
                     d={`M ${xScale(start as Date)} \
                         ${height} H ${xScale(end as Date)} V 20 H ${xScale(start as Date)} V ${height}`}>
                 </path>
-                <path class={isClicked ? style.topperClicked : style.topper}
+                <path class={isClicked ? 'topperClicked' : 'topper'}
                     d={`M ${xScale(end as Date)} \
                         20 L ${xScale(end as Date)} 0 L ${xScale(end as Date) - 15} 8 L \
                         ${xScale(end as Date)} 16 V 20`}>

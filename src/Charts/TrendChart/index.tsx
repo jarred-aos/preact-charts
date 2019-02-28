@@ -5,7 +5,6 @@ import { bisector, extent } from 'd3-array';
 import { Margin, TimestampArray, TimestampData } from '../../types';
 import { Axis } from '../../Axis';
 import { Flag } from './Flag';
-import * as style from './style.css';
 
 declare const ResizeObserver: any;
 
@@ -105,22 +104,22 @@ export class TrendChart extends Component<TrendChartProps, TrendChartState> {
         return (
             <svg ref={(svg) => this.chartSVG = svg} class={props.name} height={height} width={width}>
                 { props.axisControl &&
-                    <g class={style.axisControl}
+                    <g class='axisControl'
                         transform={`translate(${props.margin.left * 0.3}, ${props.margin.top + 5})`}>
-                        <text class={style.axisControlPlus} onClick={() => this.handleChangeYDomain('topup')}>
+                        <text class='axisControlPlus' onClick={() => this.handleChangeYDomain('topup')}>
                             &#43;
                         </text>
-                        <text class={style.axisControlMinus} onClick={() => this.handleChangeYDomain('topdown')}>
+                        <text class='axisControlMinus' onClick={() => this.handleChangeYDomain('topdown')}>
                             &#45;
                         </text>
                     </g>
                 }
                 { props.axisControl &&
-                    <g class={style.axisControl} transform={`translate(${props.margin.left * 0.3}, ${innerHeight})`}>
-                    <text class={style.axisControlPlus} onClick={() => this.handleChangeYDomain('botup')}>
+                    <g class='axisControl' transform={`translate(${props.margin.left * 0.3}, ${innerHeight})`}>
+                    <text class='axisControlPlus' onClick={() => this.handleChangeYDomain('botup')}>
                             &#43;
                         </text>
-                        <text class={style.axisControlMinus} onClick={() => this.handleChangeYDomain('botdown')}>
+                        <text class='axisControlMinus' onClick={() => this.handleChangeYDomain('botdown')}>
                             &#45;
                         </text>
                     </g>
@@ -142,8 +141,8 @@ export class TrendChart extends Component<TrendChartProps, TrendChartState> {
                     {
                         (isMouseOver && tooltipValues[0] !== null) &&
                             <g transform={`translate(${this.xScale(tooltipValues[0])},${yScale(tooltipValues[1])})`}>
-                                <circle class={style.tooltipCircle} r='6'></circle>
-                                <text class={style.tooltipText} x={0} y={-15} dy='0.5em' text-anchor={textAnchor}>
+                                <circle class='tooltipCircle' r='6'></circle>
+                                <text class='tooltipText' x={0} y={-15} dy='0.5em' text-anchor={textAnchor}>
                                 {
                                     `${tooltipValues[0].toLocaleDateString()} ${tooltipValues[0].toLocaleTimeString()}:
                                         ${tooltipValues[1].toFixed(4)}`
@@ -153,7 +152,7 @@ export class TrendChart extends Component<TrendChartProps, TrendChartState> {
                     }
                     {
                         (props.tooltip && props.data.length > 0) &&
-                            <rect class={style.tooltipOverlay} width={innerWidth} height={innerHeight}
+                            <rect class='tooltipOverlay' width={innerWidth} height={innerHeight}
                                 onMouseMove={this.handleMouseMove} onMouseOver={this.handleMouseOver}
                                 onMouseOut={this.handleMouseOut}>
                             </rect>

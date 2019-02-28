@@ -3,7 +3,6 @@ import { scaleLinear, scaleTime } from 'd3-scale';
 import { line } from 'd3-shape';
 import { bisector, extent } from 'd3-array';
 import { Axis } from '../../Axis';
-import * as style from './style.css';
 export class TrendChart extends Component {
     constructor(props) {
         super(props);
@@ -83,13 +82,13 @@ export class TrendChart extends Component {
             .y((d) => yScale(+d[props.y]));
         return (h("svg", { ref: (svg) => this.chartSVG = svg, class: props.name, height: height, width: width },
             props.axisControl &&
-                h("g", { class: style.axisControl, transform: `translate(${props.margin.left * 0.3}, ${props.margin.top + 5})` },
-                    h("text", { class: style.axisControlPlus, onClick: () => this.handleChangeYDomain('topup') }, "+"),
-                    h("text", { class: style.axisControlMinus, onClick: () => this.handleChangeYDomain('topdown') }, "-")),
+                h("g", { class: 'axisControl', transform: `translate(${props.margin.left * 0.3}, ${props.margin.top + 5})` },
+                    h("text", { class: 'axisControlPlus', onClick: () => this.handleChangeYDomain('topup') }, "+"),
+                    h("text", { class: 'axisControlMinus', onClick: () => this.handleChangeYDomain('topdown') }, "-")),
             props.axisControl &&
-                h("g", { class: style.axisControl, transform: `translate(${props.margin.left * 0.3}, ${innerHeight})` },
-                    h("text", { class: style.axisControlPlus, onClick: () => this.handleChangeYDomain('botup') }, "+"),
-                    h("text", { class: style.axisControlMinus, onClick: () => this.handleChangeYDomain('botdown') }, "-")),
+                h("g", { class: 'axisControl', transform: `translate(${props.margin.left * 0.3}, ${innerHeight})` },
+                    h("text", { class: 'axisControlPlus', onClick: () => this.handleChangeYDomain('botup') }, "+"),
+                    h("text", { class: 'axisControlMinus', onClick: () => this.handleChangeYDomain('botdown') }, "-")),
             h("g", { transform: `translate(${props.margin.left}, ${props.margin.top})` },
                 h("clipPath", { id: `${props.name}_cp` },
                     h("rect", { width: innerWidth, height: innerHeight })),
@@ -100,11 +99,11 @@ export class TrendChart extends Component {
                     children.map((ch) => cloneElement(ch, { xScale: this.xScale, height: innerHeight, chartName: props.name })),
                 (isMouseOver && tooltipValues[0] !== null) &&
                     h("g", { transform: `translate(${this.xScale(tooltipValues[0])},${yScale(tooltipValues[1])})` },
-                        h("circle", { class: style.tooltipCircle, r: '6' }),
-                        h("text", { class: style.tooltipText, x: 0, y: -15, dy: '0.5em', "text-anchor": textAnchor }, `${tooltipValues[0].toLocaleDateString()} ${tooltipValues[0].toLocaleTimeString()}:
+                        h("circle", { class: 'tooltipCircle', r: '6' }),
+                        h("text", { class: 'tooltipText', x: 0, y: -15, dy: '0.5em', "text-anchor": textAnchor }, `${tooltipValues[0].toLocaleDateString()} ${tooltipValues[0].toLocaleTimeString()}:
                                         ${tooltipValues[1].toFixed(4)}`)),
                 (props.tooltip && props.data.length > 0) &&
-                    h("rect", { class: style.tooltipOverlay, width: innerWidth, height: innerHeight, onMouseMove: this.handleMouseMove, onMouseOver: this.handleMouseOver, onMouseOut: this.handleMouseOut }),
+                    h("rect", { class: 'tooltipOverlay', width: innerWidth, height: innerHeight, onMouseMove: this.handleMouseMove, onMouseOver: this.handleMouseOver, onMouseOut: this.handleMouseOut }),
                 children[0] &&
                     children.map((ch) => cloneElement(ch, { xScale: this.xScale, height: innerHeight, chartName: props.name })))));
     }
