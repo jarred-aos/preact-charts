@@ -8,3 +8,4 @@ export { ScatterPlot } from './Charts/ScatterPlot';
 export { TrendChart } from './Charts/TrendChart';
 export { Flag } from './Charts/TrendChart/Flag';
 export * from './types';
+import './style.css';
