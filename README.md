@@ -11,6 +11,9 @@ I hope that this library of components will be as developer friendly as possible
 
 The below documentation will include some TypeScript syntax. If you are new to TypeScript or don't use it, optional props are declared with a `?:`.
 
+## Demos
+[Trend and Range Charts](https://codesandbox.io/s/24r127q0yj?fontsize=14)
+
 ## Current Charts
 ### Difference Chart
 Will display a vertical bar chart with a y-axis that is centered at 0 on the x-axis.
