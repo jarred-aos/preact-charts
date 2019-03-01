@@ -4,7 +4,7 @@
   "description": "Charting library built using preact with some small d3 dependencies",
   "main": "dist/library.js",
   "scripts": {
-    "build": "tsc && copyfiles -f src/style.css dist",
+    "build": "tsc",
     "smart-publish": "npm run build && git commit -am %npm_package_version% && git tag %npm_package_version% && git push && git push --tags && npm publish"
   },
   "keywords": [
