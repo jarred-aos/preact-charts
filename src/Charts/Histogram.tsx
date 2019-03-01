@@ -1,6 +1,6 @@
 import { h, Component } from 'preact';
-import { Axis } from '../../Axis';
-import { DataArray, Margin } from '../../types';
+import { Axis } from '../Axis';
+import { DataArray, Margin } from '../types';
 import { scaleLinear } from 'd3-scale';
 import { min, max, histogram } from 'd3-array';
 import { style } from 'typestyle';

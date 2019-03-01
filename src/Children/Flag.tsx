@@ -1,6 +1,6 @@
 import { h, Component } from 'preact';
 import { ScaleTime } from 'd3-scale';
-import { EventsData } from '../../types';
+import { EventsData } from '../types';
 import { style } from 'typestyle';
 
 const flagStyle = style({

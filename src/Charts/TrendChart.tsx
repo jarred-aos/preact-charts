@@ -2,9 +2,9 @@ import { h, Component, ComponentChild, cloneElement, VNode } from 'preact';
 import { scaleLinear, scaleTime } from 'd3-scale';
 import { line } from 'd3-shape';
 import { bisector, extent } from 'd3-array';
-import { Margin, TimestampArray, TimestampData } from '../../types';
-import { Axis } from '../../Axis';
-import { Flag } from './Flag';
+import { Margin, TimestampArray, TimestampData } from '../types';
+import { Axis } from '../Axis';
+import { Flag } from '../Children/Flag';
 import { style } from 'typestyle';
 
 const overlay = style({
