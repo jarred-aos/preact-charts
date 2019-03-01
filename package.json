@@ -1,10 +1,12 @@
 {
   "name": "preact-charts",
-  "version": "0.4.0",
+  "version": "0.4.2",
   "description": "Charting library built using preact with some small d3 dependencies",
-  "main": "dist/library.js",
+  "main": "dist/preactCharts.js",
+  "source": "src/preactCharts.ts",
   "scripts": {
-    "build": "tsc && copyfiles -f src/style.css dist",
+    "build": "tsc",
+    "dev": "tsc -w",
     "smart-publish": "npm run build && git commit -am %npm_package_version% && git tag %npm_package_version% && git push && git push --tags && npm publish"
   },
   "keywords": [
@@ -23,22 +25,22 @@
     "url": "https://github.com/pmkroeker/preact-charts/issues"
   },
   "dependencies": {
-    "@types/d3": "^5.7.1",
     "d3-array": "^2.0.3",
     "d3-axis": "^1.0.12",
     "d3-brush": "^1.0.6",
-    "d3-scale": "^2.1.2",
+    "d3-scale": "^2.2.2",
     "d3-selection": "^1.4.0",
-    "d3-shape": "^1.2.2",
-    "d3-time": "^1.0.10",
+    "d3-shape": "^1.3.4",
+    "d3-time": "^1.0.11",
     "d3-time-format": "^2.1.3",
     "typestyle": "^2.0.1"
   },
   "peerDependencies": {
-    "preact": "^8.4.2"
+    "preact": "^8.4.2",
+    "@types/d3": "^5.7.1"
   },
   "devDependencies": {
-    "copyfiles": "^2.1.0",
+    "@types/d3": "^5.7.1",
     "preact": "^8.4.2",
     "tslint": "^5.12.0",
     "typescript": "^3.3.3"
