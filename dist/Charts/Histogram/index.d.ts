@@ -8,12 +8,16 @@ interface HistogramProps {
     x: string;
     data: DataArray;
     ticks?: number;
+    barColour?: string;
+    barOutline?: string;
 }
 interface HistogramDefaultProps {
     height: number;
     width: number;
     margin: Margin;
     ticks: number;
+    barColour: string;
+    barOutline: string;
 }
 interface HistogramState {
     width: number;
@@ -26,7 +30,7 @@ export declare class Histogram extends Component<HistogramProps, HistogramState>
     private chartSVG;
     private resizeOb;
     constructor(props: HistogramProps);
-    render({ name, margin, x, data, ticks }: HistogramProps, { height, width, innerHeight, innerWidth }: HistogramState): JSX.Element;
+    render({ name, margin, x, data, ticks, barColour, barOutline }: HistogramProps, { height, width, innerHeight, innerWidth }: HistogramState): JSX.Element;
     componentDidMount(): void;
     componentWillUnmount(): void;
     private resizeChart;

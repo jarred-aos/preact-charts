@@ -5,6 +5,26 @@ import { bisector, extent } from 'd3-array';
 import { Margin, TimestampArray, TimestampData } from '../../types';
 import { Axis } from '../../Axis';
 import { Flag } from './Flag';
+import { style } from 'typestyle';
+
+const overlay = style({
+    fill: 'none',
+    pointerEvents: 'all',
+    borderTop: 'none',
+    borderStyle: 'none',
+});
+
+const axisControl = style({
+    textAnchor: 'middle',
+    userSelect: 'none',
+    cursor: 'pointer',
+    $nest: {
+        '&>text': {
+            width: '12px',
+            fontSize: '1.2em',
+        },
+    },
+});
 
 declare const ResizeObserver: any;
 
@@ -20,6 +40,7 @@ interface TrendChartProps {
     extent?: Date[];
     tooltip?: boolean;
     axisControl?: boolean;
+    controlColour?: string;
 }
 
 interface TrendChartDefaultProps {
@@ -30,6 +51,7 @@ interface TrendChartDefaultProps {
     extent: Date[];
     tooltip: boolean;
     axisControl: boolean;
+    controlColour: string;
 }
 
 interface TrendChartState {
@@ -58,6 +80,7 @@ export class TrendChart extends Component<TrendChartProps, TrendChartState> {
         extent: [],
         tooltip: true,
         axisControl: true,
+        controlColour: 'goldenrod',
     };
     private chartSVG: HTMLBaseElement;
     private resizeOb: any;
@@ -104,22 +127,23 @@ export class TrendChart extends Component<TrendChartProps, TrendChartState> {
         return (
             <svg ref={(svg) => this.chartSVG = svg} class={props.name} height={height} width={width}>
                 { props.axisControl &&
-                    <g class='axisControl'
+                    <g class={axisControl} stroke={props.controlColour}
                         transform={`translate(${props.margin.left * 0.3}, ${props.margin.top + 5})`}>
-                        <text class='axisControlPlus' onClick={() => this.handleChangeYDomain('topup')}>
+                        <text onClick={() => this.handleChangeYDomain('topup')}>
                             &#43;
                         </text>
-                        <text class='axisControlMinus' onClick={() => this.handleChangeYDomain('topdown')}>
+                        <text transform='translate(0, 15)' onClick={() => this.handleChangeYDomain('topdown')}>
                             &#45;
                         </text>
                     </g>
                 }
                 { props.axisControl &&
-                    <g class='axisControl' transform={`translate(${props.margin.left * 0.3}, ${innerHeight})`}>
-                    <text class='axisControlPlus' onClick={() => this.handleChangeYDomain('botup')}>
+                    <g class={axisControl} stroke={props.controlColour}
+                        transform={`translate(${props.margin.left * 0.3}, ${innerHeight})`}>
+                        <text onClick={() => this.handleChangeYDomain('botup')}>
                             &#43;
                         </text>
-                        <text class='axisControlMinus' onClick={() => this.handleChangeYDomain('botdown')}>
+                        <text transform='translate(0, 15)' onClick={() => this.handleChangeYDomain('botdown')}>
                             &#45;
                         </text>
                     </g>
@@ -130,7 +154,7 @@ export class TrendChart extends Component<TrendChartProps, TrendChartState> {
                     </clipPath>
                     <Axis height={innerHeight} axisType='x' scale={this.xScale}/>
                     <Axis width={innerWidth} axisType='y' scale={yScale} grid={true}/>
-                    <path class='line' d={lineFunc(props.data)} clip-path={`url(#${props.name}_cp)`}
+                    <path d={lineFunc(props.data)} clip-path={`url(#${props.name}_cp)`}
                         stroke-linecap='round' stroke={props.lineColour} fill='none' stroke-width='2px'/>
                     {
                         children[0] &&
@@ -141,8 +165,8 @@ export class TrendChart extends Component<TrendChartProps, TrendChartState> {
                     {
                         (isMouseOver && tooltipValues[0] !== null) &&
                             <g transform={`translate(${this.xScale(tooltipValues[0])},${yScale(tooltipValues[1])})`}>
-                                <circle class='tooltipCircle' r='6'></circle>
-                                <text class='tooltipText' x={0} y={-15} dy='0.5em' text-anchor={textAnchor}>
+                                <circle fill='none' stroke-width={2} stroke='gold' r='6'></circle>
+                                <text x={0} y={-15} dy='0.5em' text-anchor={textAnchor}>
                                 {
                                     `${tooltipValues[0].toLocaleDateString()} ${tooltipValues[0].toLocaleTimeString()}:
                                         ${tooltipValues[1].toFixed(4)}`
@@ -152,7 +176,7 @@ export class TrendChart extends Component<TrendChartProps, TrendChartState> {
                     }
                     {
                         (props.tooltip && props.data.length > 0) &&
-                            <rect class='tooltipOverlay' width={innerWidth} height={innerHeight}
+                            <rect class={overlay} width={innerWidth} height={innerHeight}
                                 onMouseMove={this.handleMouseMove} onMouseOver={this.handleMouseOver}
                                 onMouseOut={this.handleMouseOut}>
                             </rect>

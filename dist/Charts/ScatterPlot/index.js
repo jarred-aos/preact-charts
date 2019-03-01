@@ -4,6 +4,10 @@ import { scaleLinear } from 'd3-scale';
 import { extent } from 'd3-array';
 import { select, event } from 'd3-selection';
 import { brush } from 'd3-brush';
+import { style } from 'typestyle';
+const dot = style({
+    strokeWidth: '1px',
+});
 export class ScatterPlot extends Component {
     constructor(props) {
         super(props);
@@ -35,11 +39,11 @@ export class ScatterPlot extends Component {
                     h("rect", { width: innerWidth, height: innerHeight })),
                 h(Axis, { height: innerHeight, axisType: 'x', scale: this.xScale, grid: true }),
                 h(Axis, { width: innerWidth, axisType: 'y', scale: this.yScale, grid: true }),
-                props.data.map((point, index) => h("circle", { class: 'dot', r: props.radius, cx: this.xScale(point[props.x]), cy: this.yScale(point[props.y]), key: index, "clip-path": `url(#${props.name}_cp)` })),
+                props.data.map((point, index) => h("circle", { class: dot, r: props.radius, cx: this.xScale(point[props.x]), cy: this.yScale(point[props.y]), key: index, "clip-path": `url(#${props.name}_cp)`, fill: props.dotFill, stroke: props.dotBorder })),
                 props.labels &&
-                    h("text", { class: 'label', x: innerWidth / 2, y: innerHeight + props.margin.bottom - 15 }, props.x.replace(/_/g, ' ')),
+                    h("text", { x: innerWidth / 2, y: innerHeight + props.margin.bottom - 15 }, props.x.replace(/_/g, ' ')),
                 props.labels &&
-                    h("text", { class: 'label', x: -innerHeight / 2, y: -props.margin.left + 15, transform: 'rotate(-90)' }, props.y.replace(/_/g, ' ')),
+                    h("text", { x: -innerHeight / 2, y: -props.margin.left + 15, transform: 'rotate(-90)' }, props.y.replace(/_/g, ' ')),
                 h("g", { ref: (brushRef) => this.brush = brushRef }))));
     }
     componentDidMount() {
@@ -110,5 +114,7 @@ ScatterPlot.defaultProps = {
     },
     radius: 5,
     labels: false,
+    dotFill: 'steelblue',
+    dotBorder: 'whitesmoke',
 };
 //# sourceMappingURL=index.js.map

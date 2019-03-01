@@ -12,6 +12,7 @@ interface TrendChartProps {
     extent?: Date[];
     tooltip?: boolean;
     axisControl?: boolean;
+    controlColour?: string;
 }
 interface TrendChartDefaultProps {
     height: number;
@@ -21,6 +22,7 @@ interface TrendChartDefaultProps {
     extent: Date[];
     tooltip: boolean;
     axisControl: boolean;
+    controlColour: string;
 }
 interface TrendChartState {
     height: number;

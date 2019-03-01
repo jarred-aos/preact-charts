@@ -98,11 +98,10 @@ export class GroupedBar extends Component<GroupedBarProps, GroupedBarState> {
                         names &&
                             names.map((barName, idx) =>
                                 <g transform={`translate(0, ${idx * 20})`}>
-                                    <rect x={innerWidth + margin.right - 18} width={18} height={15} stroke='black'
+                                    <rect x={innerWidth + margin.right - 18} width={18} height={15}
                                         strokeWidth='1px' fill={colourScale(barName)}>
                                     </rect>
-                                    <text x={innerWidth + margin.right - 24} y={9} dy='0.35em' fill='whitesmoke'
-                                        text-anchor='end'>
+                                    <text x={innerWidth + margin.right - 24} y={9} dy='0.35em' text-anchor='end'>
                                         {legendReference[barName]}
                                     </text>
                                 </g>)

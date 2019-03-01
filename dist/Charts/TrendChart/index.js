@@ -3,6 +3,24 @@ import { scaleLinear, scaleTime } from 'd3-scale';
 import { line } from 'd3-shape';
 import { bisector, extent } from 'd3-array';
 import { Axis } from '../../Axis';
+import { style } from 'typestyle';
+const overlay = style({
+    fill: 'none',
+    pointerEvents: 'all',
+    borderTop: 'none',
+    borderStyle: 'none',
+});
+const axisControl = style({
+    textAnchor: 'middle',
+    userSelect: 'none',
+    cursor: 'pointer',
+    $nest: {
+        '&>text': {
+            width: '12px',
+            fontSize: '1.2em',
+        },
+    },
+});
 export class TrendChart extends Component {
     constructor(props) {
         super(props);
@@ -82,28 +100,28 @@ export class TrendChart extends Component {
             .y((d) => yScale(+d[props.y]));
         return (h("svg", { ref: (svg) => this.chartSVG = svg, class: props.name, height: height, width: width },
             props.axisControl &&
-                h("g", { class: 'axisControl', transform: `translate(${props.margin.left * 0.3}, ${props.margin.top + 5})` },
-                    h("text", { class: 'axisControlPlus', onClick: () => this.handleChangeYDomain('topup') }, "+"),
-                    h("text", { class: 'axisControlMinus', onClick: () => this.handleChangeYDomain('topdown') }, "-")),
+                h("g", { class: axisControl, stroke: props.controlColour, transform: `translate(${props.margin.left * 0.3}, ${props.margin.top + 5})` },
+                    h("text", { onClick: () => this.handleChangeYDomain('topup') }, "+"),
+                    h("text", { transform: 'translate(0, 15)', onClick: () => this.handleChangeYDomain('topdown') }, "-")),
             props.axisControl &&
-                h("g", { class: 'axisControl', transform: `translate(${props.margin.left * 0.3}, ${innerHeight})` },
-                    h("text", { class: 'axisControlPlus', onClick: () => this.handleChangeYDomain('botup') }, "+"),
-                    h("text", { class: 'axisControlMinus', onClick: () => this.handleChangeYDomain('botdown') }, "-")),
+                h("g", { class: axisControl, stroke: props.controlColour, transform: `translate(${props.margin.left * 0.3}, ${innerHeight})` },
+                    h("text", { onClick: () => this.handleChangeYDomain('botup') }, "+"),
+                    h("text", { transform: 'translate(0, 15)', onClick: () => this.handleChangeYDomain('botdown') }, "-")),
             h("g", { transform: `translate(${props.margin.left}, ${props.margin.top})` },
                 h("clipPath", { id: `${props.name}_cp` },
                     h("rect", { width: innerWidth, height: innerHeight })),
                 h(Axis, { height: innerHeight, axisType: 'x', scale: this.xScale }),
                 h(Axis, { width: innerWidth, axisType: 'y', scale: yScale, grid: true }),
-                h("path", { class: 'line', d: lineFunc(props.data), "clip-path": `url(#${props.name}_cp)`, "stroke-linecap": 'round', stroke: props.lineColour, fill: 'none', "stroke-width": '2px' }),
+                h("path", { d: lineFunc(props.data), "clip-path": `url(#${props.name}_cp)`, "stroke-linecap": 'round', stroke: props.lineColour, fill: 'none', "stroke-width": '2px' }),
                 children[0] &&
                     children.map((ch) => cloneElement(ch, { xScale: this.xScale, height: innerHeight, chartName: props.name })),
                 (isMouseOver && tooltipValues[0] !== null) &&
                     h("g", { transform: `translate(${this.xScale(tooltipValues[0])},${yScale(tooltipValues[1])})` },
-                        h("circle", { class: 'tooltipCircle', r: '6' }),
-                        h("text", { class: 'tooltipText', x: 0, y: -15, dy: '0.5em', "text-anchor": textAnchor }, `${tooltipValues[0].toLocaleDateString()} ${tooltipValues[0].toLocaleTimeString()}:
+                        h("circle", { fill: 'none', "stroke-width": 2, stroke: 'gold', r: '6' }),
+                        h("text", { x: 0, y: -15, dy: '0.5em', "text-anchor": textAnchor }, `${tooltipValues[0].toLocaleDateString()} ${tooltipValues[0].toLocaleTimeString()}:
                                         ${tooltipValues[1].toFixed(4)}`)),
                 (props.tooltip && props.data.length > 0) &&
-                    h("rect", { class: 'tooltipOverlay', width: innerWidth, height: innerHeight, onMouseMove: this.handleMouseMove, onMouseOver: this.handleMouseOver, onMouseOut: this.handleMouseOut }),
+                    h("rect", { class: overlay, width: innerWidth, height: innerHeight, onMouseMove: this.handleMouseMove, onMouseOver: this.handleMouseOver, onMouseOut: this.handleMouseOut }),
                 children[0] &&
                     children.map((ch) => cloneElement(ch, { xScale: this.xScale, height: innerHeight, chartName: props.name })))));
     }
@@ -151,5 +169,6 @@ TrendChart.defaultProps = {
     extent: [],
     tooltip: true,
     axisControl: true,
+    controlColour: 'goldenrod',
 };
 //# sourceMappingURL=index.js.map

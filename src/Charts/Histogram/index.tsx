@@ -3,6 +3,12 @@ import { Axis } from '../../Axis';
 import { DataArray, Margin } from '../../types';
 import { scaleLinear } from 'd3-scale';
 import { min, max, histogram } from 'd3-array';
+import { style } from 'typestyle';
+
+const bar = style({
+    fillOpacity: 1,
+    strokeWidth: '1px',
+});
 
 declare const ResizeObserver: any;
 
@@ -14,6 +20,8 @@ interface HistogramProps {
     x: string;
     data: DataArray;
     ticks?: number;
+    barColour?: string;
+    barOutline?: string;
 }
 
 interface HistogramDefaultProps {
@@ -21,6 +29,8 @@ interface HistogramDefaultProps {
     width: number;
     margin: Margin;
     ticks: number;
+    barColour: string;
+    barOutline: string;
 }
 
 interface HistogramState {
@@ -42,6 +52,8 @@ export class Histogram extends Component<HistogramProps, HistogramState> {
             left: 50,
         },
         ticks: 8,
+        barColour: 'steelblue',
+        barOutline: 'black',
     };
     private chartSVG: HTMLBaseElement;
     private resizeOb: any;
@@ -58,7 +70,7 @@ export class Histogram extends Component<HistogramProps, HistogramState> {
         };
     }
 
-    public render ({name, margin, x, data, ticks}: HistogramProps,
+    public render ({name, margin, x, data, ticks, barColour, barOutline}: HistogramProps,
                    {height, width, innerHeight, innerWidth}: HistogramState) {
         const valuesArray = data.map((d) => d[x]);
         const xMin = min(valuesArray);
@@ -80,9 +92,9 @@ export class Histogram extends Component<HistogramProps, HistogramState> {
                     {
                         barWidth &&
                         bins.map((bin) =>
-                            <rect class='histogramBar' x='1' width={barWidth}
-                                height={innerHeight - yScale(bin.length)}
-                                transform={`translate(${xScale(bin.x0)}, ${yScale(bin.length)})`}>
+                            <rect class={bar} x='1' width={barWidth} height={innerHeight - yScale(bin.length)}
+                                transform={`translate(${xScale(bin.x0)}, ${yScale(bin.length)})`}
+                                fill={barColour} stroke={barOutline}>
                             </rect>,
                         )
                     }
