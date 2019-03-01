@@ -12,7 +12,7 @@ I hope that this library of components will be as developer friendly as possible
 The below documentation will include some TypeScript syntax. If you are new to TypeScript or don't use it, optional props are declared with a `?:`.
 
 ## Demos
-[Trend and Range Charts](https://codesandbox.io/s/24r127q0yj?fontsize=14)
+[Trend and Range Charts](https://codesandbox.io/s/ko300qzppv)
 
 ## Current Charts
 ### Difference Chart
@@ -310,133 +310,6 @@ export interface EventsData {
     sub_type: string | null;
     comment: string | null;
 }
-```
-## Styling
-Below is the default styling for each piece. These classes are global so styles can be over-ridden in your css files.
-```css
-/* Change axis text */
-.axis {
-    font-size: 1em;
-    cursor: default;
-}
-
-/* Change axis tick marks */
-.axis>.tick>line {
-    stroke-width: 1px;
-    stroke: black;
-    stroke-opacity: 0.5;
-    shape-rendering: crispEdges;
-}
-
-/* Change axis lines */
-.axis>path {
-    stroke-width: 2px;
-}
-
-/* Removes top line from charts with gridlines */
-.grid>path {
-    stroke: none;
-}
-
-/* Changes chart grid lines */
-.grid>.tick>line {
-    stroke-width: 1px;
-    stroke-opacity: 0.5;
-}
-
-/* Histogram bar styling */
-.histogramBar {
-    fill: steelblue;
-    fill-opacity: 1;
-    stroke: black;
-    stroke-width: 1px;
-}
-
-/* Scatter Plot circle */
-.dot {
-    fill: #7dc7f4;
-    stroke: whitesmoke;
-    stroke-width: 1px;
-}
-
-/* Chart labels */
-.label {
-    fill: black;
-}
-
-/* Range chart brush handles */
-.brush > rect.handle {
-    fill: darkgoldenrod;
-}
-
-/* Default trend chart flag */
-.flag {
-    fill: gray;
-    stroke-width: 1;
-    stroke-opacity: 0.9;
-    fill-opacity: 0.45;
-    stroke: cornflowerblue;
-}
-
-.flag:hover {
-    fill: lightgray;
-}
-
-/* Flag topper */
-.topper {
-    fill: red;
-    fill-opacity: 1;
-}
-
-/* Flag topper colour when clicked */
-.topperClicked {
-    fill: lawngreen;
-    fill-opacity: 1;
-}
-
-/* Required for trend chart tooltip */
-.tooltipOverlay {
-    fill: none;
-    pointer-events: all;
-    border-top: none;
-    border-style: none;
-}
-
-/* Trend chart tooltip circle */
-.tooltipCircle {
-    fill: none;
-    stroke-width: 2;
-    stroke: gold;
-}
-
-/* Trend chart tooltip text */
-.tooltipText {
-    stroke: 1em;
-}
-
-/* Trend chart axis controls */
-.axisControl {
-    stroke: goldenrod;
-    text-anchor: middle;
-    user-select: none;
-    font-size: 1.1em;
-}
-.axisControlPlus {
-    cursor: pointer;
-    width: 12px;
-}
-.axisControlPlus:hover {
-    stroke: rgb(250, 223, 154);
-}
-.axisControlMinus {
-    cursor: pointer;
-    width: 12px;
-    transform: translate(0, 1em);
-}
-.axisControlMinus:hover {
-    stroke: rgb(250, 223, 154);
-}
-
 ```
 
 ## Features
