@@ -6,6 +6,6 @@ import { LineScatter } from './Charts/LineScatter';
 import { RangeChart } from './Charts/RangeChart';
 import { ScatterPlot } from './Charts/ScatterPlot';
 import { TrendChart } from './Charts/TrendChart';
-import { Flag } from './Charts/TrendChart/Flag';
+import { Flag } from './Children/Flag';
 export * from './types';
 export { DifferenceChart, GroupedBar, Histogram, HorizontalBar, LineScatter, RangeChart, ScatterPlot, TrendChart, Flag, };

@@ -1,5 +1,5 @@
 import { Component } from 'preact';
-import { Margin, TimestampArray } from '../../types';
+import { Margin, TimestampArray } from '../types';
 interface RangeChartProps {
     name: string;
     height?: number;

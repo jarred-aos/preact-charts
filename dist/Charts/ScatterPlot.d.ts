@@ -1,5 +1,5 @@
 import { Component } from 'preact';
-import { Margin, DataArray } from '../../types';
+import { Margin, DataArray } from '../types';
 interface ScatterPlotProps {
     name: string;
     x: string;

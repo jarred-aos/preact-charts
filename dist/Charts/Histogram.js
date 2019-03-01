@@ -1,5 +1,5 @@
 import { h, Component } from 'preact';
-import { Axis } from '../../Axis';
+import { Axis } from '../Axis';
 import { scaleLinear } from 'd3-scale';
 import { min, max, histogram } from 'd3-array';
 import { style } from 'typestyle';
@@ -77,4 +77,4 @@ Histogram.defaultProps = {
     barColour: 'steelblue',
     barOutline: 'black',
 };
-//# sourceMappingURL=index.js.map
+//# sourceMappingURL=Histogram.js.map

@@ -1,8 +1,8 @@
 import { h, Component } from 'preact';
-import { Axis } from '../../Axis';
+import { Axis } from '../Axis';
 import { scaleLinear, scaleBand } from 'd3-scale';
 import { max } from 'd3-array';
-import { pluck } from '../../Utils/pluck';
+import { pluck } from '../Utils/pluck';
 export class DifferenceChart extends Component {
     constructor(props) {
         super(props);
@@ -76,4 +76,4 @@ DifferenceChart.defaultProps = {
     },
     ticks: 8,
 };
-//# sourceMappingURL=index.js.map
+//# sourceMappingURL=DifferenceChart.js.map

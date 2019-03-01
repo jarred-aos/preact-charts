@@ -1,6 +1,6 @@
 import { Component } from 'preact';
-import { Margin, GroupedDataObject } from '../../types';
-interface GroupedBarProps {
+import { Margin, GroupedDataObject } from '../types';
+interface HorizontalBarProps {
     name: string;
     data: GroupedDataObject;
     groups: string[];
@@ -12,24 +12,24 @@ interface GroupedBarProps {
     margin?: Margin;
     ticks?: number;
 }
-interface GroupedBarDefaultProps {
+interface HorizontalBarDefaultProps {
     height?: number;
     width?: number;
     margin?: Margin;
     ticks?: number;
 }
-interface GroupedBarState {
+interface HorizontalBarState {
     width: number;
     innerWidth: number;
     height: number;
     innerHeight: number;
 }
-export declare class GroupedBar extends Component<GroupedBarProps, GroupedBarState> {
-    static defaultProps: GroupedBarDefaultProps;
+export declare class HorizontalBar extends Component<HorizontalBarProps, HorizontalBarState> {
+    static defaultProps: HorizontalBarDefaultProps;
     private chartSVG;
     private resizeOb;
-    constructor(props: GroupedBarProps);
-    render({ margin, ticks, data, groups, legendReference, name }: GroupedBarProps, { height, width, innerHeight, innerWidth }: GroupedBarState): JSX.Element;
+    constructor(props: HorizontalBarProps);
+    render({ margin, ticks, data, groups, name, legendReference }: HorizontalBarProps, { height, width, innerHeight, innerWidth }: HorizontalBarState): JSX.Element;
     componentDidMount(): void;
     componentWillUnmount(): void;
     private resizeChart;

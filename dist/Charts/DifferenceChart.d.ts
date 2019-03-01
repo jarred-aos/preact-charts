@@ -1,5 +1,5 @@
 import { Component } from 'preact';
-import { Margin } from '../../types';
+import { Margin } from '../types';
 interface DiffBarProps {
     name: string;
     data: Array<{

@@ -1,21 +1,20 @@
 import { h, Component } from 'preact';
-import { Axis } from '../../Axis';
+import { Axis } from '../Axis';
 import { scaleLinear } from 'd3-scale';
 import { extent } from 'd3-array';
 import { select, event } from 'd3-selection';
 import { brush } from 'd3-brush';
-import { style } from 'typestyle';
-const dot = style({
-    strokeWidth: '1px',
-});
-export class ScatterPlot extends Component {
+import { line, curveNatural } from 'd3-shape';
+import { colourArray } from '../colors';
+export class LineScatter extends Component {
     constructor(props) {
         super(props);
         const innerWidth = props.width - props.margin.left - props.margin.right;
         const innerHeight = props.height - props.margin.top - props.margin.bottom;
-        const xDomain = extent(props.data, (d) => d[props.x]);
+        const flatData = props.data.flat();
+        const xDomain = extent(flatData, (d) => d[props.x]);
         const xDomainPadded = [xDomain[0] * 0.95, xDomain[1] * 1.05];
-        const yDomain = extent(props.data, (d) => d[props.y]);
+        const yDomain = extent(flatData, (d) => d[props.y]);
         const yDomainPadded = [yDomain[0] * 0.95, yDomain[1] * 1.05];
         this.state = {
             width: props.width,
@@ -33,18 +32,28 @@ export class ScatterPlot extends Component {
         this.yScale = scaleLinear()
             .range([innerHeight, 0])
             .domain(yDomain);
+        const lineFunc = line()
+            .x((d) => this.xScale(d[props.x]))
+            .y((d) => this.yScale(d[props.y]))
+            .curve(curveNatural);
         return (h("svg", { ref: (svg) => this.chartSVG = svg, class: props.name, height: height, width: width },
             h("g", { transform: `translate(${props.margin.left}, ${props.margin.top})` },
                 h("clipPath", { id: `${props.name}_cp` },
                     h("rect", { width: innerWidth, height: innerHeight })),
                 h(Axis, { height: innerHeight, axisType: 'x', scale: this.xScale, grid: true }),
                 h(Axis, { width: innerWidth, axisType: 'y', scale: this.yScale, grid: true }),
-                props.data.map((point, index) => h("circle", { class: dot, r: props.radius, cx: this.xScale(point[props.x]), cy: this.yScale(point[props.y]), key: index, "clip-path": `url(#${props.name}_cp)`, fill: props.dotFill, stroke: props.dotBorder })),
+                props.data.map((dArray, groupIdx) => (h("g", null,
+                    h("path", { d: lineFunc(dArray), "clip-path": `url(#${props.name}_cp)`, "stroke-linecap": 'round', stroke: colourArray[groupIdx], fill: 'none', "stroke-width": '2px' }),
+                    dArray.map((point, index) => h("circle", { "stroke-width": '1px', r: props.radius, cx: this.xScale(point[props.x]), cy: this.yScale(point[props.y]), key: index, fill: colourArray[groupIdx], "clip-path": `url(#${props.name}_cp)` }))))),
                 props.labels &&
                     h("text", { x: innerWidth / 2, y: innerHeight + props.margin.bottom - 15 }, props.x.replace(/_/g, ' ')),
                 props.labels &&
                     h("text", { x: -innerHeight / 2, y: -props.margin.left + 15, transform: 'rotate(-90)' }, props.y.replace(/_/g, ' ')),
-                h("g", { ref: (brushRef) => this.brush = brushRef }))));
+                props.legendReference &&
+                    props.legendReference.map((title, idx) => h("g", { transform: `translate(0, ${idx * 20})` },
+                        h("rect", { x: innerWidth + props.margin.right - 18, width: 18, height: 15, strokeWidth: '1px', fill: colourArray[idx] }),
+                        h("text", { x: innerWidth + props.margin.right - 24, y: 9, dy: '0.35em', "text-anchor": 'end' }, title.replace(/_/g, ' ')))),
+                h("g", { ref: (brushRef) => this.brush = brushRef, key: 1 }))));
     }
     componentDidMount() {
         this.resizeChart();
@@ -61,9 +70,10 @@ export class ScatterPlot extends Component {
         this.resizeOb.observe(this.chartSVG.parentElement);
     }
     componentWillReceiveProps(newProps, newState) {
-        const xDomain = extent(newProps.data, (d) => d[newProps.x]);
+        const flatData = newProps.data.flat();
+        const xDomain = extent(flatData, (d) => d[newProps.x]);
         const xDomainPadded = [xDomain[0] * 0.95, xDomain[1] * 1.05];
-        const yDomain = extent(newProps.data, (d) => d[newProps.y]);
+        const yDomain = extent(flatData, (d) => d[newProps.y]);
         const yDomainPadded = [yDomain[0] * 0.95, yDomain[1] * 1.05];
         this.setState({ yDomain: yDomainPadded, xDomain: xDomainPadded });
     }
@@ -86,9 +96,10 @@ export class ScatterPlot extends Component {
             .on('end', () => {
             const s = event.selection;
             if (s === null) {
-                const xDomain = extent(this.props.data, (d) => d[this.props.x]);
+                const flatData = this.props.data.flat();
+                const xDomain = extent(flatData, (d) => d[this.props.x]);
                 const xDomainPadded = [xDomain[0] * 0.95, xDomain[1] * 1.05];
-                const yDomain = extent(this.props.data, (d) => d[this.props.y]);
+                const yDomain = extent(flatData, (d) => d[this.props.y]);
                 const yDomainPadded = [yDomain[0] * 0.95, yDomain[1] * 1.05];
                 this.setState({ xDomain: xDomainPadded, yDomain: yDomainPadded });
             }
@@ -103,7 +114,7 @@ export class ScatterPlot extends Component {
         this.setState({ innerWidth, innerHeight, height, width });
     }
 }
-ScatterPlot.defaultProps = {
+LineScatter.defaultProps = {
     height: 500,
     width: 500,
     margin: {
@@ -114,7 +125,5 @@ ScatterPlot.defaultProps = {
     },
     radius: 5,
     labels: false,
-    dotFill: 'steelblue',
-    dotBorder: 'whitesmoke',
 };
-//# sourceMappingURL=index.js.map
+//# sourceMappingURL=LineScatter.js.map

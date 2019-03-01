@@ -1,5 +1,5 @@
 import { Component } from 'preact';
-import { DataArray, Margin } from '../../types';
+import { DataArray, Margin } from '../types';
 interface HistogramProps {
     name: string;
     height?: number;

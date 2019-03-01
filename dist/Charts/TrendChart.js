@@ -2,7 +2,7 @@ import { h, Component, cloneElement } from 'preact';
 import { scaleLinear, scaleTime } from 'd3-scale';
 import { line } from 'd3-shape';
 import { bisector, extent } from 'd3-array';
-import { Axis } from '../../Axis';
+import { Axis } from '../Axis';
 import { style } from 'typestyle';
 const overlay = style({
     fill: 'none',
@@ -171,4 +171,4 @@ TrendChart.defaultProps = {
     axisControl: true,
     controlColour: 'goldenrod',
 };
-//# sourceMappingURL=index.js.map
+//# sourceMappingURL=TrendChart.js.map
