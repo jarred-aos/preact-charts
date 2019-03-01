@@ -2,9 +2,13 @@
   "name": "preact-charts",
   "version": "0.4.0",
   "description": "Charting library built using preact with some small d3 dependencies",
-  "main": "dist/library.js",
+  "main": "dist/preactCharts.js",
+  "umd:main": "dist/preactCharts.umd.js",
+  "module": "dist/preactCharts.mjs",
+  "source": "src/library.ts",
   "scripts": {
-    "build": "tsc",
+    "build": "microbundle",
+    "dev": "microbundle watch",
     "smart-publish": "npm run build && git commit -am %npm_package_version% && git tag %npm_package_version% && git push && git push --tags && npm publish"
   },
   "keywords": [
