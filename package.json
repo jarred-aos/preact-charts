@@ -3,13 +3,10 @@
   "version": "0.4.1",
   "description": "Charting library built using preact with some small d3 dependencies",
   "main": "dist/preactCharts.js",
-  "umd:main": "dist/preactCharts.umd.js",
-  "module": "dist/preactCharts.mjs",
   "source": "src/preactCharts.ts",
   "scripts": {
-    "build": "microbundle",
-    "dev": "microbundle watch",
-    "typecheck": "tsc --noEmit",
+    "build": "tsc",
+    "dev": "tsc -w",
     "smart-publish": "npm run build && git commit -am %npm_package_version% && git tag %npm_package_version% && git push && git push --tags && npm publish"
   },
   "keywords": [
