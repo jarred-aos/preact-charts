@@ -7,5 +7,4 @@ export { RangeChart } from './Charts/RangeChart';
 export { ScatterPlot } from './Charts/ScatterPlot';
 export { TrendChart } from './Charts/TrendChart';
 export { Flag } from './Charts/TrendChart/Flag';
-import './style.css';
 //# sourceMappingURL=library.js.map

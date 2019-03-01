@@ -1,6 +1,30 @@
 import { h, Component } from 'preact';
 import { ScaleTime } from 'd3-scale';
 import { EventsData } from '../../types';
+import { style } from 'typestyle';
+
+const flagStyle = style({
+    fill: 'gray',
+    strokeWidth: 1,
+    strokeOpacity: 0.9,
+    fillOpacity: 0.45,
+    stroke: 'lightgray',
+    $nest: {
+        '&:hover': {
+            fill: 'lightgray',
+        },
+    },
+});
+
+const topperDefault = style({
+    fill: 'red',
+    fillOpacity: 1,
+});
+
+const topperClicked = style({
+    fill: 'lawngreen',
+    fillOpacity: 1,
+});
 
 interface FlagProps extends EventsData {
     onClick: (flagID: number) => void;
@@ -29,12 +53,12 @@ export class Flag extends Component<FlagProps> {
     }
     public render ({ xScale, height, start, end, chartName, isClicked }: FlagProps) {
         return (
-            <g  class='flag' onClick={this.handleFlagClick} clip-path={`url(#${chartName}_cp)`}>
+            <g class={flagStyle} onClick={this.handleFlagClick} clip-path={`url(#${chartName}_cp)`}>
                 <path
                     d={`M ${xScale(start as Date)} \
                         ${height} H ${xScale(end as Date)} V 20 H ${xScale(start as Date)} V ${height}`}>
                 </path>
-                <path class={isClicked ? 'topperClicked' : 'topper'}
+                <path class={isClicked ? topperClicked : topperDefault}
                     d={`M ${xScale(end as Date)} \
                         20 L ${xScale(end as Date)} 0 L ${xScale(end as Date) - 15} 8 L \
                         ${xScale(end as Date)} 16 V 20`}>

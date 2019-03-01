@@ -5,6 +5,7 @@ import { style } from 'typestyle';
 export const tickLabel = style({
     fontSize: '1em',
     cursor: 'default',
+    userSelect: 'none',
     $nest: {
         '&>.tick>line': {
             strokeWidth: '1px',

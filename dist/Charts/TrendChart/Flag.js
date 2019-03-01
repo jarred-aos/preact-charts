@@ -1,4 +1,25 @@
 import { h, Component } from 'preact';
+import { style } from 'typestyle';
+const flagStyle = style({
+    fill: 'gray',
+    strokeWidth: 1,
+    strokeOpacity: 0.9,
+    fillOpacity: 0.45,
+    stroke: 'lightgray',
+    $nest: {
+        '&:hover': {
+            fill: 'lightgray',
+        },
+    },
+});
+const topperDefault = style({
+    fill: 'red',
+    fillOpacity: 1,
+});
+const topperClicked = style({
+    fill: 'lawngreen',
+    fillOpacity: 1,
+});
 export class Flag extends Component {
     constructor(props) {
         super(props);
@@ -8,10 +29,10 @@ export class Flag extends Component {
         };
     }
     render({ xScale, height, start, end, chartName, isClicked }) {
-        return (h("g", { class: 'flag', onClick: this.handleFlagClick, "clip-path": `url(#${chartName}_cp)` },
+        return (h("g", { class: flagStyle, onClick: this.handleFlagClick, "clip-path": `url(#${chartName}_cp)` },
             h("path", { d: `M ${xScale(start)} \
                         ${height} H ${xScale(end)} V 20 H ${xScale(start)} V ${height}` }),
-            h("path", { class: isClicked ? 'topperClicked' : 'topper', d: `M ${xScale(end)} \
+            h("path", { class: isClicked ? topperClicked : topperDefault, d: `M ${xScale(end)} \
                         20 L ${xScale(end)} 0 L ${xScale(end) - 15} 8 L \
                         ${xScale(end)} 16 V 20` })));
     }
