@@ -9,6 +9,7 @@
   "scripts": {
     "build": "microbundle",
     "dev": "microbundle watch",
+    "typecheck": "tsc --noEmit",
     "smart-publish": "npm run build && git commit -am %npm_package_version% && git tag %npm_package_version% && git push && git push --tags && npm publish"
   },
   "keywords": [
