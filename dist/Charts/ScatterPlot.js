@@ -4,9 +4,9 @@ import { scaleLinear } from 'd3-scale';
 import { extent } from 'd3-array';
 import { select, event } from 'd3-selection';
 import { brush } from 'd3-brush';
-import { style } from 'typestyle';
-const dot = style({
-    strokeWidth: '1px',
+import { css } from 'goober';
+const dot = css({
+    'stroke-width': '1px',
 });
 export class ScatterPlot extends Component {
     constructor(props) {

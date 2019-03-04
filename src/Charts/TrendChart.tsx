@@ -5,24 +5,22 @@ import { bisector, extent } from 'd3-array';
 import { Margin, TimestampArray, TimestampData } from '../types';
 import { Axis } from '../Axis';
 import { Flag } from '../Children/Flag';
-import { style } from 'typestyle';
+import { css } from 'goober';
 
-const overlay = style({
-    fill: 'none',
-    pointerEvents: 'all',
-    borderTop: 'none',
-    borderStyle: 'none',
+const overlay = css({
+    'fill': 'none',
+    'pointer-events': 'all',
+    'border-top': 'none',
+    'border-style': 'none',
 });
 
-const axisControl = style({
-    textAnchor: 'middle',
-    userSelect: 'none',
-    cursor: 'pointer',
-    $nest: {
-        '&>text': {
-            width: '12px',
-            fontSize: '1.2em',
-        },
+const axisControl = css({
+    'text-anchor': 'middle',
+    'user-select': 'none',
+    'cursor': 'pointer',
+    '>text': {
+        'width': '12px',
+        'font-size': '1.2em',
     },
 });
 
@@ -166,7 +164,7 @@ export class TrendChart extends Component<TrendChartProps, TrendChartState> {
                         (isMouseOver && tooltipValues[0] !== null) &&
                             <g transform={`translate(${this.xScale(tooltipValues[0])},${yScale(tooltipValues[1])})`}>
                                 <circle fill='none' stroke-width={2} stroke='gold' r='6'></circle>
-                                <text x={0} y={-15} dy='0.5em' text-anchor={textAnchor}>
+                                <text x={0} y={-15} dy='0.5em' text-anchor={textAnchor} stroke='currentColor'>
                                 {
                                     `${tooltipValues[0].toLocaleDateString()} ${tooltipValues[0].toLocaleTimeString()}:
                                         ${tooltipValues[1].toFixed(4)}`

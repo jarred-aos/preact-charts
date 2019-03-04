@@ -2,10 +2,10 @@ import { h, Component } from 'preact';
 import { Axis } from '../Axis';
 import { scaleLinear } from 'd3-scale';
 import { min, max, histogram } from 'd3-array';
-import { style } from 'typestyle';
-const bar = style({
-    fillOpacity: 1,
-    strokeWidth: '1px',
+import { css } from 'goober';
+const bar = css({
+    'fill-opacity': 1,
+    'stroke-width': '1px',
 });
 export class Histogram extends Component {
     constructor(props) {

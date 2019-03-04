@@ -5,10 +5,10 @@ import { scaleLinear } from 'd3-scale';
 import { extent } from 'd3-array';
 import { select, event } from 'd3-selection';
 import { brush } from 'd3-brush';
-import { style } from 'typestyle';
+import { css } from 'goober';
 
-const dot = style({
-    strokeWidth: '1px',
+const dot = css({
+    'stroke-width': '1px',
 });
 
 declare const ResizeObserver: any;

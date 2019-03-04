@@ -1,29 +1,27 @@
 import { h, Component } from 'preact';
 import { ScaleTime } from 'd3-scale';
 import { EventsData } from '../types';
-import { style } from 'typestyle';
+import { css } from 'goober';;
 
-const flagStyle = style({
-    fill: 'gray',
-    strokeWidth: 1,
-    strokeOpacity: 0.9,
-    fillOpacity: 0.45,
-    stroke: 'lightgray',
-    $nest: {
-        '&:hover': {
-            fill: 'lightgray',
-        },
+const flagStyle = css({
+    'fill': 'gray',
+    'stroke-width': 1,
+    'stroke-opacity': 0.9,
+    'fill-opacity': 0.45,
+    'stroke': 'lightgray',
+    ':hover': {
+        fill: 'lightgray',
     },
 });
 
-const topperDefault = style({
-    fill: 'red',
-    fillOpacity: 1,
+const topperDefault = css({
+    'fill': 'red',
+    'fill-opacity': 1,
 });
 
-const topperClicked = style({
-    fill: 'lawngreen',
-    fillOpacity: 1,
+const topperClicked = css({
+    'fill': 'lawngreen',
+    'fill-opacity': 1,
 });
 
 interface FlagProps extends EventsData {

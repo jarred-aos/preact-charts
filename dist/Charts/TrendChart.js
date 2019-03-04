@@ -3,22 +3,20 @@ import { scaleLinear, scaleTime } from 'd3-scale';
 import { line } from 'd3-shape';
 import { bisector, extent } from 'd3-array';
 import { Axis } from '../Axis';
-import { style } from 'typestyle';
-const overlay = style({
-    fill: 'none',
-    pointerEvents: 'all',
-    borderTop: 'none',
-    borderStyle: 'none',
+import { css } from 'goober';
+const overlay = css({
+    'fill': 'none',
+    'pointer-events': 'all',
+    'border-top': 'none',
+    'border-style': 'none',
 });
-const axisControl = style({
-    textAnchor: 'middle',
-    userSelect: 'none',
-    cursor: 'pointer',
-    $nest: {
-        '&>text': {
-            width: '12px',
-            fontSize: '1.2em',
-        },
+const axisControl = css({
+    'text-anchor': 'middle',
+    'user-select': 'none',
+    'cursor': 'pointer',
+    '>text': {
+        'width': '12px',
+        'font-size': '1.2em',
     },
 });
 export class TrendChart extends Component {
@@ -118,7 +116,7 @@ export class TrendChart extends Component {
                 (isMouseOver && tooltipValues[0] !== null) &&
                     h("g", { transform: `translate(${this.xScale(tooltipValues[0])},${yScale(tooltipValues[1])})` },
                         h("circle", { fill: 'none', "stroke-width": 2, stroke: 'gold', r: '6' }),
-                        h("text", { x: 0, y: -15, dy: '0.5em', "text-anchor": textAnchor }, `${tooltipValues[0].toLocaleDateString()} ${tooltipValues[0].toLocaleTimeString()}:
+                        h("text", { x: 0, y: -15, dy: '0.5em', "text-anchor": textAnchor, stroke: 'currentColor' }, `${tooltipValues[0].toLocaleDateString()} ${tooltipValues[0].toLocaleTimeString()}:
                                         ${tooltipValues[1].toFixed(4)}`)),
                 (props.tooltip && props.data.length > 0) &&
                     h("rect", { class: overlay, width: innerWidth, height: innerHeight, onMouseMove: this.handleMouseMove, onMouseOver: this.handleMouseOver, onMouseOut: this.handleMouseOut }),

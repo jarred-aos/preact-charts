@@ -1,33 +1,29 @@
 import { h, Component } from 'preact';
 import { select } from 'd3-selection';
 import { axisBottom, axisLeft, AxisScale } from 'd3-axis';
-import { style } from 'typestyle';
+import { css } from 'goober';
 
-export const tickLabel = style({
-    fontSize: '1em',
-    cursor: 'default',
-    userSelect: 'none',
-    $nest: {
-        '&>.tick>line': {
-            strokeWidth: '1px',
-            strokeOpacity: 0.5,
-            shapeRendering: 'crispEdges',
-        },
-        '&>path': {
-            strokeWidth: '2px',
-        },
+export const tickLabel = css({
+    'font-size': '1em',
+    'cursor': 'default',
+    'user-select': 'none',
+    '>.tick>line': {
+        'stroke-width': '1px',
+        'stroke-opacity': 0.5,
+        'shape-rendering': 'crispEdges',
+    },
+    '>path': {
+        'stroke-width': '2px',
     },
 });
 
-export const gridStyle = style({
-    $nest: {
-        '&>path': {
-            stroke: 'none',
-        },
-        '&>.tick>line': {
-            strokeWidth: '1px',
-            strokeOpacity: 0.5,
-        },
+export const gridStyle = css({
+    '>path': {
+        stroke: 'none',
+    },
+    '>.tick>line': {
+        'stroke-width': '1px',
+        'stroke-opacity': 0.5,
     },
 });
 interface AxisProps {
