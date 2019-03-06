@@ -11,6 +11,14 @@ I hope that this library of components will be as developer friendly as possible
 
 The below documentation will include some TypeScript syntax. If you are new to TypeScript or don't use it, optional props are declared with a `?:`.
 
+## Features / RoadMap
+- [x] Basic charting.
+- [x] Implemented css-in-js solution (typestyle)
+- [ ] Switch from typestyle to [goober](https://github.com/cristianbote/goober)
+- [ ] Implement build using [microbundle](https://github.com/developit/microbundle)
+- [ ] Transition from hard-typed colour array to procedurally generated colours
+- [ ] Further componentize charts to prevent code duplication
+
 ## Demos
 [Trend and Range Charts](https://codesandbox.io/s/ko300qzppv)
 
