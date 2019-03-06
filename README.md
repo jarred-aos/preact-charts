@@ -12,6 +12,7 @@ I hope that this library of components will be as developer friendly as possible
 The below documentation will include some TypeScript syntax. If you are new to TypeScript or don't use it, optional props are declared with a `?:`.
 
 ## Features / RoadMap
+**Version 1.0**
 - [x] Basic charting.
 - [x] Implemented css-in-js solution (typestyle)
 - [ ] Switch from typestyle to [goober](https://github.com/cristianbote/goober)
