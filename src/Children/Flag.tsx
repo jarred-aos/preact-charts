@@ -5,7 +5,7 @@ import { css } from 'goober';;
 
 const flagStyle = css({
     'fill': 'gray',
-    'stroke-width': 1,
+    'stroke-width': '1px',
     'stroke-opacity': 0.9,
     'fill-opacity': 0.45,
     'stroke': 'lightgray',
