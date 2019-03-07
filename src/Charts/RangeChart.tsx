@@ -6,7 +6,7 @@ import { area } from 'd3-shape';
 import { min, max } from 'd3-array';
 import { select, event } from 'd3-selection';
 import { brushX } from 'd3-brush';
-import { style } from 'typestyle';
+import { css } from 'goober';
 
 declare const ResizeObserver: any;
 
@@ -67,11 +67,9 @@ export class RangeChart extends Component<RangeChartProps, RangeChartState> {
 
     constructor (props: RangeChartProps) {
         super(props);
-        this.brushClass = style({
-            $nest: {
-                '&>rect.handle': {
+        this.brushClass = css({
+            '&>rect.handle': {
                     fill: props.brushColour,
-                },
             },
         });
         const innerWidth = props.width - props.margin.left - props.margin.right;

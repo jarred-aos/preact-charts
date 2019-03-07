@@ -1,4 +1,5 @@
 [![npm](https://img.shields.io/npm/v/preact-charts.svg)](https://www.npmjs.com/package/preact-charts)
+[![Gitter](https://img.shields.io/gitter/room/pmkroeker/preact-charts.svg)](https://gitter.im/preact-charts/community)
 # preact-charts
 ⚛️ preact based charting library. Written with d3-maths, and TypeScript!
 
@@ -10,6 +11,15 @@ I have tried my best to limit the required dependencies to only the sections of 
 I hope that this library of components will be as developer friendly as possible, including easy ways for developers to style the charts as they wish.
 
 The below documentation will include some TypeScript syntax. If you are new to TypeScript or don't use it, optional props are declared with a `?:`.
+
+## Features / RoadMap
+**Version 1.0**
+- [x] Basic charting.
+- [x] Implemented css-in-js solution (typestyle)
+- [ ] Switch from typestyle to [goober](https://github.com/cristianbote/goober)
+- [ ] Implement build using [microbundle](https://github.com/developit/microbundle)
+- [ ] Transition from hard-typed colour array to procedurally generated colours
+- [ ] Further componentize charts to prevent code duplication
 
 ## Demos
 [Trend and Range Charts](https://codesandbox.io/s/ko300qzppv)

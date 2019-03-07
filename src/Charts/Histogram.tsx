@@ -3,11 +3,11 @@ import { Axis } from '../Axis';
 import { DataArray, Margin } from '../types';
 import { scaleLinear } from 'd3-scale';
 import { min, max, histogram } from 'd3-array';
-import { style } from 'typestyle';
+import { css } from 'goober';
 
-const bar = style({
-    fillOpacity: 1,
-    strokeWidth: '1px',
+const bar = css({
+    'fill-opacity': 1,
+    'stroke-width': '1px',
 });
 
 declare const ResizeObserver: any;
