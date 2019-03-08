@@ -16,7 +16,7 @@
     "check-build": "tsc && npm run size-check",
     "clean-dist": "rm -rf dist",
     "build": "npm run clean-dist && tsc",
-    "dev": "npm run clean-dist && tsc -w",
+    "dev": "tsc -w",
     "size-check": "npx bundlesize",
     "smart-publish": "npm run build && git commit -am %npm_package_version% && git tag %npm_package_version% && git push && git push --tags && npm publish"
   },
