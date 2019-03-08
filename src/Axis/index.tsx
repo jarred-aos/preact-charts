@@ -3,7 +3,7 @@ import { select } from 'd3-selection';
 import { axisBottom, axisLeft, AxisScale } from 'd3-axis';
 import { css } from 'goober';
 
-export const tickLabel = css({
+const tickLabel = css({
     'font-size': '1em',
     'cursor': 'default',
     'user-select': 'none',
@@ -17,7 +17,7 @@ export const tickLabel = css({
     },
 });
 
-export const gridStyle = css({
+const gridStyle = css({
     '>path': {
         stroke: 'none',
     },
@@ -26,6 +26,7 @@ export const gridStyle = css({
         'stroke-opacity': 0.5,
     },
 });
+
 interface AxisProps {
     height?: number;
     width?: number;
