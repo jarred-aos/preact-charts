@@ -14,7 +14,7 @@
   "scripts": {
     "test": "npm run check-build",
     "check-build": "tsc && npm run size-check",
-    "clean-dist": "if exist dist rm -r dist",
+    "clean-dist": "rm -rf dist",
     "build": "npm run clean-dist && tsc",
     "dev": "npm run clean-dist && tsc -w",
     "size-check": "npx bundlesize",
