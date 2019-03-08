@@ -18,7 +18,7 @@ The below documentation will include some TypeScript syntax. If you are new to T
 - [x] Basic charting.
 - [x] Implemented css-in-js solution (typestyle)
 - [x] Switch from typestyle to [goober](https://github.com/cristianbote/goober)
-- [ ] Implement build using [microbundle](https://github.com/developit/microbundle)
+- ~~[ ] Implement build using [microbundle](https://github.com/developit/microbundle)~~
 - [ ] Transition from hard-typed colour array to procedurally generated colours
 - [ ] Further componentize charts to prevent code duplication
 
