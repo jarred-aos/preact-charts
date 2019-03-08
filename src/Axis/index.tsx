@@ -7,21 +7,21 @@ const tickLabel = css({
     'font-size': '1em',
     'cursor': 'default',
     'user-select': 'none',
-    '>.tick>line': {
+    '&>.tick>line': {
         'stroke-width': '1px',
         'stroke-opacity': 0.5,
         'shape-rendering': 'crispEdges',
     },
-    '>path': {
+    '&>path': {
         'stroke-width': '2px',
     },
 });
 
 const gridStyle = css({
-    '>path': {
+    '&>path': {
         stroke: 'none',
     },
-    '>.tick>line': {
+    '&>.tick>line': {
         'stroke-width': '1px',
         'stroke-opacity': 0.5,
     },
