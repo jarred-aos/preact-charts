@@ -2,6 +2,7 @@
 [![npm](https://img.shields.io/npm/v/preact-charts.svg)](https://www.npmjs.com/package/preact-charts)
 [![Gitter](https://img.shields.io/gitter/room/pmkroeker/preact-charts.svg)](https://gitter.im/preact-charts/community)
 [![Build Status](https://travis-ci.com/pmkroeker/preact-charts.png)](https://travis-ci.com/pmkroeker/preact-charts)
+![gzip](https://badgen.net/bundlephobia/minzip/preact-charts)
 
 ⚛️ preact based charting library. Written with d3-maths, and TypeScript!
 
