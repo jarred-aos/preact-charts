@@ -9,13 +9,13 @@ import { TrendChart } from './Charts/TrendChart';
 import { Flag } from './Children/Flag';
 export * from './types';
 export {
-    DifferenceChart,
-    GroupedBar,
-    Histogram,
-    HorizontalBar,
-    LineScatter,
-    RangeChart,
-    ScatterPlot,
-    TrendChart,
-    Flag,
+  DifferenceChart,
+  GroupedBar,
+  Histogram,
+  HorizontalBar,
+  LineScatter,
+  RangeChart,
+  ScatterPlot,
+  TrendChart,
+  Flag,
 };

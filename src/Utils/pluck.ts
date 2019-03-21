@@ -8,10 +8,10 @@
  * @param {K} key
  * @returns {Array<T[K]>}
  */
-export function pluck<T, K extends keyof T> (array: T[], key: K): Array<T[K]> {
-    return array.map((el) => {
-        if (el[key] !== null) return el[key];
-    });
+export function pluck<T, K extends keyof T> (array: T[], key: K): T[K][] {
+  return array.map((el) => {
+    if (el[key] !== null) return el[key];
+  });
 }
 /**
  * Returns on array of unique key values out of an input array and a key.
@@ -22,6 +22,6 @@ export function pluck<T, K extends keyof T> (array: T[], key: K): Array<T[K]> {
  * @param {K} key
  * @returns {Array<T[K]>}
  */
-export function pluckUnique<T, K extends keyof T> (array: T[], key: K): Array<T[K]> {
-    return [...new Set(pluck(array, key))];
+export function pluckUnique<T, K extends keyof T> (array: T[], key: K): T[K][] {
+  return [...new Set(pluck(array, key))];
 }
