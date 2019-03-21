@@ -1,23 +1,11 @@
-import { DifferenceChart } from './Charts/DifferenceChart';
-import { GroupedBar } from './Charts/GroupedBar';
-import { Histogram } from './Charts/Histogram';
-import { HorizontalBar } from './Charts/HorizontalBar';
-import { LineScatter } from './Charts/LineScatter';
-import { RangeChart } from './Charts/RangeChart';
-import { ScatterPlot } from './Charts/ScatterPlot';
-import { TrendChart } from './Charts/TrendChart';
-import { GanttChart } from './Charts/GanttChart';
-import { Flag } from './Children/Flag';
+export { DifferenceChart } from './Charts/DifferenceChart';
+export { GroupedBar } from './Charts/GroupedBar';
+export { Histogram } from './Charts/Histogram';
+export { HorizontalBar } from './Charts/HorizontalBar';
+export { LineScatter } from './Charts/LineScatter';
+export { RangeChart } from './Charts/RangeChart';
+export { ScatterPlot } from './Charts/ScatterPlot';
+export { TrendChart } from './Charts/TrendChart';
+export { GanttChart } from './Charts/GanttChart';
+export { Flag } from './Children/Flag';
 export * from './types';
-export {
-  DifferenceChart,
-  GroupedBar,
-  Histogram,
-  HorizontalBar,
-  LineScatter,
-  RangeChart,
-  ScatterPlot,
-  TrendChart,
-  GanttChart,
-  Flag,
-};
