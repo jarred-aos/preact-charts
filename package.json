@@ -51,9 +51,12 @@
   },
   "devDependencies": {
     "@types/d3": "^5.7.1",
+    "@typescript-eslint/eslint-plugin": "^1.5.0",
+    "@typescript-eslint/parser": "^1.5.0",
     "csstype": "^2.6.3",
+    "eslint": "^5.15.3",
+    "eslint-plugin-react": "^7.12.4",
     "preact": "^8.4.2",
-    "tslint": "^5.12.0",
     "typescript": "^3.3.3"
   },
   "bundlesize": [
