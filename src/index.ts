@@ -6,6 +6,7 @@ import { LineScatter } from './Charts/LineScatter';
 import { RangeChart } from './Charts/RangeChart';
 import { ScatterPlot } from './Charts/ScatterPlot';
 import { TrendChart } from './Charts/TrendChart';
+import { GanttChart } from './Charts/GanttChart';
 import { Flag } from './Children/Flag';
 export * from './types';
 export {
@@ -17,5 +18,6 @@ export {
   RangeChart,
   ScatterPlot,
   TrendChart,
+  GanttChart,
   Flag,
 };
