@@ -1,13 +1,24 @@
 import { h, Component, VNode } from 'preact';
 import { Axis } from '../Axis';
-import { DataArray, Margin } from '../types';
-import { extent } from 'd3-array';
+import { Margin } from '../types';
+import { scaleBand, scaleTime, ScaleTime, ScaleBand } from 'd3-scale';
+import { min, max } from 'd3-array';
+import { pluck } from '../Utils/pluck';
 
 declare const ResizeObserver: any;
 
+interface GanttData {
+  start: Date;
+  end: Date;
+  [key: string]: string | number | Date;
+}
+
 interface GanttChartProps {
   name: string;
-  data: DataArray;
+  data: GanttData[];
+  x: string;
+  y: string;
+  onBarClick?: (bar: GanttData) => void;
   height?: number;
   width?: number;
   margin?: Margin;
@@ -21,6 +32,7 @@ interface GanttChartDefaultProps {
   margin?: Margin;
   ticks?: number;
   extent?: Date[];
+  onBarClick?: () => void;
 }
 
 interface GanttChartState {
@@ -41,10 +53,12 @@ export class GanttChart extends Component<GanttChartProps, GanttChartState> {
     },
     ticks: 6,
     extent: [],
+    onBarClick: () => {},
   };
 
   private chartSVG: HTMLBaseElement
   private resizeOb: any;
+  private xScale: any;
 
   public constructor (props: GanttChartProps) {
     super(props);
@@ -57,16 +71,31 @@ export class GanttChart extends Component<GanttChartProps, GanttChartState> {
       innerHeight,
     };
   }
-  public render ({ margin, ticks, data }: GanttChartProps,
+  public render (props: GanttChartProps,
     { height, width, innerHeight, innerWidth }: GanttChartState): VNode {
+
+    const xDomain = props.extent.length > 0 ?
+      props.extent :
+      [min(props.data, (d) => d.start), max(props.data, (d) => d.end)];
+
+    this.xScale = scaleTime()
+      .range([0, innerWidth])
+      .domain(xDomain);
+
+    const yScale = scaleBand()
+      .rangeRound([innerHeight, 0])
+      .paddingInner(0.1);
+
+    yScale.domain(pluck(props.data, props.y) as string[]);
+
     return (
       <svg ref={(svg) => this.chartSVG = svg} class={name} height={height} width={width}>
-        <g transform={`translate(${margin.left}, ${margin.top})`}>
-          <Axis height={innerHeight} axisType='x' scale={xScale} rotateScaleText={false} grid={true} />
-          <Axis width={innerWidth} axisType='y' scale={yScale} ticks={ticks} />
+        <g transform={`translate(${props.margin.left}, ${props.margin.top})`}>
+          <Axis height={innerHeight} axisType='x' scale={this.xScale} rotateScaleText={false} grid={true} />
+          <Axis width={innerWidth} axisType='y' scale={yScale} ticks={props.ticks} />
           {
-            // data &&
-            // this.createBars(yScale, y1, xScale, groups, colourScale)
+            props.data &&
+              this.createBars(this.xScale, yScale)
           }
         </g>
       </svg>
@@ -100,5 +129,12 @@ export class GanttChart extends Component<GanttChartProps, GanttChartState> {
     const innerWidth = width - this.props.margin.left - this.props.margin.right;
     const innerHeight = height - this.props.margin.top - this.props.margin.bottom;
     this.setState({ innerWidth, innerHeight, height, width });
+  }
+
+  private createBars = (xScale: ScaleTime<Date, number>, yScale: ScaleBand<string>) => {
+    return this.props.data.map((bar) =>
+      <rect class='ganttBar' height={yScale.bandwidth()} y={yScale(bar[this.props.y] as string)} x={xScale(bar.start)}
+        width={xScale(bar.end) - xScale(bar.start)} onClick={() => this.props.onBarClick(bar)}></rect>
+    );
   }
 };
