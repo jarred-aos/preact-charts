@@ -93,20 +93,20 @@ export class HorizontalBar extends Component<HorizontalBarProps, HorizontalBarSt
           <Axis width={innerWidth} axisType='y' scale={yScale} ticks={ticks} />
           {
             data &&
-                            this.createBars(yScale, y1, xScale, groups, colourScale)
+              this.createBars(yScale, y1, xScale, groups, colourScale)
           }
           {
             names &&
-                            names.map((barName, idx) =>
-                              <g transform={`translate(0, ${idx * 20})`}>
-                                <rect x={innerWidth + margin.right - 18} width={18} height={15} stroke='black'
-                                  strokeWidth='1px' fill={colourScale(barName)}>
-                                </rect>
-                                <text x={innerWidth + margin.right - 24} y={9} dy='0.35em' fill='whitesmoke'
-                                  textAnchor='end'>
-                                  {legendReference[barName]}
-                                </text>
-                              </g>)
+              names.map((barName, idx) =>
+                <g transform={`translate(0, ${idx * 20})`}>
+                  <rect x={innerWidth + margin.right - 18} width={18} height={15} stroke='black'
+                    strokeWidth='1px' fill={colourScale(barName)}>
+                  </rect>
+                  <text x={innerWidth + margin.right - 24} y={9} dy='0.35em' fill='whitesmoke'
+                    textAnchor='end'>
+                    {legendReference[barName]}
+                  </text>
+                </g>)
           }
         </g>
       </svg>
