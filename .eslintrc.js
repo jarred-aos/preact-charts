@@ -12,7 +12,7 @@ module.exports = {
     "react": {"pragma": "h"}
   },
   "parserOptions": {
-    "project": "./javascript/tsconfig.json",
+    "project": "./tsconfig.json",
     "ecmaFeatures": {
       "jsx": true
     },
