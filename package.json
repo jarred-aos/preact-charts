@@ -1,6 +1,6 @@
 {
   "name": "preact-charts",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "description": "Charting library built using preact with some small d3 dependencies",
   "main": "dist/index.js",
   "source": "src/index.ts",
