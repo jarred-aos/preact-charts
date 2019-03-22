@@ -118,13 +118,15 @@ export class ScatterPlot extends Component<ScatterPlotProps, ScatterPlotState> {
           }
           {
             props.labels &&
-              <text x={innerWidth / 2} y={innerHeight + props.margin.bottom - 15} fill='currentColor'>
+              <text x={innerWidth / 2} y={innerHeight + props.margin.bottom - 15} fill='currentColor'
+                text-anchor='middle'>
                 {props.x.replace(/_/g, ' ')}
               </text>
           }
           {
             props.labels &&
-              <text x={-innerHeight / 2} y={-props.margin.left + 15} transform='rotate(-90)' fill='currentColor'>
+              <text x={-innerHeight / 2} y={-props.margin.left + 15} transform='rotate(-90)' fill='currentColor'
+                text-anchor='middle'>
                 {props.y.replace(/_/g, ' ')}
               </text>
           }
