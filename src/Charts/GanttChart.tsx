@@ -26,6 +26,7 @@ interface GanttChartProps {
   y: string;
   onBarClick?: (bar: any) => void;
   highLightBars?: string[];
+  barHighlightRef?: string;
   height?: number;
   width?: number;
   margin?: Margin;
@@ -40,6 +41,8 @@ interface GanttChartDefaultProps {
   ticks?: number;
   extent?: Date[];
   onBarClick?: () => void;
+  highLightBars?: string[];
+  barHighlightRef?: string;
 }
 
 interface GanttChartState {
@@ -62,6 +65,8 @@ export class GanttChart extends Component<GanttChartProps, GanttChartState> {
     ticks: 6,
     extent: [],
     onBarClick: () => {},
+    highLightBars: [],
+    barHighlightRef: '',
   };
 
   private chartSVG: HTMLBaseElement
@@ -105,14 +110,19 @@ export class GanttChart extends Component<GanttChartProps, GanttChartState> {
           <Axis height={innerHeight} axisType='x' scale={xScale} rotateScaleText={false} grid={true} />
           <Axis width={innerWidth} axisType='y' scale={yScale} ticks={props.ticks} />
           {
-            props.data.map((bar) =>
-              <rect class={barClass} clip-path={`url(#${props.name}_cp)`} height={yScale.bandwidth()}
+            props.data.map((bar) => {
+              const barFill = bar.idx === this.state.clickedBar ?
+                'orangered' :
+                this.props.highLightBars.some((hl) => hl.includes(bar[this.props.barHighlightRef])) ?
+                  'lawngreen' :
+                  'steelblue';
+              return <rect class={barClass} clip-path={`url(#${props.name}_cp)`} height={yScale.bandwidth()}
                 y={yScale(bar[this.props.y] as string)} x={xScale(bar.start)}
                 width={xScale(bar.end) - xScale(bar.start)}
                 onClick={() => this.handleBarClick(bar as any)}
-                fill={bar.idx === this.state.clickedBar ? 'orangered' : 'steelblue'}
-              />
-            )
+                fill={barFill}
+              />;
+            })
           }
         </g>
       </svg>
