@@ -81,7 +81,7 @@ export class DifferenceChart extends Component<DiffBarProps, DiffBarState> {
         <g transform={`translate(${margin.left}, ${margin.top})`}>
           {
             data &&
-                            this.createBars(yScale, xScale)
+              this.createBars(yScale, xScale)
           }
           <Axis height={innerHeight} axisType='x' scale={xScale} rotateScaleText={false} grid={true} />
           <Axis width={innerWidth} axisType='y' scale={yScale} ticks={ticks} offsetX={xScale(0)} />

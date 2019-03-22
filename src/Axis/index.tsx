@@ -64,9 +64,9 @@ export class Axis extends Component<AxisProps> {
         </g>
         {
           grid &&
-                    <g ref={(gridline) => this.grid = gridline} class={gridStyle}
-                      transform={shouldOffset ? translate : ''}>
-                    </g>
+            <g ref={(gridline) => this.grid = gridline} class={gridStyle}
+              transform={shouldOffset ? translate : ''}>
+            </g>
         }
       </g>
     );

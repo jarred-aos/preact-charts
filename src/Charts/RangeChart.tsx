@@ -101,7 +101,7 @@ export class RangeChart extends Component<RangeChartProps, RangeChartState> {
           <Axis height={innerHeight} axisType='x' scale={this.xScale} />
           <Axis width={innerWidth} axisType='y' scale={yScale} grid={true} ticks={0} />
           <path d={areaFunc(props.data)}
-            strokeLinecap='round' stroke={props.lineColour} fill={props.fillColour} strokeWidth='1px' />
+            strokeLinecap='round' stroke={props.lineColour} fill={props.fillColour} stroke-width='1px' />
           <g ref={(brush) => this.brush = brush} class={this.brushClass}></g>
         </g>
       </svg>

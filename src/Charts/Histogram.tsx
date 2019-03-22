@@ -91,12 +91,12 @@ export class Histogram extends Component<HistogramProps, HistogramState> {
           <Axis width={innerWidth} axisType='y' scale={yScale} grid={true} ticks={8} />
           {
             barWidth &&
-                        bins.map((bin) =>
-                          <rect class={bar} x='1' width={barWidth} height={innerHeight - yScale(bin.length)}
-                            transform={`translate(${xScale(bin.x0)}, ${yScale(bin.length)})`}
-                            fill={barColour} stroke={barOutline}>
-                          </rect>,
-                        )
+              bins.map((bin) =>
+                <rect class={bar} x='1' width={barWidth} height={innerHeight - yScale(bin.length)}
+                  transform={`translate(${xScale(bin.x0)}, ${yScale(bin.length)})`}
+                  fill={barColour} stroke={barOutline}>
+                </rect>,
+              )
           }
         </g>
       </svg>

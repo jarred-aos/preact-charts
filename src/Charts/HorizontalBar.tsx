@@ -100,9 +100,9 @@ export class HorizontalBar extends Component<HorizontalBarProps, HorizontalBarSt
               names.map((barName, idx) =>
                 <g transform={`translate(0, ${idx * 20})`}>
                   <rect x={innerWidth + margin.right - 18} width={18} height={15} stroke='black'
-                    strokeWidth='1px' fill={colourScale(barName)}>
+                    stroke-width='1px' fill={colourScale(barName)}>
                   </rect>
-                  <text x={innerWidth + margin.right - 24} y={9} dy='0.35em' fill='whitesmoke'
+                  <text x={innerWidth + margin.right - 24} y={9} dy='0.35em' fill='currentColor'
                     textAnchor='end'>
                     {legendReference[barName]}
                   </text>

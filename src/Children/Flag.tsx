@@ -52,7 +52,7 @@ export class Flag extends Component<FlagProps> {
   }
   public render ({ xScale, height, start, end, chartName, isClicked }: FlagProps): VNode {
     return (
-      <g class={flagStyle} onClick={this.handleFlagClick} clipPath={`url(#${chartName}_cp)`}>
+      <g class={flagStyle} onClick={this.handleFlagClick} clip-path={`url(#${chartName}_cp)`}>
         <path
           d={`M ${xScale(start as Date)} \
               ${height} H ${xScale(end as Date)} V 20 H ${xScale(start as Date)} V ${height}`}>

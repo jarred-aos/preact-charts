@@ -1,16 +1,22 @@
 import { h, Component, VNode } from 'preact';
 import { Axis } from '../Axis';
 import { Margin } from '../types';
-import { scaleBand, scaleTime, ScaleTime, ScaleBand } from 'd3-scale';
+import { scaleBand, scaleTime } from 'd3-scale';
 import { min, max } from 'd3-array';
 import { pluck } from '../Utils/pluck';
+import { css } from 'goober';
 
 declare const ResizeObserver: any;
 
-interface GanttData {
+const barClass = css({
+  stroke: 'currentColor',
+});
+
+export interface GanttData {
   start: Date;
   end: Date;
-  [key: string]: string | number | Date;
+  idx: number;
+  [key: string]: Date | string | number | any;
 }
 
 interface GanttChartProps {
@@ -18,7 +24,8 @@ interface GanttChartProps {
   data: GanttData[];
   x: string;
   y: string;
-  onBarClick?: (bar: GanttData) => void;
+  onBarClick?: (bar: any) => void;
+  highLightBars?: string[];
   height?: number;
   width?: number;
   margin?: Margin;
@@ -40,6 +47,7 @@ interface GanttChartState {
   innerWidth: number;
   height: number;
   innerHeight: number;
+  clickedBar: number;
 }
 export class GanttChart extends Component<GanttChartProps, GanttChartState> {
   public static defaultProps: GanttChartDefaultProps = {
@@ -47,7 +55,7 @@ export class GanttChart extends Component<GanttChartProps, GanttChartState> {
     width: 600,
     margin: {
       top: 25,
-      right: 25,
+      right: 45,
       bottom: 50,
       left: 150,
     },
@@ -58,7 +66,6 @@ export class GanttChart extends Component<GanttChartProps, GanttChartState> {
 
   private chartSVG: HTMLBaseElement
   private resizeOb: any;
-  private xScale: any;
 
   public constructor (props: GanttChartProps) {
     super(props);
@@ -69,6 +76,7 @@ export class GanttChart extends Component<GanttChartProps, GanttChartState> {
       height: props.height,
       innerWidth,
       innerHeight,
+      clickedBar: null,
     };
   }
   public render (props: GanttChartProps,
@@ -78,7 +86,7 @@ export class GanttChart extends Component<GanttChartProps, GanttChartState> {
       props.extent :
       [min(props.data, (d) => d.start), max(props.data, (d) => d.end)];
 
-    this.xScale = scaleTime()
+    const xScale = scaleTime()
       .range([0, innerWidth])
       .domain(xDomain);
 
@@ -91,11 +99,20 @@ export class GanttChart extends Component<GanttChartProps, GanttChartState> {
     return (
       <svg ref={(svg) => this.chartSVG = svg} class={name} height={height} width={width}>
         <g transform={`translate(${props.margin.left}, ${props.margin.top})`}>
-          <Axis height={innerHeight} axisType='x' scale={this.xScale} rotateScaleText={false} grid={true} />
+          <clipPath id={`${props.name}_cp`}>
+            <rect width={innerWidth} height={innerHeight} />
+          </clipPath>
+          <Axis height={innerHeight} axisType='x' scale={xScale} rotateScaleText={false} grid={true} />
           <Axis width={innerWidth} axisType='y' scale={yScale} ticks={props.ticks} />
           {
-            props.data &&
-              this.createBars(this.xScale, yScale)
+            props.data.map((bar) =>
+              <rect class={barClass} clip-path={`url(#${props.name}_cp)`} height={yScale.bandwidth()}
+                y={yScale(bar[this.props.y] as string)} x={xScale(bar.start)}
+                width={xScale(bar.end) - xScale(bar.start)}
+                onClick={() => this.handleBarClick(bar as any)}
+                fill={bar.idx === this.state.clickedBar ? 'orangered' : 'steelblue'}
+              />
+            )
           }
         </g>
       </svg>
@@ -131,10 +148,8 @@ export class GanttChart extends Component<GanttChartProps, GanttChartState> {
     this.setState({ innerWidth, innerHeight, height, width });
   }
 
-  private createBars = (xScale: ScaleTime<Date, number>, yScale: ScaleBand<string>) => {
-    return this.props.data.map((bar) =>
-      <rect class='ganttBar' height={yScale.bandwidth()} y={yScale(bar[this.props.y] as string)} x={xScale(bar.start)}
-        width={xScale(bar.end) - xScale(bar.start)} onClick={() => this.props.onBarClick(bar)}></rect>
-    );
+  private handleBarClick = (bar: any) => {
+    this.setState({ clickedBar: bar.idx });
+    this.props.onBarClick(bar);
   }
 };

@@ -92,19 +92,19 @@ export class GroupedBar extends Component<GroupedBarProps, GroupedBarState> {
           <Axis width={innerWidth} axisType='y' scale={yScale} grid={true} ticks={ticks} />
           {
             data &&
-                            this.createBars(xScale, x1, yScale, innerHeight, groups, colourScale)
+              this.createBars(xScale, x1, yScale, innerHeight, groups, colourScale)
           }
           {
             names &&
-                            names.map((barName, idx) =>
-                              <g transform={`translate(0, ${idx * 20})`}>
-                                <rect x={innerWidth + margin.right - 18} width={18} height={15}
-                                  strokeWidth='1px' fill={colourScale(barName)}>
-                                </rect>
-                                <text x={innerWidth + margin.right - 24} y={9} dy='0.35em' textAnchor='end'>
-                                  {legendReference[barName]}
-                                </text>
-                              </g>)
+              names.map((barName, idx) =>
+                <g transform={`translate(0, ${idx * 20})`}>
+                  <rect x={innerWidth + margin.right - 18} width={18} height={15}
+                    stroke-width='1px' fill={colourScale(barName)}>
+                  </rect>
+                  <text x={innerWidth + margin.right - 24} y={9} dy='0.35em' textAnchor='end' fill='currentColor'>
+                    {legendReference[barName]}
+                  </text>
+                </g>)
           }
         </g>
       </svg>

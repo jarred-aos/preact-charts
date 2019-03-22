@@ -6,6 +6,6 @@ export { LineScatter } from './Charts/LineScatter';
 export { RangeChart } from './Charts/RangeChart';
 export { ScatterPlot } from './Charts/ScatterPlot';
 export { TrendChart } from './Charts/TrendChart';
-export { GanttChart } from './Charts/GanttChart';
+export { GanttChart, GanttData } from './Charts/GanttChart';
 export { Flag } from './Children/Flag';
 export * from './types';

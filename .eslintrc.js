@@ -46,7 +46,7 @@ module.exports = {
     'react/jsx-uses-react': 2,
     'react/jsx-pascal-case': 2,
 		'react/jsx-tag-spacing': [2, { beforeSelfClosing: 'always' }],
-    "react/no-unknown-property": [1, {ignore: ["class", "autofocus"]}],
+    "react/no-unknown-property": "off",
     "react/no-deprecated": "off",
     "react/jsx-key": "off",
     "@typescript-eslint/no-explicit-any": "off",

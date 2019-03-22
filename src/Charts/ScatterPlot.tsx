@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unknown-property */
 import { h, Component, VNode } from 'preact';
 import { Axis } from '../Axis';
 import { Margin, DataArray } from '../types';
@@ -111,21 +112,21 @@ export class ScatterPlot extends Component<ScatterPlotProps, ScatterPlotState> {
           {
             props.data.map((point, index) =>
               <circle class={dot} r={props.radius} cx={this.xScale(point[props.x])}
-                cy={this.yScale(point[props.y])} key={index} clipPath={`url(#${props.name}_cp)`}
+                cy={this.yScale(point[props.y])} key={index} clip-path={`url(#${props.name}_cp)`}
                 fill={props.dotFill} stroke={props.dotBorder} />,
             )
           }
           {
             props.labels &&
-                            <text x={innerWidth / 2} y={innerHeight + props.margin.bottom - 15}>
-                              {props.x.replace(/_/g, ' ')}
-                            </text>
+              <text x={innerWidth / 2} y={innerHeight + props.margin.bottom - 15} fill='currentColor'>
+                {props.x.replace(/_/g, ' ')}
+              </text>
           }
           {
             props.labels &&
-                            <text x={-innerHeight / 2} y={-props.margin.left + 15} transform='rotate(-90)'>
-                              {props.y.replace(/_/g, ' ')}
-                            </text>
+              <text x={-innerHeight / 2} y={-props.margin.left + 15} transform='rotate(-90)' fill='currentColor'>
+                {props.y.replace(/_/g, ' ')}
+              </text>
           }
           <g ref={(brushRef) => this.brush = brushRef}></g>
         </g>

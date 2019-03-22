@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unknown-property */
 import { h, Component, ComponentChild, cloneElement, VNode } from 'preact';
 import { scaleLinear, scaleTime } from 'd3-scale';
 import { line } from 'd3-shape';
@@ -152,8 +153,8 @@ export class TrendChart extends Component<TrendChartProps, TrendChartState> {
           </clipPath>
           <Axis height={innerHeight} axisType='x' scale={this.xScale} />
           <Axis width={innerWidth} axisType='y' scale={yScale} grid={true} />
-          <path d={lineFunc(props.data)} clipPath={`url(#${props.name}_cp)`}
-            strokeLinecap='round' stroke={props.lineColour} fill='none' strokeWidth='2px' />
+          <path d={lineFunc(props.data)} clip-path={`url(#${props.name}_cp)`}
+            strokeLinecap='round' stroke={props.lineColour} fill='none' stroke-width='2px' />
           {
             children[0] &&
               children.map((ch) =>
@@ -163,7 +164,7 @@ export class TrendChart extends Component<TrendChartProps, TrendChartState> {
           {
             (isMouseOver && tooltipValues[0] !== null) &&
               <g transform={`translate(${this.xScale(tooltipValues[0])},${yScale(tooltipValues[1])})`}>
-                <circle fill='none' strokeWidth={2} stroke='gold' r='6'></circle>
+                <circle fill='none' stroke-width={2} stroke='gold' r='6'></circle>
                 <text x={0} y={-15} dy='0.5em' textAnchor={textAnchor} stroke='currentColor'>
                   {
                     `${tooltipValues[0].toLocaleDateString()} ${tooltipValues[0].toLocaleTimeString()}:
