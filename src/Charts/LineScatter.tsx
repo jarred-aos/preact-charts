@@ -123,13 +123,13 @@ export class LineScatter extends Component<LineScatterProps, LineScatterState> {
           }
           {
             props.labels &&
-              <text x={innerWidth / 2} y={innerHeight + props.margin.bottom - 15}>
+              <text x={innerWidth / 2} y={innerHeight + props.margin.bottom - 15} fill='currentColor'>
                 {props.x.replace(/_/g, ' ')}
               </text>
           }
           {
             props.labels &&
-              <text x={-innerHeight / 2} y={-props.margin.left + 15} transform='rotate(-90)'>
+              <text x={-innerHeight / 2} y={-props.margin.left + 15} transform='rotate(-90)' fill='currentColor'>
                 {props.y.replace(/_/g, ' ')}
               </text>
           }
