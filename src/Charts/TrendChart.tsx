@@ -165,7 +165,7 @@ export class TrendChart extends Component<TrendChartProps, TrendChartState> {
             (isMouseOver && tooltipValues[0] !== null) &&
               <g transform={`translate(${this.xScale(tooltipValues[0])},${yScale(tooltipValues[1])})`}>
                 <circle fill='none' stroke-width={2} stroke='gold' r='6'></circle>
-                <text x={0} y={-15} dy='0.5em' textAnchor={textAnchor} stroke='currentColor'>
+                <text x={0} y={-15} dy='0.5em' text-anchor={textAnchor} stroke='currentColor'>
                   {
                     `${tooltipValues[0].toLocaleDateString()} ${tooltipValues[0].toLocaleTimeString()}:
                           ${tooltipValues[1].toFixed(4)}`
