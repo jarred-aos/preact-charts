@@ -207,8 +207,10 @@ export class TrendChart extends Component<TrendChartProps, TrendChartState> {
   }
 
   public componentWillReceiveProps (newProps: TrendChartProps): void {
-    const yDomain = extent(newProps.data, (d) => +d[newProps.y]);
-    this.setState({ yDomain });
+    if (newProps.y !== this.props.y) {
+      const yDomain = extent(newProps.data, (d) => +d[newProps.y]);
+      this.setState({ yDomain });
+    }
   }
 
   public componentWillUnmount (): void {
