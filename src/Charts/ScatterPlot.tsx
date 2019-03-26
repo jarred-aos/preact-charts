@@ -1,11 +1,12 @@
 /* eslint-disable react/no-unknown-property */
 import { h, Component, VNode } from 'preact';
 import { Axis } from '../Axis';
-import { Margin, DataArray } from '../types';
+import { Margin, DataArray, NumberObject } from '../types';
 import { scaleLinear } from 'd3-scale';
 import { extent } from 'd3-array';
 import { select, event } from 'd3-selection';
 import { brush } from 'd3-brush';
+import { line } from 'd3-shape';
 import { css } from 'goober';
 
 const dot = css({
@@ -26,6 +27,8 @@ interface ScatterPlotProps {
   labels?: boolean;
   dotFill?: string;
   dotBorder?: string;
+  regressionEq?: (x: number) => number;
+  regLineColor?: string;
 }
 
 interface ScatterPlotDefaultProps {
@@ -36,7 +39,7 @@ interface ScatterPlotDefaultProps {
   labels: boolean;
   dotFill: string;
   dotBorder: string;
-
+  regLineColor: string;
 }
 
 interface ScatterPlotState {
@@ -63,6 +66,7 @@ export class ScatterPlot extends Component<ScatterPlotProps, ScatterPlotState> {
     labels: false,
     dotFill: 'steelblue',
     dotBorder: 'whitesmoke',
+    regLineColor: 'currentColor',
   };
   private chartSVG: any;
   private resizeOb: any;
@@ -101,6 +105,20 @@ export class ScatterPlot extends Component<ScatterPlotProps, ScatterPlotState> {
       .range([innerHeight, 0])
       .domain(yDomain);
 
+    let lineFunction;
+    let regressionLine;
+    if (props.regressionEq !== undefined) {
+      lineFunction = line<NumberObject>()
+        .x((d) => this.xScale(d.x))
+        .y((d) => this.yScale(d.y));
+      const minX = 0;
+      const maxX = +this.xScale.invert(innerWidth);
+      regressionLine = [
+        { x: minX, y: props.regressionEq(minX) },
+        { x: maxX, y: props.regressionEq(maxX) },
+      ];
+    }
+
     return (
       <svg ref={(svg) => this.chartSVG = svg} class={props.name} height={height} width={width}>
         <g transform={`translate(${props.margin.left}, ${props.margin.top})`}>
@@ -115,6 +133,11 @@ export class ScatterPlot extends Component<ScatterPlotProps, ScatterPlotState> {
                 cy={this.yScale(point[props.y])} key={index} clip-path={`url(#${props.name}_cp)`}
                 fill={props.dotFill} stroke={props.dotBorder} />,
             )
+          }
+          {
+            props.regressionEq !== undefined &&
+              <path d={lineFunction(regressionLine)} clip-path={`url(#${props.name}_cp)`}
+                strokeLinecap='round' stroke={props.regLineColor} fill='none' stroke-width='3px' />
           }
           {
             props.labels &&
