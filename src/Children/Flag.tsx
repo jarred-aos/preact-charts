@@ -10,8 +10,9 @@ const flagStyle = css({
   'stroke-opacity': 0.9,
   'fill-opacity': 0.45,
   'stroke': 'lightgray',
-  ':hover': {
+  '&:hover': {
     fill: 'lightgray',
+    'fill-opacity': 0.45,
   },
 });
 

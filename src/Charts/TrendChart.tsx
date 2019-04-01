@@ -122,11 +122,10 @@ export class TrendChart extends Component<TrendChartProps, TrendChartState> {
     const lineFunc = line<TimestampData>()
       .x((d) => this.xScale(d[props.x] as Date))
       .y((d) => yScale(+d[props.y]));
-
     return (
       <svg ref={(svg) => this.chartSVG = svg} class={props.name} height={height} width={width}>
         { props.axisControl &&
-            <g class={axisControl} stroke={props.controlColour}
+            <g class={axisControl} stroke={props.controlColour} key='topControl'
               transform={`translate(${props.margin.left * 0.3}, ${props.margin.top + 5})`}>
               <text onClick={() => this.handleChangeYDomain('topup')}>
                     &#43;
@@ -137,7 +136,7 @@ export class TrendChart extends Component<TrendChartProps, TrendChartState> {
             </g>
         }
         { props.axisControl &&
-          <g class={axisControl} stroke={props.controlColour}
+          <g class={axisControl} stroke={props.controlColour} key='bottomControl'
             transform={`translate(${props.margin.left * 0.3}, ${innerHeight})`}>
             <text onClick={() => this.handleChangeYDomain('botup')}>
                   &#43;
@@ -156,14 +155,9 @@ export class TrendChart extends Component<TrendChartProps, TrendChartState> {
           <path d={lineFunc(props.data)} clip-path={`url(#${props.name}_cp)`}
             strokeLinecap='round' stroke={props.lineColour} fill='none' stroke-width='2px' />
           {
-            children[0] &&
-              children.map((ch) =>
-                cloneElement(ch as VNode<Flag>,
-                  { xScale: this.xScale, height: innerHeight, chartName: props.name }))
-          }
-          {
             (isMouseOver && tooltipValues[0] !== null) &&
-              <g transform={`translate(${this.xScale(tooltipValues[0])},${yScale(tooltipValues[1])})`}>
+              <g transform={`translate(${this.xScale(tooltipValues[0])},${yScale(tooltipValues[1])})`}
+                key={+tooltipValues[0]}>
                 <circle fill='none' stroke-width={2} stroke='gold' r='6'></circle>
                 <text x={0} y={-15} dy='0.5em' text-anchor={textAnchor} stroke='currentColor'>
                   {
