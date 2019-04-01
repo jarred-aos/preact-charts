@@ -142,8 +142,8 @@ export class LineScatter extends Component<LineScatterProps, LineScatterState> {
                   <rect x={innerWidth + props.margin.right - 18} width={18} height={15}
                     stroke-width='1px' fill={colourArray[idx]}>
                   </rect>
-                  <text x={innerWidth + props.margin.right - 24} y={9} dy='0.35em'
-                    textAnchor='end'>
+                  <text x={innerWidth + props.margin.right - 24} y={9} dy='0.35em' text-anchor='end'
+                    fill='currentColor'>
                     {title.replace(/_/g, ' ')}
                   </text>
                 </g>)
