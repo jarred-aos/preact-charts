@@ -87,8 +87,8 @@ export class Histogram extends Component<HistogramProps, HistogramState> {
     return (
       <svg ref={(svg) => this.chartSVG = svg} class={name} height={height} width={width}>
         <g transform={`translate(${margin.left}, ${margin.top})`}>
-          <Axis height={innerHeight} axisType='x' scale={xScale} ticks={ticks} rotateScaleText={true} />
-          <Axis width={innerWidth} axisType='y' scale={yScale} grid={true} ticks={8} />
+          <Axis height={innerHeight} axisType='x' scale={xScale} rotateScaleText={true} />
+          <Axis width={innerWidth} axisType='y' scale={yScale} grid={true} ticks={ticks} />
           {
             barWidth &&
               bins.map((bin) =>
