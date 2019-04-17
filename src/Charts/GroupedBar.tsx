@@ -101,7 +101,7 @@ export class GroupedBar extends Component<GroupedBarProps, GroupedBarState> {
                   <rect x={innerWidth + margin.right - 18} width={18} height={15}
                     stroke-width='1px' fill={colourScale(barName)}>
                   </rect>
-                  <text x={innerWidth + margin.right - 24} y={9} dy='0.35em' textAnchor='end' fill='currentColor'>
+                  <text x={innerWidth + margin.right - 24} y={9} dy='0.35em' text-anchor='end' fill='currentColor'>
                     {legendReference[barName]}
                   </text>
                 </g>)

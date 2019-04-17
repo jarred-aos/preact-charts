@@ -103,7 +103,7 @@ export class HorizontalBar extends Component<HorizontalBarProps, HorizontalBarSt
                     stroke-width='1px' fill={colourScale(barName)}>
                   </rect>
                   <text x={innerWidth + margin.right - 24} y={9} dy='0.35em' fill='currentColor'
-                    textAnchor='end'>
+                    text-anchor='end'>
                     {legendReference[barName]}
                   </text>
                 </g>)
