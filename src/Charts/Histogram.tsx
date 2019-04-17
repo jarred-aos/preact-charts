@@ -82,7 +82,6 @@ export class Histogram extends Component<HistogramProps, HistogramState> {
       .thresholds(xScale.ticks(ticks))(valuesArray);
     const yMax = max(bins, (d) => d.length);
     const yScale = scaleLinear().range([innerHeight, 0]).domain([0, yMax]);
-
     const barWidth = xScale(bins[0].x1) - xScale(bins[0].x0);
     return (
       <svg ref={(svg) => this.chartSVG = svg} class={name} height={height} width={width}>
@@ -92,7 +91,8 @@ export class Histogram extends Component<HistogramProps, HistogramState> {
           {
             barWidth &&
               bins.map((bin) =>
-                <rect class={bar} x='1' width={barWidth} height={innerHeight - yScale(bin.length)}
+                <rect class={bar} x='1' width={xScale(bin.x1) - xScale(bin.x0)}
+                  height={innerHeight - yScale(bin.length)}
                   transform={`translate(${xScale(bin.x0)}, ${yScale(bin.length)})`}
                   fill={barColour} stroke={barOutline}>
                 </rect>,
