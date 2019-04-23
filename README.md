@@ -18,11 +18,15 @@ The below documentation will include some TypeScript syntax. If you are new to T
 ## Features / RoadMap
 **Version 1.0**
 - [x] Basic charting.
-- [x] Implemented css-in-js solution
-- [x] Switch from typestyle to [goober](https://github.com/cristianbote/goober)
-- [ ] ~~Implement build using microbundle~~
-- [ ] Transition from hard-typed colour array to procedurally generated colours
-- [ ] Further componentize charts to prevent code duplication
+- [x] Implemented css-in-js solution.
+- [x] Switch from typestyle to [goober](https://github.com/cristianbote/goober).
+- [x] ResizeObserver solution (Added ponyfill)
+- [ ] Transition from hard-typed colour array to procedurally generated colours.
+- [ ] Further componentize charts to prevent code duplication.
+- [ ] Upgrade to preact X.
+
+### Note:
+If you are using preact 8.4.x please use verisons from the 0.6.x line. Versions >1 will be based on preact X, which has some breaking changes.
 
 ## Demos
 [Trend and Range Charts](https://codesandbox.io/s/ko300qzppv)
