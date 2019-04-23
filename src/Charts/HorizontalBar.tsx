@@ -1,6 +1,6 @@
 import { h, Component, VNode } from 'preact';
 import { Margin, GroupedDataObject } from '../types';
-import { Axis } from '../Axis';
+import { Axis } from '../Components/Axis';
 import { scaleLinear, scaleBand, ScaleBand, ScaleLinear, scaleOrdinal, ScaleOrdinal } from 'd3-scale';
 import { max } from 'd3-array';
 import { pluckUnique } from '../Utils/pluck';

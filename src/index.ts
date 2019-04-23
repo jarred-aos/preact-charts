@@ -7,5 +7,5 @@ export { RangeChart } from './Charts/RangeChart';
 export { ScatterPlot } from './Charts/ScatterPlot';
 export { TrendChart } from './Charts/TrendChart';
 export { GanttChart, GanttData } from './Charts/GanttChart';
-export { Flag } from './Children/Flag';
+export { Flag } from './Components/Flag';
 export * from './types';
