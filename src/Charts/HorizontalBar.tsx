@@ -1,10 +1,10 @@
 import { h, Component, VNode } from 'preact';
 import { Margin, GroupedDataObject } from '../types';
-import { Axis } from '../Axis';
+import { Axis } from '../Components/Axis';
 import { scaleLinear, scaleBand, ScaleBand, ScaleLinear, scaleOrdinal, ScaleOrdinal } from 'd3-scale';
 import { max } from 'd3-array';
 import { pluckUnique } from '../Utils/pluck';
-import { colourArray } from '../colors';
+import randomColor from 'randomcolor';
 import { ResizeObserver } from 'resize-observer';
 
 interface HorizontalBarProps {
@@ -31,6 +31,7 @@ interface HorizontalBarState {
   innerWidth: number;
   height: number;
   innerHeight: number;
+  colorArray: string[];
 }
 export class HorizontalBar extends Component<HorizontalBarProps, HorizontalBarState> {
   public static defaultProps: HorizontalBarDefaultProps = {
@@ -51,15 +52,22 @@ export class HorizontalBar extends Component<HorizontalBarProps, HorizontalBarSt
     super(props);
     const innerWidth = props.width - props.margin.right - props.margin.left;
     const innerHeight = props.height - props.margin.top - props.margin.bottom;
+    const names = pluckUnique(props.data[props.groups[0]], 'name') as string[];
+    const colorArray = [];
+    for (const _name in names) {
+      const color = randomColor();
+      colorArray.push(color);
+    }
     this.state = {
       height: props.height,
       innerHeight,
       width: props.width,
       innerWidth,
+      colorArray
     };
   }
   public render ({ margin, ticks, data, groups, name, legendReference }: HorizontalBarProps,
-    { height, width, innerHeight, innerWidth }: HorizontalBarState): VNode {
+    { height, width, innerHeight, innerWidth, colorArray }: HorizontalBarState): VNode {
     let xMax = 0;
 
     for (const key of groups) {
@@ -84,7 +92,7 @@ export class HorizontalBar extends Component<HorizontalBarProps, HorizontalBarSt
       .domain(names)
       .rangeRound([0, yScale.bandwidth()]);
 
-    const colourScale = scaleOrdinal(colourArray);
+    const colourScale = scaleOrdinal(colorArray);
     return (
       <svg ref={(svg) => this.chartSVG = svg} class={name} height={height} width={width}>
         <g transform={`translate(${margin.left}, ${margin.top})`}>
@@ -124,6 +132,20 @@ export class HorizontalBar extends Component<HorizontalBarProps, HorizontalBarSt
       }
     });
     this.resizeOb.observe(this.chartSVG.parentElement);
+  }
+
+  public componentWillReceiveProps (newProps: HorizontalBarProps): void {
+    if (newProps.groups.length >= this.props.groups.length) {
+      const colorArray = [...this.state.colorArray];
+      while (colorArray.length < newProps.groups.length) {
+        colorArray.push(randomColor());
+      }
+      this.setState({ colorArray });
+    } else if (newProps.groups.length < this.props.groups.length) {
+      let colorArray = [...this.state.colorArray];
+      colorArray = colorArray.slice(0, newProps.groups.length);
+      this.setState({ colorArray });
+    }
   }
 
   public componentWillUnmount (): void {

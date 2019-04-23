@@ -4,8 +4,8 @@ import { scaleLinear, scaleTime } from 'd3-scale';
 import { line } from 'd3-shape';
 import { bisector, extent } from 'd3-array';
 import { Margin, TimestampArray, TimestampData } from '../types';
-import { Axis } from '../Axis';
-import { Flag } from '../Children/Flag';
+import { Axis } from '../Components/Axis';
+import { Flag } from '../Components/Flag';
 import { css } from 'goober';
 import { ResizeObserver } from 'resize-observer';
 

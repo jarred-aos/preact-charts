@@ -1,5 +1,5 @@
 import { h, Component, VNode } from 'preact';
-import { Axis } from '../Axis';
+import { Axis } from '../Components/Axis';
 import { Margin } from '../types';
 import { scaleBand, scaleTime } from 'd3-scale';
 import { min, max } from 'd3-array';

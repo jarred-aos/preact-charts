@@ -1,7 +1,7 @@
 import { h, Component, VNode } from 'preact';
 import { scaleLinear, scaleTime } from 'd3-scale';
 import { Margin, TimestampArray, TimestampData } from '../types';
-import { Axis } from '../Axis';
+import { Axis } from '../Components/Axis';
 import { area } from 'd3-shape';
 import { min, max } from 'd3-array';
 import { select, event } from 'd3-selection';
