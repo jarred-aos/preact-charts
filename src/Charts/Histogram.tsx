@@ -4,13 +4,13 @@ import { DataArray, Margin } from '../types';
 import { scaleLinear } from 'd3-scale';
 import { min, max, histogram } from 'd3-array';
 import { css } from 'goober';
+import { ResizeObserver } from 'resize-observer';
 
 const bar = css({
   'fill-opacity': 1,
   'stroke-width': '1px',
 });
 
-declare const ResizeObserver: any;
 
 interface HistogramProps {
   name: string;
@@ -56,7 +56,7 @@ export class Histogram extends Component<HistogramProps, HistogramState> {
     barOutline: 'black',
   };
   private chartSVG: HTMLBaseElement;
-  private resizeOb: any;
+  private resizeOb: ResizeObserver;
 
   public constructor (props: HistogramProps) {
     super(props);

@@ -7,8 +7,7 @@ import { select, event } from 'd3-selection';
 import { brush } from 'd3-brush';
 import { line, curveNatural } from 'd3-shape';
 import { colourArray } from '../colors';
-
-declare const ResizeObserver: any;
+import { ResizeObserver } from 'resize-observer';
 
 interface LineScatterProps {
   name: string;
@@ -55,7 +54,7 @@ export class LineScatter extends Component<LineScatterProps, LineScatterState> {
     labels: false,
   };
   private chartSVG: any;
-  private resizeOb: any;
+  private resizeOb: ResizeObserver;
   private brush: SVGGElement;
   private brushSetup: any;
   private xScale: any;

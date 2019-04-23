@@ -5,8 +5,7 @@ import { scaleLinear, scaleBand, ScaleBand, ScaleLinear, scaleOrdinal, ScaleOrdi
 import { max } from 'd3-array';
 import { pluckUnique } from '../Utils/pluck';
 import { colourArray } from '../colors';
-
-declare const ResizeObserver: any;
+import { ResizeObserver } from 'resize-observer';
 
 interface HorizontalBarProps {
   name: string;
@@ -46,7 +45,7 @@ export class HorizontalBar extends Component<HorizontalBarProps, HorizontalBarSt
     ticks: 6,
   };
   private chartSVG: HTMLBaseElement;
-  private resizeOb: any;
+  private resizeOb: ResizeObserver;
 
   public constructor (props: HorizontalBarProps) {
     super(props);

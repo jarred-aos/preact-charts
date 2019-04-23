@@ -7,6 +7,7 @@ import { Margin, TimestampArray, TimestampData } from '../types';
 import { Axis } from '../Axis';
 import { Flag } from '../Children/Flag';
 import { css } from 'goober';
+import { ResizeObserver } from 'resize-observer';
 
 const overlay = css({
   'fill': 'none',
@@ -24,8 +25,6 @@ const axisControl = css({
     'font-size': '1.2em',
   },
 });
-
-declare const ResizeObserver: any;
 
 interface TrendChartProps {
   name: string;
@@ -82,7 +81,7 @@ export class TrendChart extends Component<TrendChartProps, TrendChartState> {
     controlColour: 'goldenrod',
   };
   private chartSVG: HTMLBaseElement;
-  private resizeOb: any;
+  private resizeOb: ResizeObserver;
   private xScale: any;
 
   public constructor (props: TrendChartProps) {

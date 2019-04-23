@@ -5,8 +5,7 @@ import { scaleBand, scaleTime } from 'd3-scale';
 import { min, max } from 'd3-array';
 import { pluck } from '../Utils/pluck';
 import { css } from 'goober';
-
-declare const ResizeObserver: any;
+import { ResizeObserver } from 'resize-observer';
 
 const barClass = css({
   stroke: 'currentColor',
@@ -70,7 +69,7 @@ export class GanttChart extends Component<GanttChartProps, GanttChartState> {
   };
 
   private chartSVG: HTMLBaseElement
-  private resizeOb: any;
+  private resizeOb: ResizeObserver;
 
   public constructor (props: GanttChartProps) {
     super(props);

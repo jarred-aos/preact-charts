@@ -7,8 +7,8 @@ import { min, max } from 'd3-array';
 import { select, event } from 'd3-selection';
 import { brushX } from 'd3-brush';
 import { css } from 'goober';
+import { ResizeObserver } from 'resize-observer';
 
-declare const ResizeObserver: any;
 
 interface RangeChartProps {
   name: string;
@@ -62,7 +62,7 @@ export class RangeChart extends Component<RangeChartProps, RangeChartState> {
   private brushSetup: any;
   private xScale: any;
   private chartSVG: HTMLBaseElement;
-  private resizeOb: any;
+  private resizeOb: ResizeObserver;
   private brushClass: any;
 
   public constructor (props: RangeChartProps) {

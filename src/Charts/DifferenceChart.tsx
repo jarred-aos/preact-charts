@@ -4,8 +4,7 @@ import { Axis } from '../Axis';
 import { scaleLinear, scaleBand, ScaleBand, ScaleLinear } from 'd3-scale';
 import { max } from 'd3-array';
 import { pluck } from '../Utils/pluck';
-
-declare const ResizeObserver: any;
+import { ResizeObserver } from 'resize-observer';
 
 interface DiffBarProps {
   name: string;
@@ -44,7 +43,7 @@ export class DifferenceChart extends Component<DiffBarProps, DiffBarState> {
     ticks: 8,
   };
   private chartSVG: HTMLBaseElement;
-  private resizeOb: any;
+  private resizeOb: ResizeObserver;
 
   public constructor (props: DiffBarProps) {
     super(props);

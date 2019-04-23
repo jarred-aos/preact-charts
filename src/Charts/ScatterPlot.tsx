@@ -8,12 +8,11 @@ import { select, event } from 'd3-selection';
 import { brush } from 'd3-brush';
 import { line } from 'd3-shape';
 import { css } from 'goober';
+import { ResizeObserver } from 'resize-observer';
 
 const dot = css({
   'stroke-width': '1px',
 });
-
-declare const ResizeObserver: any;
 
 interface ScatterPlotProps {
   name: string;
@@ -69,7 +68,7 @@ export class ScatterPlot extends Component<ScatterPlotProps, ScatterPlotState> {
     regLineColor: 'currentColor',
   };
   private chartSVG: any;
-  private resizeOb: any;
+  private resizeOb: ResizeObserver;
   private brush: SVGGElement;
   private brushSetup: any;
   private xScale: any;
