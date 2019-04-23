@@ -17,7 +17,8 @@
       "jsx": "react",
       "jsxFactory": "h",
       "experimentalDecorators": true,
-      "declaration": true
+      "declaration": true,
+      "allowSyntheticDefaultImports": true,
     },
     "include": [
         "./src/**/*.ts",
