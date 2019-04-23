@@ -21,8 +21,8 @@ The below documentation will include some TypeScript syntax. If you are new to T
 - [x] Implemented css-in-js solution.
 - [x] Switch from typestyle to [goober](https://github.com/cristianbote/goober).
 - [x] ResizeObserver solution (Added ponyfill)
-- [ ] Transition from hard-typed colour array to procedurally generated colours.
-- [ ] Further componentize charts to prevent code duplication.
+- [x] Transition from hard-typed colour array to procedurally generated colours.
+- [x] Further componentize charts to prevent code duplication.
 - [ ] Upgrade to preact X.
 
 ### Note:
