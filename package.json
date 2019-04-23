@@ -13,11 +13,10 @@
   ],
   "scripts": {
     "test": "npm run check-build",
-    "check-build": "tsc && npm run size-check",
+    "check-build": "tsc",
     "clean-dist": "rm -rf dist",
     "build": "npm run clean-dist && tsc",
     "dev": "tsc -w",
-    "size-check": "npx bundlesize",
     "smart-publish": "npm run build && git commit -am %npm_package_version% && git tag %npm_package_version% && git push && git push --tags && npm publish"
   },
   "keywords": [
@@ -59,11 +58,5 @@
     "eslint-plugin-react": "^7.12.4",
     "preact": "^8.4.2",
     "typescript": "^3.3.3"
-  },
-  "bundlesize": [
-    {
-      "path": "./dist/*.*js",
-      "maxSize": "40KB"
-    }
-  ]
+  }
 }
