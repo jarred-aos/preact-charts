@@ -8,7 +8,6 @@ import { brush } from 'd3-brush';
 import { line, curveNatural } from 'd3-shape';
 import randomColor from 'randomcolor';
 import { ResizeObserver } from 'resize-observer';
-import { color } from 'd3';
 
 interface LineScatterProps {
   name: string;
