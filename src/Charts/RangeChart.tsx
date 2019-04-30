@@ -5,9 +5,10 @@ import { select, event } from 'd3-selection';
 import { brushX } from 'd3-brush';
 import { css } from 'goober';
 import { ResizeObserver } from 'resize-observer';
-import { TimestampArray, ChartProps, ChartDefaultProps, DataArray } from '../types';
+import { TimestampArray, ChartProps, ChartDefaultProps, DataArray, NumberTuple } from '../types';
 import { Axis } from '../Components/Axis';
 import { area } from '../Utils/area';
+import { BrushX } from '../Components/Brush';
 
 interface RangeChartProps extends ChartProps {
   y: string;
@@ -24,7 +25,6 @@ interface RangeChartDefaultProps extends ChartDefaultProps {
   fillColour?: string;
   onBrush?: (extent: Date[]) => void;
   brushColour: string;
-
 }
 
 interface RangeChartState {
@@ -83,11 +83,6 @@ export class RangeChart extends Component<RangeChartProps, RangeChartState> {
       .range([innerHeight, 0])
       .domain([min(props.data, (d) => +d[props.y]), max(props.data, (d) => +d[props.y])]);
 
-    // const areaFunc = area<TimestampData>()
-    //   .x((d) => this.xScale(d.timestamp))
-    //   .y0(innerHeight)
-    //   .y1((d) => yScale(+d[props.y]));
-
     const areaFunc = area({
       x: (d) => this.xScale(d.timestamp),
       y: (d) => yScale(+d[props.y]),
@@ -101,7 +96,8 @@ export class RangeChart extends Component<RangeChartProps, RangeChartState> {
           <Axis width={innerWidth} axisType='y' scale={yScale} grid={true} ticks={0} />
           <path d={areaFunc(props.data as DataArray)}
             strokeLinecap='round' stroke={props.lineColour} fill={props.fillColour} stroke-width='1px' />
-          <g ref={(brush) => this.brush = brush} class={this.brushClass}></g>
+          {/* <g ref={(brush) => this.brush = brush} class={this.brushClass}></g> */}
+          <BrushX width={innerWidth} height={innerHeight} margin={props.margin} onBrushEnd={this.handleBrush} />
         </g>
       </svg>
     );
@@ -154,5 +150,11 @@ export class RangeChart extends Component<RangeChartProps, RangeChartState> {
       [this.xScale(this.state.extent[0]), this.xScale(this.state.extent[1])];
     brushSelection.call(this.brushSetup.move, brushMove);
     this.setState({ innerWidth, innerHeight, height, width });
+  }
+
+  private handleBrush = (extent: NumberTuple) => {
+    const inverted = [this.xScale.invert(extent[0]), this.xScale.invert(extent[1])];
+    this.setState({ extent: inverted });
+    this.props.onBrush(inverted);
   }
 }
