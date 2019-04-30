@@ -1,20 +1,15 @@
 import { h, Component, VNode } from 'preact';
 import { scaleLinear, scaleTime } from 'd3-scale';
-import { Margin, TimestampArray, TimestampData } from '../types';
-import { Axis } from '../Components/Axis';
-import { area } from 'd3-shape';
 import { min, max } from 'd3-array';
 import { select, event } from 'd3-selection';
 import { brushX } from 'd3-brush';
 import { css } from 'goober';
 import { ResizeObserver } from 'resize-observer';
+import { Margin, TimestampArray, TimestampData, ChartProps, ChartDefaultProps } from '../types';
+import { Axis } from '../Components/Axis';
+import { area } from '../Utils/area';
 
-
-interface RangeChartProps {
-  name: string;
-  height?: number;
-  width?: number;
-  margin?: Margin;
+interface RangeChartProps extends ChartProps {
   y: string;
   data: TimestampArray;
   lineColour?: string;
@@ -23,10 +18,8 @@ interface RangeChartProps {
   brushColour?: string;
 }
 
-interface RangeChartDefaultProps {
-  height: number;
-  width: number;
-  margin?: Margin;
+interface RangeChartDefaultProps extends ChartDefaultProps {
+
   lineColour?: string;
   fillColour?: string;
   onBrush?: (extent: Date[]) => void;
@@ -90,10 +83,16 @@ export class RangeChart extends Component<RangeChartProps, RangeChartState> {
       .range([innerHeight, 0])
       .domain([min(props.data, (d) => +d[props.y]), max(props.data, (d) => +d[props.y])]);
 
-    const areaFunc = area<TimestampData>()
-      .x((d) => this.xScale(d.timestamp))
-      .y0(innerHeight)
-      .y1((d) => yScale(+d[props.y]));
+    // const areaFunc = area<TimestampData>()
+    //   .x((d) => this.xScale(d.timestamp))
+    //   .y0(innerHeight)
+    //   .y1((d) => yScale(+d[props.y]));
+
+    const areaFunc = area({
+      x: (d) => this.xScale(d.timestamp),
+      y: (d) => yScale(+d[props.y]),
+      y0: innerHeight,
+    });
 
     return (
       <svg ref={(svg) => this.chartSVG = svg} class={props.name} height={height} width={width}>

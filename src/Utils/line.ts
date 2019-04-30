@@ -2,7 +2,7 @@ import { DataArray, DataObject } from '../types';
 import { InterpolatorFunction, linearInterpolation } from './interpolators';
 export type ValueAccessor = (point: DataObject) => number
 
-interface LineArgument {
+export interface LineArgument {
   x: ValueAccessor;
   y: ValueAccessor;
   interpolation?: InterpolatorFunction;
