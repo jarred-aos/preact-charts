@@ -1,9 +1,6 @@
 import { h, Component, VNode } from 'preact';
 import { scaleLinear, scaleTime } from 'd3-scale';
 import { min, max } from 'd3-array';
-import { select, event } from 'd3-selection';
-import { brushX } from 'd3-brush';
-import { css } from 'goober';
 import { ResizeObserver } from 'resize-observer';
 import { TimestampArray, ChartProps, ChartDefaultProps, DataArray, NumberTuple } from '../types';
 import { Axis } from '../Components/Axis';
@@ -51,20 +48,12 @@ export class RangeChart extends Component<RangeChartProps, RangeChartState> {
     onBrush: () => {},
     brushColour: 'darkgoldenrod',
   };
-  private brush: SVGGElement;
-  private brushSetup: any;
   private xScale: any;
   private chartSVG: HTMLBaseElement;
   private resizeOb: ResizeObserver;
-  private brushClass: any;
 
   public constructor (props: RangeChartProps) {
     super(props);
-    this.brushClass = css({
-      '&>rect.handle': {
-        fill: props.brushColour,
-      },
-    });
     const innerWidth = props.width - props.margin.left - props.margin.right;
     const innerHeight = props.height - props.margin.top - props.margin.bottom;
     this.state = {
@@ -96,7 +85,6 @@ export class RangeChart extends Component<RangeChartProps, RangeChartState> {
           <Axis width={innerWidth} axisType='y' scale={yScale} grid={true} ticks={0} />
           <path d={areaFunc(props.data as DataArray)}
             strokeLinecap='round' stroke={props.lineColour} fill={props.fillColour} stroke-width='1px' />
-          {/* <g ref={(brush) => this.brush = brush} class={this.brushClass}></g> */}
           <BrushX width={innerWidth} height={innerHeight} margin={props.margin} onBrushEnd={this.handleBrush} />
         </g>
       </svg>
@@ -120,7 +108,6 @@ export class RangeChart extends Component<RangeChartProps, RangeChartState> {
 
   public componentWillUnmount (): void {
     this.resizeOb.disconnect();
-    select(this.brush).call(this.brushSetup.move, null);
   }
 
   private resizeChart (): void {
@@ -131,29 +118,12 @@ export class RangeChart extends Component<RangeChartProps, RangeChartState> {
     const innerWidth = width - this.props.margin.left - this.props.margin.right;
     const innerHeight = height - this.props.margin.top - this.props.margin.bottom;
     this.xScale.range([0, innerWidth]);
-    this.brushSetup = brushX()
-      .extent([
-        [0, 0],
-        [innerWidth, innerHeight],
-      ])
-      .handleSize(10)
-      .on('end', () => {
-        const selection = (event.selection || [0, innerWidth]) as [number, number];
-        const inverted = [this.xScale.invert(selection[0]), this.xScale.invert(selection[1])];
-        this.setState({ extent: event.selection ? inverted : null });
-        this.props.onBrush(inverted);
-      });
-    const brushSelection = select(this.brush);
-    brushSelection.call(this.brushSetup);
-    const brushMove = (this.state.extent === null || this.state.extent === undefined) ?
-      null :
-      [this.xScale(this.state.extent[0]), this.xScale(this.state.extent[1])];
-    brushSelection.call(this.brushSetup.move, brushMove);
     this.setState({ innerWidth, innerHeight, height, width });
   }
 
   private handleBrush = (extent: NumberTuple) => {
-    const inverted = [this.xScale.invert(extent[0]), this.xScale.invert(extent[1])];
+    const selection = extent || [0, this.state.innerWidth];
+    const inverted = [this.xScale.invert(selection[0]), this.xScale.invert(selection[1])];
     this.setState({ extent: inverted });
     this.props.onBrush(inverted);
   }
