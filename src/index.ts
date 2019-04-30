@@ -8,4 +8,5 @@ export { ScatterPlot } from './Charts/ScatterPlot';
 export { TrendChart } from './Charts/TrendChart';
 export { GanttChart, GanttData } from './Charts/GanttChart';
 export { Flag } from './Components/Flag';
+export * from './Utils/interpolators';
 export * from './types';
