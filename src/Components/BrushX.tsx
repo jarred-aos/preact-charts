@@ -6,7 +6,7 @@ interface BrushProps {
   width: number;
   margin: Margin;
   handleSize?: number;
-  onBrushEnd?: (extent: NumberTuple) => void;
+  onBrushEnd?: (extent: NumberTuple | null) => void;
   onBrushStart?: (extent: NumberTuple) => void;
   onBrush?: (extent: NumberTuple) => void;
 }
@@ -15,7 +15,8 @@ interface BrushState {
   extent: NumberTuple | null;
   relExtent: NumberTuple | null;
   mouseDown: boolean;
-  brushExtentIndex: 0 | 1 | 'move';
+  mouseDownTime?: number;
+  brushExtentIndex: 0 | 1 | 'init' | 'move';
 }
 
 export class BrushX extends Component<BrushProps, BrushState> {
@@ -36,6 +37,7 @@ export class BrushX extends Component<BrushProps, BrushState> {
     };
   }
   public render ({ height, width, handleSize }: BrushProps, { extent }: BrushState): VNode {
+    if (extent && extent[0] === extent[1]) extent = null;
     return (
       <g onMouseLeave={this.handleMouseUp} onMouseMove={this.handleMouseMove} onMouseUp={this.handleMouseUp}>
         <rect x='0' y='0' height={height} width={width} fill='none' pointer-events='all' cursor='crosshair'
@@ -73,22 +75,25 @@ export class BrushX extends Component<BrushProps, BrushState> {
     const extent = [loc, loc] as NumberTuple;
     const relExtent = extent.map((d) => d / this.props.width) as NumberTuple;
     this.props.onBrushStart(extent);
-    this.setState({ mouseDown: true, extent, brushExtentIndex: 1, relExtent });
+    this.setState({ mouseDown: true, extent, brushExtentIndex: 'init', relExtent, mouseDownTime: +Date.now() });
   }
 
   private handleMouseMove = (evt: MouseEvent) => {
     if (!this.state.mouseDown) return;
     const extent = [...this.state.extent] as NumberTuple;
-    if (this.state.brushExtentIndex !== 'move') {
+    if (this.state.brushExtentIndex !== 'move' && this.state.brushExtentIndex !== 'init') {
       extent[this.state.brushExtentIndex] = evt.clientX - this.props.margin.left - this.props.margin.right;
-    } else {
+    } else if (this.state.brushExtentIndex === 'move') {
       const extentWidth = extent[1] - extent[0];
       const extentMid = extentWidth / 2;
       const newPoint = evt.clientX - this.props.margin.left - this.props.margin.right;
       extent[0] = newPoint - extentMid;
       extent[1] = newPoint + extentMid;
+    } else if (this.state.brushExtentIndex === 'init') {
+      const newLoc = evt.clientX - this.props.margin.left - this.props.margin.right;
+      const dir = (newLoc <= extent[0]) ? 0 : 1;
+      extent[dir] = newLoc;
     }
-    extent.sort((a, b) => a - b);
     const relExtent = extent.map((d) => d / this.props.width) as NumberTuple;
     this.props.onBrush(extent);
     this.setState({ extent, relExtent });
@@ -96,7 +101,12 @@ export class BrushX extends Component<BrushProps, BrushState> {
 
   private handleMouseUp = () => {
     if (!this.state.mouseDown) return;
-    this.props.onBrushEnd(this.state.extent);
-    this.setState({ mouseDown: false });
+    const timeDiff = +Date.now() - this.state.mouseDownTime;
+    let extent = this.state.extent;
+    if (timeDiff < 100) {
+      extent = null;
+    }
+    this.props.onBrushEnd(extent ? ([...extent] as NumberTuple) : extent);
+    this.setState({ mouseDown: false, extent });
   }
 }
