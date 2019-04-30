@@ -8,7 +8,7 @@ import { ResizeObserver } from 'resize-observer';
 import { TimestampArray, ChartProps, ChartDefaultProps, DataArray, NumberTuple } from '../types';
 import { Axis } from '../Components/Axis';
 import { area } from '../Utils/area';
-import { BrushX } from '../Components/Brush';
+import { BrushX } from '../Components/BrushX';
 
 interface RangeChartProps extends ChartProps {
   y: string;
