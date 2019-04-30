@@ -1,13 +1,13 @@
 /* eslint-disable react/no-unknown-property */
 import { h, Component, ComponentChild, cloneElement, VNode } from 'preact';
+import { ResizeObserver } from 'resize-observer';
+import { css } from 'goober';
 import { scaleLinear, scaleTime } from 'd3-scale';
-import { line } from 'd3-shape';
 import { bisector, extent } from 'd3-array';
-import { Margin, TimestampArray, TimestampData } from '../types';
+import { TimestampArray, TimestampData, ChartProps, ChartDefaultProps, DataArray } from '../types';
 import { Axis } from '../Components/Axis';
 import { Flag } from '../Components/Flag';
-import { css } from 'goober';
-import { ResizeObserver } from 'resize-observer';
+import { line } from '../Utils/line';
 
 const overlay = css({
   'fill': 'none',
@@ -26,11 +26,7 @@ const axisControl = css({
   },
 });
 
-interface TrendChartProps {
-  name: string;
-  height?: number;
-  width?: number;
-  margin?: Margin;
+interface TrendChartProps extends ChartProps {
   x: string;
   y: string;
   data: TimestampArray;
@@ -41,10 +37,7 @@ interface TrendChartProps {
   controlColour?: string;
 }
 
-interface TrendChartDefaultProps {
-  height: number;
-  width: number;
-  margin: Margin;
+interface TrendChartDefaultProps extends ChartDefaultProps {
   lineColour: string;
   extent: Date[];
   tooltip: boolean;
@@ -118,9 +111,11 @@ export class TrendChart extends Component<TrendChartProps, TrendChartState> {
       .range([innerHeight, 0])
       .domain(yDomain);
 
-    const lineFunc = line<TimestampData>()
-      .x((d) => this.xScale(d[props.x] as Date))
-      .y((d) => yScale(+d[props.y]));
+    const lineFunc = line({
+      x: (d) => this.xScale(d[props.x]),
+      y: (d) => yScale(+d[props.y]),
+    });
+
     return (
       <svg ref={(svg) => this.chartSVG = svg} class={props.name} height={height} width={width}>
         { props.axisControl &&
@@ -151,7 +146,7 @@ export class TrendChart extends Component<TrendChartProps, TrendChartState> {
           </clipPath>
           <Axis height={innerHeight} axisType='x' scale={this.xScale} />
           <Axis width={innerWidth} axisType='y' scale={yScale} grid={true} />
-          <path d={lineFunc(props.data)} clip-path={`url(#${props.name}_cp)`}
+          <path d={lineFunc(props.data as DataArray)} clip-path={`url(#${props.name}_cp)`}
             strokeLinecap='round' stroke={props.lineColour} fill='none' stroke-width='2px' />
           {
             (isMouseOver && tooltipValues[0] !== null) &&
