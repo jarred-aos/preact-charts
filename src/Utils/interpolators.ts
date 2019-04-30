@@ -1,7 +1,6 @@
-import { DataObject, DataArray } from '../types';
+import { DataObject, DataArray, NumberTuple } from '../types';
 import { ValueAccessor } from './line';
 
-type NumberTuple = [number, number];
 export type InterpolatorFunction = (point: DataObject, x: ValueAccessor, y: ValueAccessor, i?: number, a?: DataArray) =>
 string;
 

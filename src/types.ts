@@ -47,3 +47,5 @@ export interface EventsData {
   sub_type: string | null;
   comment: string | null;
 }
+
+export type NumberTuple = [number, number];
