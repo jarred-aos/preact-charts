@@ -1,6 +1,6 @@
 import { h, Component, VNode } from 'preact';
 import { Axis } from '../Components/Axis';
-import { Margin } from '../types';
+import { ChartProps, ChartDefaultProps } from '../types';
 import { scaleBand, scaleTime } from 'd3-scale';
 import { min, max } from 'd3-array';
 import { pluck } from '../Utils/pluck';
@@ -18,25 +18,18 @@ export interface GanttData {
   [key: string]: Date | string | number | any;
 }
 
-interface GanttChartProps {
-  name: string;
+interface GanttChartProps extends ChartProps {
   data: GanttData[];
   x: string;
   y: string;
   onBarClick?: (bar: any) => void;
   highLightBars?: string[];
   barHighlightRef?: string;
-  height?: number;
-  width?: number;
-  margin?: Margin;
   ticks?: number;
   extent?: Date[];
 }
 
-interface GanttChartDefaultProps {
-  height?: number;
-  width?: number;
-  margin?: Margin;
+interface GanttChartDefaultProps extends ChartDefaultProps {
   ticks?: number;
   extent?: Date[];
   onBarClick?: () => void;

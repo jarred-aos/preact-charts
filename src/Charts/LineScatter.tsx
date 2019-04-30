@@ -1,11 +1,12 @@
 import { h, Component, VNode } from 'preact';
 import { Axis } from '../Components/Axis';
-import { Margin, DataArray, NumberObject } from '../types';
+import { Margin, DataArray } from '../types';
 import { scaleLinear } from 'd3-scale';
 import { extent } from 'd3-array';
 import { select, event } from 'd3-selection';
 import { brush } from 'd3-brush';
-import { line, curveNatural } from 'd3-shape';
+import { line } from '../Utils/line';
+import { bezierInterpolation } from '../Utils/interpolators';
 import randomColor from 'randomcolor';
 import { ResizeObserver } from 'resize-observer';
 
@@ -97,10 +98,11 @@ export class LineScatter extends Component<LineScatterProps, LineScatterState> {
       .range([innerHeight, 0])
       .domain(yDomain);
 
-    const lineFunc = line<NumberObject>()
-      .x((d) => this.xScale(d[props.x]))
-      .y((d) => this.yScale(d[props.y]))
-      .curve(curveNatural);
+    const lineFunc = line({
+      x: (d) => this.xScale(d[props.x]),
+      y: (d) => this.yScale(d[props.y]),
+      interpolation: bezierInterpolation,
+    });
 
     return (
       <svg ref={(svg) => this.chartSVG = svg} class={props.name} height={height} width={width}>

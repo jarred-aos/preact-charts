@@ -1,27 +1,23 @@
 /* eslint-disable react/no-unknown-property */
 import { h, Component, VNode } from 'preact';
 import { Axis } from '../Components/Axis';
-import { Margin, DataArray, NumberObject } from '../types';
+import { DataArray, ChartProps, ChartDefaultProps } from '../types';
 import { scaleLinear } from 'd3-scale';
 import { extent } from 'd3-array';
 import { select, event } from 'd3-selection';
 import { brush } from 'd3-brush';
-import { line } from 'd3-shape';
 import { css } from 'goober';
 import { ResizeObserver } from 'resize-observer';
+import { line } from '../Utils/line';
 
 const dot = css({
   'stroke-width': '1px',
 });
 
-interface ScatterPlotProps {
-  name: string;
+interface ScatterPlotProps extends ChartProps {
   x: string;
   y: string;
   data: DataArray;
-  height?: number;
-  width?: number;
-  margin?: Margin;
   radius?: number;
   labels?: boolean;
   dotFill?: string;
@@ -30,10 +26,7 @@ interface ScatterPlotProps {
   regLineColor?: string;
 }
 
-interface ScatterPlotDefaultProps {
-  height: number;
-  width: number;
-  margin: Margin;
+interface ScatterPlotDefaultProps extends ChartDefaultProps {
   radius: number;
   labels: boolean;
   dotFill: string;
@@ -107,9 +100,11 @@ export class ScatterPlot extends Component<ScatterPlotProps, ScatterPlotState> {
     let lineFunction;
     let regressionLine;
     if (props.regressionEq !== undefined) {
-      lineFunction = line<NumberObject>()
-        .x((d) => this.xScale(d.x))
-        .y((d) => this.yScale(d.y));
+      lineFunction = line({
+        x: (d) => this.xScale(d.x),
+        y:(d) => this.yScale(d.y),
+      });
+
       const minX = 0;
       const maxX = +this.xScale.invert(innerWidth);
       regressionLine = [

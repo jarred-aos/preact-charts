@@ -1,28 +1,20 @@
 import { h, Component, VNode } from 'preact';
-import { Margin, GroupedDataObject } from '../types';
+import { GroupedDataObject, ChartProps, ChartDefaultProps } from '../types';
 import { Axis } from '../Components/Axis';
 import { scaleLinear, scaleBand, ScaleBand, ScaleLinear, scaleOrdinal, ScaleOrdinal } from 'd3-scale';
 import { max } from 'd3-array';
 import { pluckUnique } from '../Utils/pluck';
 import randomColor from 'randomcolor';
 import { ResizeObserver } from 'resize-observer';
-import { color } from 'd3';
 
-interface GroupedBarProps {
-  name: string;
+interface GroupedBarProps extends ChartProps {
   data: GroupedDataObject;
   groups: string[];
   legendReference: {[key: string]: string};
-  height?: number;
-  width?: number;
-  margin?: Margin;
   ticks?: number;
 }
 
-interface GroupedBarDefaultProps {
-  height?: number;
-  width?: number;
-  margin?: Margin;
+interface GroupedBarDefaultProps extends ChartDefaultProps {
   ticks?: number;
 }
 

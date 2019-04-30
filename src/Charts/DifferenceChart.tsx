@@ -1,26 +1,17 @@
 import { h, Component, VNode } from 'preact';
-import { Margin } from '../types';
+import { ChartProps, ChartDefaultProps } from '../types';
 import { Axis } from '../Components/Axis';
 import { scaleLinear, scaleBand, ScaleBand, ScaleLinear } from 'd3-scale';
 import { max } from 'd3-array';
 import { pluck } from '../Utils/pluck';
 import { ResizeObserver } from 'resize-observer';
 
-interface DiffBarProps {
-  name: string;
+interface DiffBarProps extends ChartProps{
   data: {name: string; value: number}[];
-
-  height?: number;
-  width?: number;
-  margin?: Margin;
   ticks?: number;
 }
 
-interface DiffBarDefaultProps {
-
-  height: number;
-  width: number;
-  margin: Margin;
+interface DiffBarDefaultProps extends ChartDefaultProps {
   ticks: number;
 }
 

@@ -5,7 +5,7 @@ import { select, event } from 'd3-selection';
 import { brushX } from 'd3-brush';
 import { css } from 'goober';
 import { ResizeObserver } from 'resize-observer';
-import { Margin, TimestampArray, TimestampData, ChartProps, ChartDefaultProps } from '../types';
+import { TimestampArray, ChartProps, ChartDefaultProps, DataArray } from '../types';
 import { Axis } from '../Components/Axis';
 import { area } from '../Utils/area';
 
@@ -99,7 +99,7 @@ export class RangeChart extends Component<RangeChartProps, RangeChartState> {
         <g transform={`translate(${props.margin.left}, ${props.margin.top})`}>
           <Axis height={innerHeight} axisType='x' scale={this.xScale} />
           <Axis width={innerWidth} axisType='y' scale={yScale} grid={true} ticks={0} />
-          <path d={areaFunc(props.data)}
+          <path d={areaFunc(props.data as DataArray)}
             strokeLinecap='round' stroke={props.lineColour} fill={props.fillColour} stroke-width='1px' />
           <g ref={(brush) => this.brush = brush} class={this.brushClass}></g>
         </g>

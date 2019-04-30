@@ -1,6 +1,6 @@
 import { h, Component, VNode } from 'preact';
 import { Axis } from '../Components/Axis';
-import { DataArray, Margin } from '../types';
+import { DataArray, ChartProps, ChartDefaultProps } from '../types';
 import { scaleLinear } from 'd3-scale';
 import { min, max, histogram } from 'd3-array';
 import { css } from 'goober';
@@ -12,11 +12,7 @@ const bar = css({
 });
 
 
-interface HistogramProps {
-  name: string;
-  height?: number;
-  width?: number;
-  margin?: Margin;
+interface HistogramProps extends ChartProps {
   x: string;
   data: DataArray;
   ticks?: number;
@@ -24,10 +20,7 @@ interface HistogramProps {
   barOutline?: string;
 }
 
-interface HistogramDefaultProps {
-  height: number;
-  width: number;
-  margin: Margin;
+interface HistogramDefaultProps extends ChartDefaultProps {
   ticks: number;
   barColour: string;
   barOutline: string;

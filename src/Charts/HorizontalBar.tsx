@@ -1,5 +1,5 @@
 import { h, Component, VNode } from 'preact';
-import { Margin, GroupedDataObject } from '../types';
+import { GroupedDataObject, ChartProps, ChartDefaultProps } from '../types';
 import { Axis } from '../Components/Axis';
 import { scaleLinear, scaleBand, ScaleBand, ScaleLinear, scaleOrdinal, ScaleOrdinal } from 'd3-scale';
 import { max } from 'd3-array';
@@ -7,22 +7,14 @@ import { pluckUnique } from '../Utils/pluck';
 import randomColor from 'randomcolor';
 import { ResizeObserver } from 'resize-observer';
 
-interface HorizontalBarProps {
-  name: string;
+interface HorizontalBarProps extends ChartProps {
   data: GroupedDataObject;
   groups: string[];
   legendReference: {[key: string]: string};
-
-  height?: number;
-  width?: number;
-  margin?: Margin;
   ticks?: number;
 }
 
-interface HorizontalBarDefaultProps {
-  height?: number;
-  width?: number;
-  margin?: Margin;
+interface HorizontalBarDefaultProps extends ChartDefaultProps {
   ticks?: number;
 }
 
@@ -54,6 +46,7 @@ export class HorizontalBar extends Component<HorizontalBarProps, HorizontalBarSt
     const innerHeight = props.height - props.margin.top - props.margin.bottom;
     const names = pluckUnique(props.data[props.groups[0]], 'name') as string[];
     const colorArray = [];
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     for (const _name in names) {
       const color = randomColor();
       colorArray.push(color);
