@@ -1,3 +1,16 @@
+export interface ChartProps {
+  name: string;
+  height?: number;
+  width?: number;
+  margin?: Margin;
+}
+
+export interface ChartDefaultProps {
+  height: number;
+  width: number;
+  margin: Margin;
+}
+
 export interface Margin {
   top: number;
   right: number;
