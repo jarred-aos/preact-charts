@@ -1,10 +1,9 @@
 import { h, Component, VNode } from 'preact';
 import { Axis } from '../Components/Axis';
-import { Margin, DataArray } from '../types';
+import { Margin, DataArray, NumberTuple } from '../types';
 import { scaleLinear } from 'd3-scale';
 import { extent } from 'd3-array';
-import { select, event } from 'd3-selection';
-import { brush } from 'd3-brush';
+import { BrushZoom } from '../Components/BrushZoom';
 import { line } from '../Utils/line';
 import { bezierInterpolation } from '../Utils/interpolators';
 import randomColor from 'randomcolor';
@@ -57,8 +56,6 @@ export class LineScatter extends Component<LineScatterProps, LineScatterState> {
   };
   private chartSVG: any;
   private resizeOb: ResizeObserver;
-  private brush: SVGGElement;
-  private brushSetup: any;
   private xScale: any;
   private yScale: any;
 
@@ -155,7 +152,7 @@ export class LineScatter extends Component<LineScatterProps, LineScatterState> {
                   </text>
                 </g>)
           }
-          <g ref={(brushRef) => this.brush = brushRef} key={1}></g>
+          <BrushZoom height={innerHeight} width={innerWidth} margin={props.margin} onBrush={this.handleBrush} />
         </g>
       </svg>
     );
@@ -207,29 +204,21 @@ export class LineScatter extends Component<LineScatterProps, LineScatterState> {
     const height = cr.height;
     const innerWidth = width - this.props.margin.left - this.props.margin.right;
     const innerHeight = height - this.props.margin.top - this.props.margin.bottom;
-    this.brushSetup = brush()
-      .extent([
-        [0, 0],
-        [innerWidth, innerHeight],
-      ])
-      .handleSize(10)
-      .on('end', () => {
-        const s = event.selection;
-        if (s === null) {
-          const flatData = this.props.data.flat();
-          const xDomain = extent(flatData, (d) => d[this.props.x]);
-          const xDomainPadded = [xDomain[0] * 0.95, xDomain[1] * 1.05] as [number, number];
-          const yDomain = extent(flatData, (d) => d[this.props.y]);
-          const yDomainPadded = [yDomain[0] * 0.95, yDomain[1] * 1.05] as [number, number];
-          this.setState({ xDomain: xDomainPadded, yDomain: yDomainPadded });
-        } else {
-          const xDomain = [s[0][0], s[1][0]].map(this.xScale.invert, this.xScale) as [number, number];
-          const yDomain = [s[1][1], s[0][1]].map(this.yScale.invert, this.yScale) as [number, number];
-          select(this.brush).call(this.brushSetup.move, null);
-          this.setState({ xDomain, yDomain });
-        }
-      });
-    select(this.brush).call(this.brushSetup);
     this.setState({ innerWidth, innerHeight, height, width });
+  }
+
+  private handleBrush = (s: [NumberTuple, NumberTuple] | null) => {
+    if (s === null) {
+      const flatData = this.props.data.flat();
+      const xDomain = extent(flatData, (d) => d[this.props.x]);
+      const xDomainPadded = [xDomain[0] * 0.95, xDomain[1] * 1.05] as [number, number];
+      const yDomain = extent(flatData, (d) => d[this.props.y]);
+      const yDomainPadded = [yDomain[0] * 0.95, yDomain[1] * 1.05] as [number, number];
+      this.setState({ xDomain: xDomainPadded, yDomain: yDomainPadded });
+    } else {
+      const xDomain = [s[0][0], s[1][0]].map(this.xScale.invert, this.xScale) as [number, number];
+      const yDomain = [s[1][1], s[0][1]].map(this.yScale.invert, this.yScale) as [number, number];
+      this.setState({ xDomain, yDomain });
+    }
   }
 }
