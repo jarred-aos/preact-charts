@@ -3,14 +3,7 @@ import { Axis } from '../Components/Axis';
 import { DataArray, ChartProps, ChartDefaultProps } from '../types';
 import { scaleLinear } from 'd3-scale';
 import { min, max, histogram } from 'd3-array';
-import { css } from 'goober';
 import { ResizeObserver } from 'resize-observer';
-
-const bar = css({
-  'fill-opacity': 1,
-  'stroke-width': '1px',
-});
-
 
 interface HistogramProps extends ChartProps {
   x: string;
@@ -84,7 +77,7 @@ export class Histogram extends Component<HistogramProps, HistogramState> {
           {
             barWidth &&
               bins.map((bin) =>
-                <rect class={bar} x='1' width={xScale(bin.x1) - xScale(bin.x0)}
+                <rect fill-opacity='1' stroke-width='1' x='1' width={xScale(bin.x1) - xScale(bin.x0)}
                   height={innerHeight - yScale(bin.length)}
                   transform={`translate(${xScale(bin.x0)}, ${yScale(bin.length)})`}
                   fill={barColour} stroke={barOutline}>

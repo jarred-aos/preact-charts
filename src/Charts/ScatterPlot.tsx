@@ -4,14 +4,9 @@ import { Axis } from '../Components/Axis';
 import { DataArray, ChartProps, ChartDefaultProps, NumberTuple } from '../types';
 import { scaleLinear } from 'd3-scale';
 import { extent } from 'd3-array';
-import { css } from 'goober';
 import { ResizeObserver } from 'resize-observer';
 import { line } from '../Utils/line';
 import { BrushZoom } from '../Components/BrushZoom';
-
-const dot = css({
-  'stroke-width': '1px',
-});
 
 interface ScatterPlotProps extends ChartProps {
   x: string;
@@ -120,7 +115,7 @@ export class ScatterPlot extends Component<ScatterPlotProps, ScatterPlotState> {
           <Axis width={innerWidth} axisType='y' scale={this.yScale} grid={true} />
           {
             props.data.map((point, index) =>
-              <circle class={dot} r={props.radius} cx={this.xScale(point[props.x])}
+              <circle stroke-width='1' r={props.radius} cx={this.xScale(point[props.x])}
                 cy={this.yScale(point[props.y])} key={index} clip-path={`url(#${props.name}_cp)`}
                 fill={props.dotFill} stroke={props.dotBorder} />,
             )
