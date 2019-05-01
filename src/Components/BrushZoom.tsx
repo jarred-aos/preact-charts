@@ -11,14 +11,11 @@ interface BrushProps {
 interface BrushState {
   extent: [NumberTuple, NumberTuple] | null;
   mouseDown: boolean;
-  mouseDownTime?: number;
 }
 
 export class BrushZoom extends Component<BrushProps, BrushState> {
   public static defaultProps = {
     onBrush: () => {},
-    onBrushStart: () => {},
-    onBrushEnd: () => {},
   }
 
   public constructor (props: BrushProps) {
@@ -29,14 +26,13 @@ export class BrushZoom extends Component<BrushProps, BrushState> {
     };
   }
   public render ({ height, width }: BrushProps, { extent, mouseDown }: BrushState): VNode {
-    // if (extent && extent[0] === extent[1]) extent = null;
     return (
-      <g onMouseLeave={this.handleMouseUp} onMouseMove={this.handleMouseMove} onMouseUp={this.handleMouseUp}
-        onDblClick={() => this.props.onBrush(null)}>
+      <g onMouseMove={this.handleMouseMove} onMouseUp={this.handleMouseUp}
+        onDblClick={this.handleDblClick} onMouseDown={this.handleMouseDown}>
         <rect x='0' y='0' height={height} width={width} fill='none' pointer-events='all' cursor='crosshair'
-          onMouseDown={this.handleMouseDown} />
+        />
         {
-          (extent && mouseDown) &&
+          (extent !== null && mouseDown) &&
             <rect x={extent[0][0]} y={extent[1][1]} width={extent[1][0] - extent[0][0]}
               height={extent[0][1] - extent[1][1]}
               fill='rgba(100,100,100,0.35)'
@@ -48,6 +44,9 @@ export class BrushZoom extends Component<BrushProps, BrushState> {
   }
 
   private handleMouseDown = (evt: MouseEvent) => {
+    evt.preventDefault();
+    evt.stopPropagation();
+    evt.stopImmediatePropagation();
     const xLoc = evt.offsetX - this.props.margin.left;
     const yLoc = evt.offsetY - this.props.margin.top;
     const extent = [[xLoc, yLoc], [xLoc, yLoc]] as [NumberTuple, NumberTuple];
@@ -58,14 +57,31 @@ export class BrushZoom extends Component<BrushProps, BrushState> {
     if (!this.state.mouseDown) return;
     const xLoc = evt.offsetX - this.props.margin.left;
     const yLoc = evt.offsetY - this.props.margin.top;
-    const extent = [...this.state.extent] as [NumberTuple, NumberTuple];
-    extent[1] = [xLoc, yLoc];
+    const extent = [...this.state.extent] as [NumberTuple, NumberTuple]; // extent [[sX, sY], [eX, eY]]
+    if (xLoc < extent[0][0]) {
+      extent[0][0] = xLoc;
+    } else if (xLoc > extent[0][0]) {
+      extent[1][0] = xLoc;
+    }
+    if (yLoc < extent[1][1]) {
+      extent[1][1] = yLoc;
+    } else if (yLoc > extent[1][1]) {
+      extent[0][1] = yLoc;
+    }
     this.setState({ extent });
   }
 
-  private handleMouseUp = () => {
+  private handleMouseUp = (evt: MouseEvent) => {
+    evt.preventDefault();
+    evt.stopPropagation();
+    evt.stopImmediatePropagation();
     if (!this.state.mouseDown) return;
     this.props.onBrush(this.state.extent);
+    this.setState({ mouseDown: false, extent: null });
+  }
+
+  private handleDblClick = () => {
+    this.props.onBrush(null);
     this.setState({ mouseDown: false, extent: null });
   }
 }
