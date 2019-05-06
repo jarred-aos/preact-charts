@@ -48,7 +48,7 @@ export class HorizontalBar extends Component<HorizontalBarProps, HorizontalBarSt
     const colorArray = [];
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     for (const _name in names) {
-      const color = randomColor();
+      const color = randomColor({ luminosity: 'bright' });
       colorArray.push(color);
     }
     this.state = {
@@ -131,7 +131,7 @@ export class HorizontalBar extends Component<HorizontalBarProps, HorizontalBarSt
     if (newProps.groups.length >= this.props.groups.length) {
       const colorArray = [...this.state.colorArray];
       while (colorArray.length < newProps.groups.length) {
-        colorArray.push(randomColor());
+        colorArray.push(randomColor({ luminosity: 'bright' }));
       }
       this.setState({ colorArray });
     } else if (newProps.groups.length < this.props.groups.length) {

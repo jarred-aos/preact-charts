@@ -71,7 +71,7 @@ export class LineScatter extends Component<LineScatterProps, LineScatterState> {
     const colorArray = [];
     const dataLength = props.data.length;
     while (colorArray.length <= dataLength) {
-      colorArray.push(randomColor());
+      colorArray.push(randomColor({ luminosity: 'bright' }));
     }
     this.state = {
       width: props.width,
@@ -183,7 +183,7 @@ export class LineScatter extends Component<LineScatterProps, LineScatterState> {
     if (newProps.data.length >= this.props.data.length) {
       const colorArray = [...this.state.colorArray];
       while (colorArray.length < newProps.data.length) {
-        colorArray.push(randomColor());
+        colorArray.push(randomColor({ luminosity: 'bright' }));
       }
       this.setState({ colorArray });
     } else if (newProps.data.length < this.props.data.length) {
