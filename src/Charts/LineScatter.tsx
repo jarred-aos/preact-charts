@@ -217,7 +217,7 @@ export class LineScatter extends Component<LineScatterProps, LineScatterState> {
       this.setState({ xDomain: xDomainPadded, yDomain: yDomainPadded });
     } else {
       const xDomain = [s[0][0], s[1][0]].map(this.xScale.invert, this.xScale) as [number, number];
-      const yDomain = [s[1][1], s[0][1]].map(this.yScale.invert, this.yScale) as [number, number];
+      const yDomain = [s[0][1], s[1][1]].map(this.yScale.invert, this.yScale) as [number, number];
       this.setState({ xDomain, yDomain });
     }
   }
