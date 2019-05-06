@@ -171,7 +171,7 @@ export class TrendChart extends Component<TrendChartProps, TrendChartState> {
               </rect>
           }
           {
-            children[0] &&
+            (children && children[0]) &&
               children.map((ch) =>
                 cloneElement(ch as VNode<Flag>,
                   { xScale: this.xScale, height: innerHeight, chartName: props.name }))
