@@ -21,8 +21,10 @@ const axisControl = css({
   'user-select': 'none',
   'cursor': 'pointer',
   '>text': {
-    'width': '12px',
-    'font-size': '1.2em',
+    'font-size': '1.5rem',
+    '&:hover': {
+      stroke: 'orange',
+    }
   },
 });
 
@@ -121,22 +123,22 @@ export class TrendChart extends Component<TrendChartProps, TrendChartState> {
         { props.axisControl &&
             <g class={axisControl} stroke={props.controlColour} key='topControl'
               transform={`translate(${props.margin.left * 0.3}, ${props.margin.top + 5})`}>
-              <text onClick={() => this.handleChangeYDomain('topup')}>
-                    &#43;
+              <text transform='translate(0, 20)' height='5' onClick={() => this.handleChangeYDomain('topdown')}>
+                -
               </text>
-              <text transform='translate(0, 15)' onClick={() => this.handleChangeYDomain('topdown')}>
-                    &#45;
+              <text onClick={() => this.handleChangeYDomain('topup')}>
+                +
               </text>
             </g>
         }
         { props.axisControl &&
           <g class={axisControl} stroke={props.controlColour} key='bottomControl'
             transform={`translate(${props.margin.left * 0.3}, ${innerHeight})`}>
-            <text onClick={() => this.handleChangeYDomain('botup')}>
-                  &#43;
+            <text transform='translate(0, 20)' onClick={() => this.handleChangeYDomain('botdown')}>
+              -
             </text>
-            <text transform='translate(0, 15)' onClick={() => this.handleChangeYDomain('botdown')}>
-                  &#45;
+            <text onClick={() => this.handleChangeYDomain('botup')}>
+              +
             </text>
           </g>
         }
