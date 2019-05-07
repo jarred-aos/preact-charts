@@ -10,7 +10,7 @@ export function area ({ x, y, y0, interpolation }: AreaArgument): (data: DataArr
   return function (data: DataArray): string {
     return data.reduce((acc, point, i, a) =>
       i === a.length - 1 ?
-        `${acc} V${y0} Z` :
+        `${acc} ${interpolation ? interpolation(point, x, y, i, a) : linearInterpolation(point, x, y)} V${y0} Z` :
         `${acc} ${interpolation ? interpolation(point, x, y, i, a) : linearInterpolation(point, x, y)}`
     , `M0,${y0}`);
   };
