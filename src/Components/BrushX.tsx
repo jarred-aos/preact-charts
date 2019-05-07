@@ -71,7 +71,7 @@ export class BrushX extends Component<BrushProps, BrushState> {
   }
 
   private handleMouseDown = (evt: MouseEvent) => {
-    const loc = evt.clientX - this.props.margin.left - this.props.margin.right;
+    const loc = evt.offsetX - this.props.margin.left;
     const extent = [loc, loc] as NumberTuple;
     const relExtent = extent.map((d) => d / this.props.width) as NumberTuple;
     this.props.onBrushStart(extent);
@@ -82,17 +82,29 @@ export class BrushX extends Component<BrushProps, BrushState> {
     if (!this.state.mouseDown) return;
     const extent = [...this.state.extent] as NumberTuple;
     if (this.state.brushExtentIndex !== 'move' && this.state.brushExtentIndex !== 'init') {
-      extent[this.state.brushExtentIndex] = evt.clientX - this.props.margin.left - this.props.margin.right;
+      const loc = evt.offsetX - this.props.margin.left;
+      extent[this.state.brushExtentIndex] = loc < 0 ?
+        0 :
+        loc > this.props.width ?
+          this.props.width :
+          loc;
     } else if (this.state.brushExtentIndex === 'move') {
       const extentWidth = extent[1] - extent[0];
       const extentMid = extentWidth / 2;
-      const newPoint = evt.clientX - this.props.margin.left - this.props.margin.right;
-      extent[0] = newPoint - extentMid;
-      extent[1] = newPoint + extentMid;
+      const newPoint = evt.offsetX - this.props.margin.left;
+      const startLoc = (newPoint - extentMid >= 0 ? newPoint - extentMid : 0);
+      const endLoc = (newPoint + extentMid >= this.props.width ? this.props.width : newPoint + extentMid);
+      extent[0] = startLoc;
+      extent[1] = endLoc;
     } else if (this.state.brushExtentIndex === 'init') {
-      const newLoc = evt.clientX - this.props.margin.left - this.props.margin.right;
+      const newLoc = evt.offsetX - this.props.margin.left;
+      const loc = newLoc < 0 ?
+        0 :
+        newLoc > this.props.width ?
+          this.props.width :
+          newLoc;
       const dir = (newLoc <= extent[0]) ? 0 : 1;
-      extent[dir] = newLoc;
+      extent[dir] = loc;
     }
     const relExtent = extent.map((d) => d / this.props.width) as NumberTuple;
     this.props.onBrush(extent);
