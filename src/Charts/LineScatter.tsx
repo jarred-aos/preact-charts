@@ -1,6 +1,6 @@
 import { h, Component, VNode } from 'preact';
 import { Axis } from '../Components/Axis';
-import { Margin, DataArray, NumberTuple } from '../types';
+import { DataArray, NumberTuple, ChartProps, ChartDefaultProps } from '../types';
 import { scaleLinear } from 'd3-scale';
 import { extent } from 'd3-array';
 import { BrushZoom } from '../Components/BrushZoom';
@@ -9,11 +9,7 @@ import { bezierInterpolation } from '../Utils/interpolators';
 import randomColor from 'randomcolor';
 import { ResizeObserver } from 'resize-observer';
 
-interface LineScatterProps {
-  name: string;
-  height?: number;
-  width?: number;
-  margin?: Margin;
+interface LineScatterProps extends ChartProps {
   x: string;
   y: string;
   data: DataArray[];
@@ -22,10 +18,7 @@ interface LineScatterProps {
   legendReference?: string[];
 }
 
-interface LineScatterDefaultProps {
-  height: number;
-  width: number;
-  margin: Margin;
+interface LineScatterDefaultProps extends ChartDefaultProps {
   radius: number;
   labels: boolean;
 }
