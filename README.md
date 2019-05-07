@@ -23,7 +23,7 @@ The below documentation will include some TypeScript syntax. If you are new to T
 - [x] ResizeObserver solution (Added ponyfill)
 - [x] Transition from hard-typed colour array to procedurally generated colours.
 - [x] Further componentize charts to prevent code duplication.
-- [ ] Upgrade to preact X.
+- [x] Upgrade to preact X.
 
 ### Note:
 If you are using preact 8.4.x please use verisons from the 0.6.x line. Versions >1 will be based on preact X, which has some breaking changes.
