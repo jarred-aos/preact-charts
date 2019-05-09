@@ -35,7 +35,7 @@ type ControlPoint = (x: ValueAccessor, y: ValueAccessor, current: DataObject, pr
 export const controlPoint: ControlPoint = (x, y, current, previous, next, reverse): NumberTuple => {
   const p = previous || current;
   const n = next || current;
-  const smoothing = 0.2;
+  const smoothing = 0.15;
   const o = bezierCurve([x(p), y(p)], [x(n), y(n)]);
   const angle = o.angle + (reverse ? Math.PI : 0);
   const length = o.length * smoothing;
