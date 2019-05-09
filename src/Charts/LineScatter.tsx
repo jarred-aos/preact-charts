@@ -6,8 +6,8 @@ import { extent } from 'd3-array';
 import { BrushZoom } from '../Components/BrushZoom';
 import { line } from '../Utils/line';
 import { bezierInterpolation } from '../Utils/interpolators';
-import randomColor from 'randomcolor';
 import { ResizeObserver } from 'resize-observer';
+import { colourArray } from '../Utils/colors';
 
 interface LineScatterProps extends ChartProps {
   x: string;
@@ -30,7 +30,6 @@ interface LineScatterState {
   innerHeight: number;
   xDomain: [number, number];
   yDomain: [number, number];
-  colorArray: string[];
 }
 
 export class LineScatter extends Component<LineScatterProps, LineScatterState> {
@@ -61,11 +60,6 @@ export class LineScatter extends Component<LineScatterProps, LineScatterState> {
     const xDomainPadded = [xDomain[0] * 0.95, xDomain[1] * 1.05] as [number, number];
     const yDomain = extent(flatData, (d) => d[props.y]);
     const yDomainPadded = [yDomain[0] * 0.95, yDomain[1] * 1.05] as [number, number];
-    const colorArray = [];
-    const dataLength = props.data.length;
-    while (colorArray.length <= dataLength) {
-      colorArray.push(randomColor({ luminosity: 'bright' }));
-    }
     this.state = {
       width: props.width,
       height: props.height,
@@ -73,13 +67,11 @@ export class LineScatter extends Component<LineScatterProps, LineScatterState> {
       innerHeight,
       xDomain: xDomainPadded,
       yDomain: yDomainPadded,
-      colorArray,
     };
   }
 
   public render (props: LineScatterProps,
-    { height, width, innerHeight, innerWidth, xDomain, yDomain, colorArray }: LineScatterState): VNode {
-
+    { height, width, innerHeight, innerWidth, xDomain, yDomain }: LineScatterState): VNode {
     this.xScale = scaleLinear()
       .range([0, innerWidth])
       .domain(xDomain);
@@ -106,12 +98,12 @@ export class LineScatter extends Component<LineScatterProps, LineScatterState> {
             props.data.map((dArray, groupIdx) => (
               <g>
                 <path d={lineFunc(dArray)} clip-path={`url(#${props.name}_cp)`}
-                  strokeLinecap='round' stroke={colorArray[groupIdx]} fill='none'
+                  strokeLinecap='round' stroke={colourArray[groupIdx]} fill='none'
                   stroke-width='2px' />
                 {
                   dArray.map((point, index) =>
                     <circle stroke-width='1px' r={props.radius} cx={this.xScale(point[props.x])}
-                      cy={this.yScale(point[props.y])} key={index} fill={colorArray[groupIdx]}
+                      cy={this.yScale(point[props.y])} key={index} fill={colourArray[groupIdx]}
                       clip-path={`url(#${props.name}_cp)`} />)
                 }
               </g>
@@ -137,7 +129,7 @@ export class LineScatter extends Component<LineScatterProps, LineScatterState> {
               props.legendReference.map((title, idx) =>
                 <g transform={`translate(0, ${idx * 20})`}>
                   <rect x={innerWidth + props.margin.right - 18} width={18} height={15}
-                    stroke-width='1px' fill={colorArray[idx]}>
+                    stroke-width='1px' fill={colourArray[idx]}>
                   </rect>
                   <text x={innerWidth + props.margin.right - 24} y={9} dy='0.35em' text-anchor='end'
                     fill='currentColor'>
@@ -150,7 +142,6 @@ export class LineScatter extends Component<LineScatterProps, LineScatterState> {
       </svg>
     );
   }
-
   public componentDidMount (): void {
     this.resizeChart();
     this.resizeOb = new ResizeObserver((entries: any[]) => {
@@ -173,17 +164,6 @@ export class LineScatter extends Component<LineScatterProps, LineScatterState> {
     const yDomain = extent(flatData, (d) => d[newProps.y]);
     const yDomainPadded = [yDomain[0] * 0.95, yDomain[1] * 1.05] as [number, number];
     this.setState({ yDomain: yDomainPadded, xDomain: xDomainPadded });
-    if (newProps.data.length >= this.props.data.length) {
-      const colorArray = [...this.state.colorArray];
-      while (colorArray.length < newProps.data.length) {
-        colorArray.push(randomColor({ luminosity: 'bright' }));
-      }
-      this.setState({ colorArray });
-    } else if (newProps.data.length < this.props.data.length) {
-      let colorArray = [...this.state.colorArray];
-      colorArray = colorArray.slice(0, newProps.data.length);
-      this.setState({ colorArray });
-    }
   }
 
   public componentWillUnmount (): void {

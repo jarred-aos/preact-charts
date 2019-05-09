@@ -4,8 +4,8 @@ import { Axis } from '../Components/Axis';
 import { scaleLinear, scaleBand, ScaleBand, ScaleLinear, scaleOrdinal, ScaleOrdinal } from 'd3-scale';
 import { max } from 'd3-array';
 import { pluckUnique } from '../Utils/pluck';
-import randomColor from 'randomcolor';
 import { ResizeObserver } from 'resize-observer';
+import { colourArray } from '../Utils/colors';
 
 interface GroupedBarProps extends ChartProps {
   data: GroupedDataObject;
@@ -23,7 +23,6 @@ interface GroupedBarState {
   innerWidth: number;
   height: number;
   innerHeight: number;
-  colorArray: string[];
 }
 export class GroupedBar extends Component<GroupedBarProps, GroupedBarState> {
   public static defaultProps: GroupedBarDefaultProps = {
@@ -44,22 +43,15 @@ export class GroupedBar extends Component<GroupedBarProps, GroupedBarState> {
     super(props);
     const innerWidth = props.width - props.margin.right - props.margin.left;
     const innerHeight = props.height - props.margin.top - props.margin.bottom;
-    const names = pluckUnique(props.data[props.groups[0]], 'name') as string[];
-    const colorArray = [];
-    for (const _name in names) {
-      const color = randomColor();
-      colorArray.push(color);
-    }
     this.state = {
       height: props.height,
       innerHeight,
       width: props.width,
       innerWidth,
-      colorArray,
     };
   }
   public render ({ margin, ticks, data, groups, legendReference, name }: GroupedBarProps,
-    { height, width, innerHeight, innerWidth, colorArray }: GroupedBarState): VNode {
+    { height, width, innerHeight, innerWidth }: GroupedBarState): VNode {
     let yMax = 0;
 
     for (const key of groups) {
@@ -84,7 +76,7 @@ export class GroupedBar extends Component<GroupedBarProps, GroupedBarState> {
       .domain(names)
       .rangeRound([0, xScale.bandwidth()]);
 
-    const colourScale = scaleOrdinal(colorArray);
+    const colourScale = scaleOrdinal(colourArray);
     return (
       <svg ref={(svg) => this.chartSVG = svg} class={name} height={height} width={width}>
         <g transform={`translate(${margin.left}, ${margin.top})`}>
@@ -123,20 +115,6 @@ export class GroupedBar extends Component<GroupedBarProps, GroupedBarState> {
       }
     });
     this.resizeOb.observe(this.chartSVG.parentElement);
-  }
-
-  public componentWillReceiveProps (newProps: GroupedBarProps): void {
-    if (newProps.groups.length >= this.props.groups.length) {
-      const colorArray = [...this.state.colorArray];
-      while (colorArray.length < newProps.groups.length) {
-        colorArray.push(randomColor());
-      }
-      this.setState({ colorArray });
-    } else if (newProps.groups.length < this.props.groups.length) {
-      let colorArray = [...this.state.colorArray];
-      colorArray = colorArray.slice(0, newProps.groups.length);
-      this.setState({ colorArray });
-    }
   }
 
   public componentWillUnmount (): void {
