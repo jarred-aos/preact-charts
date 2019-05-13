@@ -25,8 +25,7 @@ The below documentation will include some TypeScript syntax. If you are new to T
 - [x] Further componentize charts to prevent code duplication.
 - [x] Upgrade to preact X.
 
-### Note:
-If you are using preact 8.4.x please use verisons from the 0.6.x line. Versions >1 will be based on preact X, which has some breaking changes.
+As of v1.0.0 we currently support both preact 8.4.2 and preact 10! This may change with later releases, but will be noted.
 
 ## Demos
 [Trend and Range Charts](https://codesandbox.io/s/ko300qzppv)
