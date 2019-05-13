@@ -1,15 +1,10 @@
 import { h, Component, VNode } from 'preact';
 import { Axis } from '../Components/Axis';
-import { Margin } from '../types';
+import { ChartProps, ChartDefaultProps } from '../types';
 import { scaleBand, scaleTime } from 'd3-scale';
 import { min, max } from 'd3-array';
 import { pluck } from '../Utils/pluck';
-import { css } from 'goober';
 import { ResizeObserver } from 'resize-observer';
-
-const barClass = css({
-  stroke: 'currentColor',
-});
 
 export interface GanttData {
   start: Date;
@@ -18,25 +13,18 @@ export interface GanttData {
   [key: string]: Date | string | number | any;
 }
 
-interface GanttChartProps {
-  name: string;
+interface GanttChartProps extends ChartProps {
   data: GanttData[];
   x: string;
   y: string;
   onBarClick?: (bar: any) => void;
   highLightBars?: string[];
   barHighlightRef?: string;
-  height?: number;
-  width?: number;
-  margin?: Margin;
   ticks?: number;
   extent?: Date[];
 }
 
-interface GanttChartDefaultProps {
-  height?: number;
-  width?: number;
-  margin?: Margin;
+interface GanttChartDefaultProps extends ChartDefaultProps {
   ticks?: number;
   extent?: Date[];
   onBarClick?: () => void;
@@ -115,7 +103,7 @@ export class GanttChart extends Component<GanttChartProps, GanttChartState> {
                 this.props.highLightBars.some((hl) => hl.includes(bar[this.props.barHighlightRef])) ?
                   'lawngreen' :
                   'steelblue';
-              return <rect class={barClass} clip-path={`url(#${props.name}_cp)`} height={yScale.bandwidth()}
+              return <rect stroke='currentColor' clip-path={`url(#${props.name}_cp)`} height={yScale.bandwidth()}
                 y={yScale(bar[this.props.y] as string)} x={xScale(bar.start)}
                 width={xScale(bar.end) - xScale(bar.start)}
                 onClick={() => this.handleBarClick(bar as any)}

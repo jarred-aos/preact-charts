@@ -1,3 +1,16 @@
+export interface ChartProps {
+  name: string;
+  height?: number;
+  width?: number;
+  margin?: Margin;
+}
+
+export interface ChartDefaultProps {
+  height: number;
+  width: number;
+  margin: Margin;
+}
+
 export interface Margin {
   top: number;
   right: number;
@@ -34,3 +47,5 @@ export interface EventsData {
   sub_type: string | null;
   comment: string | null;
 }
+
+export type NumberTuple = [number, number];

@@ -1,27 +1,17 @@
 /* eslint-disable react/no-unknown-property */
 import { h, Component, VNode } from 'preact';
 import { Axis } from '../Components/Axis';
-import { Margin, DataArray, NumberObject } from '../types';
+import { DataArray, ChartProps, ChartDefaultProps, NumberTuple } from '../types';
 import { scaleLinear } from 'd3-scale';
 import { extent } from 'd3-array';
-import { select, event } from 'd3-selection';
-import { brush } from 'd3-brush';
-import { line } from 'd3-shape';
-import { css } from 'goober';
 import { ResizeObserver } from 'resize-observer';
+import { line } from '../Utils/line';
+import { BrushZoom } from '../Components/BrushZoom';
 
-const dot = css({
-  'stroke-width': '1px',
-});
-
-interface ScatterPlotProps {
-  name: string;
+interface ScatterPlotProps extends ChartProps {
   x: string;
   y: string;
   data: DataArray;
-  height?: number;
-  width?: number;
-  margin?: Margin;
   radius?: number;
   labels?: boolean;
   dotFill?: string;
@@ -30,10 +20,7 @@ interface ScatterPlotProps {
   regLineColor?: string;
 }
 
-interface ScatterPlotDefaultProps {
-  height: number;
-  width: number;
-  margin: Margin;
+interface ScatterPlotDefaultProps extends ChartDefaultProps {
   radius: number;
   labels: boolean;
   dotFill: string;
@@ -46,8 +33,8 @@ interface ScatterPlotState {
   innerWidth: number;
   height: number;
   innerHeight: number;
-  xDomain: [number, number];
-  yDomain: [number, number];
+  xDomain: NumberTuple;
+  yDomain: NumberTuple;
 }
 
 export class ScatterPlot extends Component<ScatterPlotProps, ScatterPlotState> {
@@ -69,8 +56,6 @@ export class ScatterPlot extends Component<ScatterPlotProps, ScatterPlotState> {
   };
   private chartSVG: any;
   private resizeOb: ResizeObserver;
-  private brush: SVGGElement;
-  private brushSetup: any;
   private xScale: any;
   private yScale: any;
 
@@ -79,9 +64,9 @@ export class ScatterPlot extends Component<ScatterPlotProps, ScatterPlotState> {
     const innerWidth = props.width - props.margin.left - props.margin.right;
     const innerHeight = props.height - props.margin.top - props.margin.bottom;
     const xDomain = extent(props.data, (d) => d[props.x]);
-    const xDomainPadded = [xDomain[0] * 0.95, xDomain[1] * 1.05] as [number, number];
+    const xDomainPadded = [xDomain[0] * 0.95, xDomain[1] * 1.05] as NumberTuple;
     const yDomain = extent(props.data, (d) => d[props.y]);
-    const yDomainPadded = [yDomain[0] * 0.95, yDomain[1] * 1.05] as [number, number];
+    const yDomainPadded = [yDomain[0] * 0.95, yDomain[1] * 1.05] as NumberTuple;
 
     this.state = {
       width: props.width,
@@ -107,9 +92,11 @@ export class ScatterPlot extends Component<ScatterPlotProps, ScatterPlotState> {
     let lineFunction;
     let regressionLine;
     if (props.regressionEq !== undefined) {
-      lineFunction = line<NumberObject>()
-        .x((d) => this.xScale(d.x))
-        .y((d) => this.yScale(d.y));
+      lineFunction = line({
+        x: (d) => this.xScale(d.x),
+        y:(d) => this.yScale(d.y),
+      });
+
       const minX = 0;
       const maxX = +this.xScale.invert(innerWidth);
       regressionLine = [
@@ -128,7 +115,7 @@ export class ScatterPlot extends Component<ScatterPlotProps, ScatterPlotState> {
           <Axis width={innerWidth} axisType='y' scale={this.yScale} grid={true} />
           {
             props.data.map((point, index) =>
-              <circle class={dot} r={props.radius} cx={this.xScale(point[props.x])}
+              <circle stroke-width='1' r={props.radius} cx={this.xScale(point[props.x])}
                 cy={this.yScale(point[props.y])} key={index} clip-path={`url(#${props.name}_cp)`}
                 fill={props.dotFill} stroke={props.dotBorder} />,
             )
@@ -152,7 +139,7 @@ export class ScatterPlot extends Component<ScatterPlotProps, ScatterPlotState> {
                 {props.y.replace(/_/g, ' ')}
               </text>
           }
-          <g ref={(brushRef) => this.brush = brushRef}></g>
+          <BrushZoom height={innerHeight} width={innerWidth} margin={props.margin} onBrush={this.handleBrush} />
         </g>
       </svg>
     );
@@ -175,9 +162,9 @@ export class ScatterPlot extends Component<ScatterPlotProps, ScatterPlotState> {
 
   public componentWillReceiveProps (newProps: ScatterPlotProps): void {
     const xDomain = extent(newProps.data, (d) => d[newProps.x]);
-    const xDomainPadded = [xDomain[0] * 0.95, xDomain[1] * 1.05] as [number, number];
+    const xDomainPadded = [xDomain[0] * 0.95, xDomain[1] * 1.05] as NumberTuple;
     const yDomain = extent(newProps.data, (d) => d[newProps.y]);
-    const yDomainPadded = [yDomain[0] * 0.95, yDomain[1] * 1.05] as [number, number];
+    const yDomainPadded = [yDomain[0] * 0.95, yDomain[1] * 1.05] as NumberTuple;
     this.setState({ yDomain: yDomainPadded, xDomain: xDomainPadded });
   }
 
@@ -192,28 +179,20 @@ export class ScatterPlot extends Component<ScatterPlotProps, ScatterPlotState> {
     const height = cr.height;
     const innerWidth = width - this.props.margin.left - this.props.margin.right;
     const innerHeight = height - this.props.margin.top - this.props.margin.bottom;
-    this.brushSetup = brush()
-      .extent([
-        [0, 0],
-        [innerWidth, innerHeight],
-      ])
-      .handleSize(10)
-      .on('end', () => {
-        const s = event.selection;
-        if (s === null) {
-          const xDomain = extent(this.props.data, (d) => d[this.props.x]);
-          const xDomainPadded = [xDomain[0] * 0.95, xDomain[1] * 1.05] as [number, number];
-          const yDomain = extent(this.props.data, (d) => d[this.props.y]);
-          const yDomainPadded = [yDomain[0] * 0.95, yDomain[1] * 1.05] as [number, number];
-          this.setState({ xDomain: xDomainPadded, yDomain: yDomainPadded });
-        } else {
-          const xDomain = [s[0][0], s[1][0]].map(this.xScale.invert, this.xScale) as [number, number];
-          const yDomain = [s[1][1], s[0][1]].map(this.yScale.invert, this.yScale) as [number, number];
-          select(this.brush).call(this.brushSetup.move, null);
-          this.setState({ xDomain, yDomain });
-        }
-      });
-    select(this.brush).call(this.brushSetup);
     this.setState({ innerWidth, innerHeight, height, width });
+  }
+
+  private handleBrush = (s: [NumberTuple, NumberTuple] | null) => {
+    if (s === null) {
+      const xDomain = extent(this.props.data, (d) => d[this.props.x]);
+      const xDomainPadded = [xDomain[0] * 0.95, xDomain[1] * 1.05] as NumberTuple;
+      const yDomain = extent(this.props.data, (d) => d[this.props.y]);
+      const yDomainPadded = [yDomain[0] * 0.95, yDomain[1] * 1.05] as NumberTuple;
+      this.setState({ xDomain: xDomainPadded, yDomain: yDomainPadded });
+    } else {
+      const xDomain = [s[0][0], s[1][0]].map(this.xScale.invert, this.xScale) as NumberTuple;
+      const yDomain = [s[0][1], s[1][1]].map(this.yScale.invert, this.yScale) as NumberTuple;
+      this.setState({ xDomain, yDomain });
+    }
   }
 }

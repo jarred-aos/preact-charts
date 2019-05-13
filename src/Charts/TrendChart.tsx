@@ -1,13 +1,13 @@
 /* eslint-disable react/no-unknown-property */
 import { h, Component, ComponentChild, cloneElement, VNode } from 'preact';
+import { ResizeObserver } from 'resize-observer';
+import { css } from 'goober';
 import { scaleLinear, scaleTime } from 'd3-scale';
-import { line } from 'd3-shape';
 import { bisector, extent } from 'd3-array';
-import { Margin, TimestampArray, TimestampData } from '../types';
+import { TimestampArray, TimestampData, ChartProps, ChartDefaultProps, DataArray } from '../types';
 import { Axis } from '../Components/Axis';
 import { Flag } from '../Components/Flag';
-import { css } from 'goober';
-import { ResizeObserver } from 'resize-observer';
+import { line } from '../Utils/line';
 
 const overlay = css({
   'fill': 'none',
@@ -21,16 +21,14 @@ const axisControl = css({
   'user-select': 'none',
   'cursor': 'pointer',
   '>text': {
-    'width': '12px',
-    'font-size': '1.2em',
+    'font-size': '1.5rem',
+    '&:hover': {
+      stroke: 'orange',
+    }
   },
 });
 
-interface TrendChartProps {
-  name: string;
-  height?: number;
-  width?: number;
-  margin?: Margin;
+interface TrendChartProps extends ChartProps {
   x: string;
   y: string;
   data: TimestampArray;
@@ -41,10 +39,7 @@ interface TrendChartProps {
   controlColour?: string;
 }
 
-interface TrendChartDefaultProps {
-  height: number;
-  width: number;
-  margin: Margin;
+interface TrendChartDefaultProps extends ChartDefaultProps {
   lineColour: string;
   extent: Date[];
   tooltip: boolean;
@@ -118,30 +113,32 @@ export class TrendChart extends Component<TrendChartProps, TrendChartState> {
       .range([innerHeight, 0])
       .domain(yDomain);
 
-    const lineFunc = line<TimestampData>()
-      .x((d) => this.xScale(d[props.x] as Date))
-      .y((d) => yScale(+d[props.y]));
+    const lineFunc = line({
+      x: (d) => this.xScale(d[props.x]),
+      y: (d) => yScale(+d[props.y]),
+    });
+
     return (
       <svg ref={(svg) => this.chartSVG = svg} class={props.name} height={height} width={width}>
         { props.axisControl &&
             <g class={axisControl} stroke={props.controlColour} key='topControl'
               transform={`translate(${props.margin.left * 0.3}, ${props.margin.top + 5})`}>
-              <text onClick={() => this.handleChangeYDomain('topup')}>
-                    &#43;
+              <text transform='translate(0, 20)' height='5' onClick={() => this.handleChangeYDomain('topdown')}>
+                -
               </text>
-              <text transform='translate(0, 15)' onClick={() => this.handleChangeYDomain('topdown')}>
-                    &#45;
+              <text onClick={() => this.handleChangeYDomain('topup')}>
+                +
               </text>
             </g>
         }
         { props.axisControl &&
           <g class={axisControl} stroke={props.controlColour} key='bottomControl'
             transform={`translate(${props.margin.left * 0.3}, ${innerHeight})`}>
-            <text onClick={() => this.handleChangeYDomain('botup')}>
-                  &#43;
+            <text transform='translate(0, 20)' onClick={() => this.handleChangeYDomain('botdown')}>
+              -
             </text>
-            <text transform='translate(0, 15)' onClick={() => this.handleChangeYDomain('botdown')}>
-                  &#45;
+            <text onClick={() => this.handleChangeYDomain('botup')}>
+              +
             </text>
           </g>
         }
@@ -151,7 +148,7 @@ export class TrendChart extends Component<TrendChartProps, TrendChartState> {
           </clipPath>
           <Axis height={innerHeight} axisType='x' scale={this.xScale} />
           <Axis width={innerWidth} axisType='y' scale={yScale} grid={true} />
-          <path d={lineFunc(props.data)} clip-path={`url(#${props.name}_cp)`}
+          <path d={lineFunc(props.data as DataArray)} clip-path={`url(#${props.name}_cp)`}
             strokeLinecap='round' stroke={props.lineColour} fill='none' stroke-width='2px' />
           {
             (isMouseOver && tooltipValues[0] !== null) &&
@@ -174,7 +171,7 @@ export class TrendChart extends Component<TrendChartProps, TrendChartState> {
               </rect>
           }
           {
-            children[0] &&
+            (children && children[0]) &&
               children.map((ch) =>
                 cloneElement(ch as VNode<Flag>,
                   { xScale: this.xScale, height: innerHeight, chartName: props.name }))
