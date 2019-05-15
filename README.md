@@ -340,7 +340,7 @@ export interface EventsData {
 ## Features
 This is a note on some features that are included:
 
-I use resize observer to ensure that the charts will resize on window resize. This requires a browser that implements this feature or a polyfill.
+I use resize observer to ensure that the charts will resize on window resize. A polyfill has been included.
 This also means that the charts will always fill their parent container. So placing them in sized divs is important.
 
 Chart names should be unique, they are used for things like chart clipPath IDs.
