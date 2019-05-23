@@ -89,7 +89,7 @@ export class GanttChart extends Component<GanttChartProps, GanttChartState> {
     yScale.domain(pluck(props.data, props.y) as string[]);
 
     return (
-      <svg ref={(svg) => this.chartSVG = svg} class={name} height={height} width={width}>
+      <svg ref={(svg) => this.chartSVG = svg} class={props.name} height={height} width={width}>
         <g transform={`translate(${props.margin.left}, ${props.margin.top})`}>
           <clipPath id={`${props.name}_cp`}>
             <rect width={innerWidth} height={innerHeight} />
