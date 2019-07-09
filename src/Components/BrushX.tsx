@@ -6,6 +6,7 @@ interface BrushProps {
   width: number;
   margin: Margin;
   handleSize?: number;
+  brushColour?: string;
   onBrushEnd?: (extent: NumberTuple | null) => void;
   onBrushStart?: (extent: NumberTuple) => void;
   onBrush?: (extent: NumberTuple) => void;
@@ -25,6 +26,7 @@ export class BrushX extends Component<BrushProps, BrushState> {
     onBrushStart: () => {},
     onBrushEnd: () => {},
     handleSize: 10,
+    brushColour: 'darkgoldenrod'
   }
 
   public constructor (props: BrushProps) {
@@ -51,13 +53,13 @@ export class BrushX extends Component<BrushProps, BrushState> {
         {
           extent &&
             <rect height={height + 10} y='-5' width={handleSize} x={extent[0] - (handleSize / 2)}
-              fill='darkgoldenrod' cursor='ew-resize'
+              fill={this.props.brushColour} cursor='ew-resize'
               onMouseDown={() => this.setState({ brushExtentIndex: 0, mouseDown: true })} />
         }
         {
           extent &&
             <rect height={height + 10} y='-5' width={handleSize} x={extent[1] - (handleSize / 2)}
-              fill='darkgoldenrod' cursor='ew-resize'
+              fill={this.props.brushColour} cursor='ew-resize'
               onMouseDown={() => this.setState({ brushExtentIndex: 1, mouseDown: true })} />
         }
       </g>
